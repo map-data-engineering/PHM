@@ -1,32 +1,34 @@
 /*-- scss:uses --*/
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 /*-- scss:defaults --*/
 
-// ── MAP brand palette ────────────────────────────────────────────
-// From the official Malaria Atlas Project logo:
-// Charcoal (#3d3d3d), Gold/Amber (#c9a227), Medium Gray (#8c8c8c)
-$map-red:           #c9a227;       // MAP gold (primary accent)
-$map-red-light:     #d4b33d;       // gold lighter
-$map-red-dark:      #a8871e;       // gold darker
-$map-navy:          #3d3d3d;       // MAP charcoal
-$map-navy-light:    #4a4a4a;       // charcoal lighter
-$map-navy-mid:      #555555;       // mid gray
-$map-slate:         #6b6b6b;       // slate
-$map-blue:          #5a7a9b;       // muted steel blue
-$map-blue-light:    #6d8fad;       // lighter steel
-$map-cyan:          #5a9a8a;       // muted teal
-$map-amber:         #c9a227;       // same as gold
-$map-green:         #5a8a5a;       // muted green;
+// ── PharmaScope brand palette ───────────────────────────────────
+// Teal primary + deep-slate navigation. Distinct from HealthScope's
+// gold-on-charcoal. SCSS variable names kept ($map-red / $map-navy)
+// so the rest of the stylesheet doesn't need to be renamed.
+$map-red:           #0d9488;       // teal-600 (primary accent)
+$map-red-light:     #14b8a6;       // teal-500 (lighter)
+$map-red-dark:      #0f766e;       // teal-700 (darker)
+$map-navy:          #0f172a;       // slate-900 (nav / hero)
+$map-navy-light:    #1e293b;       // slate-800
+$map-navy-mid:      #334155;       // slate-700
+$map-slate:         #64748b;       // slate-500
+$map-blue:          #0891b2;       // cyan-600 (secondary accent)
+$map-blue-light:    #06b6d4;       // cyan-500
+$map-cyan:          #0e7490;       // cyan-700
+$map-amber:         #14b8a6;       // teal-500 (was amber, keep alias)
+$map-green:         #10b981;       // emerald-500
 $map-bg:            #ffffff;
-$map-bg-warm:       #fafaf8;
-$map-bg-section:    #f5f4f0;       // warm gray tint
-$map-text:          #2d2d2d;
-$map-text-muted:    #6b6b6b;
-$map-border:        #e0ddd6;       // warm border
-$map-radius:        12px;
-$map-radius-sm:     8px;
-$map-radius-lg:     16px;
+$map-bg-warm:       #f8fafc;       // slate-50
+$map-bg-section:    #f1f5f9;       // slate-100 (cool section bg)
+$map-text:          #0f172a;       // slate-900
+$map-text-muted:    #64748b;       // slate-500
+$map-border:        #e2e8f0;       // slate-200
+$map-radius:        4px;
+$map-radius-sm:     3px;
+$map-radius-lg:     6px;
+$map-radius-pill:   0;
 $map-shadow:        0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 $map-shadow-md:     0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
 $map-shadow-lg:     0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
@@ -36,9 +38,10 @@ $map-transition:    0.2s cubic-bezier(0.4, 0, 0.2, 1);
 // Bootstrap overrides
 $primary:              $map-navy;
 $secondary:            $map-red;
-$font-family-sans-serif: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$headings-font-family: 'Space Grotesk', 'Inter', sans-serif;
-$headings-font-weight: 700;
+$font-family-sans-serif: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$headings-font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
+$headings-font-weight: 600;
+$font-family-monospace: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 $body-color:           $map-text;
 $link-color:           $map-red;
 
@@ -83,7 +86,7 @@ $link-color:           $map-red;
 
 // ── Base typography ──────────────────────────────────────────────
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: $map-text;
   background: $map-bg;
   -webkit-font-smoothing: antialiased;
@@ -91,8 +94,17 @@ body {
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-weight: 700;
+  font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+// Numeric data — always monospaced in the Plex Mono cut
+.mono, .stat-number, .stat-value,
+.reg-scard .val, .about-stat-value,
+.data-strip .val, .section-num, .row-num {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-feature-settings: "tnum" 1;
   letter-spacing: -0.01em;
 }
 
@@ -182,136 +194,211 @@ h1, h2, h3, h4 {
 //  HOME PAGE
 // ══════════════════════════════════════════════════════════════════
 
-// ── Hero section ─────────────────────────────────────────────────
+// ── Hero section (data-forward, light split) ─────────────────────
 .hero-section {
   position: relative;
-  min-height: 92vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: $map-bg-warm;
+  border-bottom: 1px solid $map-border;
+  padding: 5rem 2rem 4rem;
   overflow: hidden;
-  background: $map-navy;
 
+  // Subtle grid pattern for texture
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(ellipse at 20% 50%, rgba($map-red, 0.18) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, rgba(140,140,140, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 60% 80%, rgba($map-red, 0.06) 0%, transparent 50%);
-    z-index: 1;
+    background-image:
+      linear-gradient(rgba(15,23,42,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15,23,42,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 80%);
+    z-index: 0;
   }
 }
 
-.hero-grid-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  z-index: 1;
-}
-
-.hero-content {
+.hero-inner {
   position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 900px;
-  padding: 2rem;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 4rem;
+  align-items: center;
+}
 
-  h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 3.8rem;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.03em;
-  }
+// Big wordmark sits at the top of the hero, above the eyebrow.
+.hero-wordmark {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: $map-text;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 1.25rem;
 
-  .hero-accent {
-    background: linear-gradient(135deg, $map-red, #dcc04a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  p {
-    font-size: 1.2rem;
-    color: rgba(255,255,255,0.7);
-    max-width: 620px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.7;
+  span {
+    color: $map-red;
   }
 }
 
-.hero-buttons {
+.hero-eyebrow {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: $map-red;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 1.5rem;
+  padding-left: 1.75rem;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1px;
+    background: $map-red;
+  }
+}
+
+.hero-title-block {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-weight: 600;
+  color: $map-text;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem;
+
+  .accent {
+    color: $map-red;
+  }
+}
+
+.hero-lede {
+  font-size: 1.05rem;
+  color: $map-text-muted;
+  max-width: 560px;
+  line-height: 1.65;
+  margin: 0 0 2rem;
+}
+
+.hero-ctas {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 100px;
-  color: rgba(255,255,255,0.8);
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-  backdrop-filter: blur(8px);
+// Data cards on the right side of the hero — live numbers
+.hero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
 }
 
-// ── Buttons ──────────────────────────────────────────────────────
+.hero-stat {
+  background: #fff;
+  border: 1px solid $map-border;
+  border-radius: $map-radius;
+  padding: 1.25rem 1.1rem;
+  position: relative;
+
+  // A small colored top-edge marker instead of a full border-top
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2rem;
+    height: 3px;
+    background: $map-red;
+  }
+
+  .val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: $map-text;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    display: block;
+    margin: 0.35rem 0 0.4rem;
+    font-feature-settings: "tnum" 1;
+  }
+  .lbl {
+    font-size: 0.72rem;
+    color: $map-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+  .sub {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: $map-slate;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  &.wide { grid-column: span 2; }
+}
+
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 2.25rem; }
+  .hero-section { padding: 3rem 1.5rem 2.5rem; }
+}
+
+// ── Buttons (sharp rectangles with arrow indicator) ─────────────
 .btn-primary, .btn-hf-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   background: $map-red;
   color: #fff !important;
-  padding: 0.85rem 2rem;
+  padding: 0.7rem 1.25rem;
   border-radius: $map-radius-sm;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 500;
+  font-size: 0.9rem;
   text-decoration: none !important;
-  border: 2px solid $map-red;
-  transition: all $map-transition;
+  border: 1px solid $map-red;
+  transition: background $map-transition, border-color $map-transition;
   cursor: pointer;
 
+  &::after {
+    content: '\2192';
+    font-family: 'IBM Plex Mono', monospace;
+    transition: transform $map-transition;
+  }
   &:hover {
     background: $map-red-dark;
     border-color: $map-red-dark;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba($map-red, 0.35);
+    &::after { transform: translateX(3px); }
   }
 }
 
 .btn-secondary, .btn-hf-outline {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   background: transparent;
-  color: #fff !important;
-  padding: 0.85rem 2rem;
+  color: $map-text !important;
+  padding: 0.7rem 1.25rem;
   border-radius: $map-radius-sm;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 500;
+  font-size: 0.9rem;
   text-decoration: none !important;
-  border: 2px solid rgba(255,255,255,0.3);
-  transition: all $map-transition;
+  border: 1px solid $map-border;
+  transition: background $map-transition, border-color $map-transition, color $map-transition;
   cursor: pointer;
 
   &:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.6);
-    transform: translateY(-2px);
+    background: #fff;
+    border-color: $map-red;
+    color: $map-red !important;
   }
 }
 
@@ -321,18 +408,14 @@ h1, h2, h3, h4 {
   gap: 0.5rem;
   background: $map-red;
   color: #fff !important;
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1.1rem;
   border-radius: $map-radius-sm;
-  font-weight: 600;
-  font-size: 0.9rem;
-  border: none;
+  font-weight: 500;
+  font-size: 0.88rem;
+  border: 1px solid $map-red;
   cursor: pointer;
-  transition: all $map-transition;
-
-  &:hover {
-    background: $map-red-dark;
-    transform: translateY(-1px);
-  }
+  transition: background $map-transition;
+  &:hover { background: $map-red-dark; }
 }
 
 // ── Stats bar ────────────────────────────────────────────────────
@@ -369,105 +452,132 @@ h1, h2, h3, h4 {
   font-weight: 500;
 }
 
-// ── Feature cards ────────────────────────────────────────────────
+// ── Feature layers (numbered editorial rows) ─────────────────────
 .features-section {
-  background: $map-bg-section;
-  padding: 5rem 2rem;
+  background: #fff;
+  padding: 5rem 2rem 5rem;
 
   .section-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    h2 { font-size: 2rem; color: $map-navy; margin-bottom: 0.5rem; }
-    p { color: $map-text-muted; font-size: 1.05rem; }
+    max-width: 1400px;
+    margin: 0 auto 3rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid $map-border;
+
+    h2 {
+      font-family: 'IBM Plex Sans Condensed', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: $map-text;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    p { color: $map-text-muted; font-size: 0.95rem; margin: 0; max-width: 480px; }
   }
 }
 
+// Numbered rows — one feature per row on desktop
 .feature-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
 .feature-card {
-  background: #fff;
-  border-radius: $map-radius;
-  padding: 2.5rem 2rem;
-  text-align: left;
-  box-shadow: $map-shadow;
-  border: 1px solid $map-border;
-  transition: all $map-transition;
+  display: grid;
+  grid-template-columns: 5rem 1fr 12rem;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-top: 1px solid $map-border;
+  align-items: start;
+  transition: background $map-transition;
   position: relative;
-  overflow: hidden;
 
+  &:last-child { border-bottom: 1px solid $map-border; }
+
+  // Small colored inset marker on hover
   &::before {
     content: '';
     position: absolute;
-    top: 0;
     left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, $map-red, #dcc04a);
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: $map-red;
     opacity: 0;
     transition: opacity $map-transition;
   }
+  &:hover { background: $map-bg-warm; }
+  &:hover::before { opacity: 1; }
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: $map-shadow-lg;
-    &::before { opacity: 1; }
+  // "01" style row number in Plex Mono
+  .row-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $map-red;
+    letter-spacing: 0.05em;
+    padding-top: 0.35rem;
   }
 
+  // The "feature-icon" wrapper is retained for backward compatibility
+  // but now sits inline with the row number, small and quiet.
   .feature-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 1.25rem;
-    background: rgba($map-red, 0.08);
+    display: none;    // hidden in the new numbered-row layout
   }
 
   .card-svg {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    svg { width: 56px; height: 56px; }
+    display: none;
   }
 
   h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: 1.15rem;
-    color: $map-navy;
-    margin-bottom: 0.75rem;
-    margin-top: 0;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: $map-text;
+    margin: 0 0 0.65rem;
+    letter-spacing: -0.005em;
   }
 
   p {
-    font-size: 0.9rem;
+    font-size: 0.94rem;
     color: $map-text-muted;
-    line-height: 1.7;
+    line-height: 1.65;
     margin: 0;
+    max-width: 60ch;
   }
 
   a {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.5rem;
     color: $map-red;
-    font-weight: 600;
+    font-weight: 500;
     text-decoration: none;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-    transition: gap $map-transition;
-    &:hover { gap: 0.6rem; }
+    font-size: 0.85rem;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.01em;
+    padding-top: 0.4rem;
+
+    &::after {
+      content: '\2192';
+      transition: transform $map-transition;
+    }
+    &:hover::after { transform: translateX(4px); }
+  }
+}
+
+@media (max-width: 900px) {
+  .feature-card {
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    padding: 1.75rem 0;
+    a { grid-column: 2; margin-top: 0.75rem; }
   }
 }
 
@@ -518,15 +628,32 @@ h1, h2, h3, h4 {
   .about-stat-label { font-size: 0.8rem; color: $map-text-muted; margin-top: 2px; }
 }
 
-// ── Countries banner ─────────────────────────────────────────────
+// ── CTA strip at bottom of index ─────────────────────────────────
 .countries-banner {
-  background: $map-navy;
-  color: #fff;
-  padding: 5rem 2rem;
-  text-align: center;
+  background: $map-bg-section;
+  color: $map-text;
+  padding: 3.5rem 2rem;
+  text-align: left;
+  border-top: 1px solid $map-border;
 
-  h2 { font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem; }
-  > p { color: rgba(255,255,255,0.6); margin: 0 auto 2.5rem; max-width: 500px; font-size: 0.95rem; }
+  &::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 2px;
+    background: $map-red;
+    margin-bottom: 1.25rem;
+  }
+
+  h2 {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: $map-text;
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.005em;
+  }
+  > p { color: $map-text-muted; margin: 0 0 1.75rem; font-size: 0.95rem; }
 }
 
 .country-cards { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
@@ -570,14 +697,23 @@ h1, h2, h3, h4 {
   padding: 2rem;
 }
 
-// ── Page banner (inner pages) ────────────────────────────────────
+// ── Page banner (inner pages) — thin, data-forward ───────────────
 .page-banner {
   background: $map-navy;
   color: #fff;
-  padding: 3rem 2rem;
-  margin-bottom: 2.5rem;
-  h1 { font-size: 2.2rem; margin: 0 0 0.5rem; color: #fff; }
-  p  { color: rgba(255,255,255,0.65); font-size: 1rem; margin: 0; }
+  padding: 2rem 2rem 1.75rem;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid $map-red;
+
+  h1 {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-size: 1.85rem;
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+  p  { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin: 0; }
 }
 
 // ── Country hero ─────────────────────────────────────────────────
@@ -930,14 +1066,14 @@ h1, h2, h3, h4 {
 // ═════════════════════════════════════════════════════════════════
 
 // ── Tokens ───────────────────────────────────────────────────────
-$pl-radius:       12px;
-$pl-radius-pill:  9999px;
-$pl-border:       1px solid #e5e7eb;
+$pl-radius:       4px;
+$pl-radius-pill:  4px;   // "pills" now sharp — matches the data-forward aesthetic
+$pl-border:       1px solid #e2e8f0;
 $pl-shadow-sm:    0 1px 2px rgba(15, 23, 42, .04), 0 1px 1px rgba(15, 23, 42, .03);
 $pl-shadow-md:    0 4px 8px -2px rgba(15, 23, 42, .06), 0 2px 4px -2px rgba(15, 23, 42, .04);
 $pl-shadow-lg:    0 12px 24px -8px rgba(15, 23, 42, .10), 0 4px 8px -4px rgba(15, 23, 42, .05);
 $pl-transition:   180ms cubic-bezier(.4, 0, .2, 1);
-$pl-focus-ring:   0 0 0 3px rgba(201, 162, 39, .22);
+$pl-focus-ring:   0 0 0 3px rgba(13, 148, 136, .22);
 
 // ── Page surface ─────────────────────────────────────────────────
 body {
@@ -1027,40 +1163,42 @@ main.content,
   }
 }
 
-// ── Hero / page-banner section ───────────────────────────────────
+// ── Page/section headers (svc-hero, reg-hero, etc.) — thin + left ─
 .page-banner,
 .svc-hero,
 .reg-hero,
 .eq-hero,
 .finder-hero {
-  background: linear-gradient(135deg, $map-navy 0%, lighten($map-navy, 8%) 100%);
+  background: $map-navy;
   color: #fff;
-  padding: 3rem 2rem 2.75rem;
+  padding: 2.25rem 2rem 2rem;
   position: relative;
   overflow: hidden;
+  border-bottom: 3px solid $map-red;
 
   h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: clamp(1.85rem, 3vw + .5rem, 2.6rem);
-    margin: 0 0 .5rem;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.6rem, 2.4vw + .5rem, 2.2rem);
+    margin: 0 0 .4rem;
     color: #fff;
-    letter-spacing: -0.015em;
-    text-align: center;
+    letter-spacing: -0.01em;
+    text-align: left;
   }
   p {
-    font-size: 1.025rem;
-    opacity: .82;
-    margin: 0 auto;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,.7);
+    margin: 0;
     max-width: 720px;
-    line-height: 1.55;
-    text-align: center;
+    line-height: 1.5;
+    text-align: left;
   }
 }
 
-// ── Container cards (.card-modern, .feature-card, .svc-card, etc.) ─
+// ── Container cards ─────────────────────────────────────────────
+// NOTE: .feature-card is intentionally excluded — it uses the numbered
+// editorial row layout defined earlier, not a card treatment.
 .card-modern,
-.feature-card,
 .svc-card,
 .reg-scard,
 .eq-metric,
@@ -1075,71 +1213,57 @@ main.content,
   background: #ffffff !important;
   border: $pl-border;
   border-radius: $pl-radius;
-  box-shadow: $pl-shadow-sm;
-  transition: box-shadow $pl-transition, transform $pl-transition;
+  box-shadow: none;
+  transition: border-color $pl-transition;
 }
 
-// Subtle hover lift for the interactive ones
 .card-modern:hover,
-.feature-card:hover,
 .svc-card:hover {
-  box-shadow: $pl-shadow-md;
-  transform: translateY(-2px);
+  border-color: $map-red;
 }
 
-// ── Buttons (consistent modern look) ─────────────────────────────
-%pl-btn-base {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .45rem;
-  padding: .65rem 1.25rem;
-  border-radius: $pl-radius-pill;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: .92rem;
-  line-height: 1.2;
-  letter-spacing: .005em;
-  border: 1.5px solid transparent;
-  cursor: pointer;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background $pl-transition, color $pl-transition,
-              border-color $pl-transition, box-shadow $pl-transition,
-              transform $pl-transition;
-  &:focus-visible { outline: none; box-shadow: $pl-focus-ring; }
-}
+// Polish-layer buttons intentionally left minimal here — the primary
+// button styling above (with the arrow tail) is the canonical style.
+// This block only handles the utility buttons that aren't already
+// covered by .btn-primary / .btn-secondary above.
 
-.btn-primary,
-.btn-hf-primary,
 .finder-btn,
 .dl-btn,
 .locate-btn {
-  @extend %pl-btn-base;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem 1rem;
+  border-radius: $pl-radius;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+  font-size: .88rem;
+  line-height: 1.2;
+  border: 1px solid $map-red;
   background: $map-red;
   color: #fff !important;
-  border-color: $map-red;
-  &:hover { background: darken($map-red, 6%); border-color: darken($map-red, 6%); transform: translateY(-1px); box-shadow: $pl-shadow-md; }
+  text-decoration: none;
+  cursor: pointer;
+  transition: background $pl-transition, border-color $pl-transition;
+  &:hover { background: $map-red-dark; border-color: $map-red-dark; }
+  &:focus-visible { outline: none; box-shadow: $pl-focus-ring; }
 }
 
-.btn-secondary,
-.btn-hf-outline {
-  @extend %pl-btn-base;
-  background: #fff;
-  color: $map-navy !important;
-  border-color: #d4dae4;
-  &:hover { color: $map-red !important; border-color: $map-red; transform: translateY(-1px); }
-}
-
-// Smaller pill chip used for filters / tags
+// Filter / tag chip — small, rectangular
 .reg-pill {
-  @extend %pl-btn-base;
-  padding: .4rem .9rem;
-  font-size: .82rem;
-  background: #f1f5f9;
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem .8rem;
+  font-size: .78rem;
+  font-weight: 500;
+  border-radius: $pl-radius;
+  border: 1px solid $map-border;
+  background: #fff;
   color: $map-text-muted !important;
-  &.active { background: $map-red; color: #fff !important; }
-  &:hover:not(.active) { background: #e2e8f0; }
+  cursor: pointer;
+  transition: all $pl-transition;
+  &.active { background: $map-red; color: #fff !important; border-color: $map-red; }
+  &:hover:not(.active) { border-color: $map-red; color: $map-red !important; }
 }
 
 // ── Forms: selects + text inputs ─────────────────────────────────
@@ -1196,7 +1320,7 @@ table.table-sm,
   thead { background: $map-navy; color: #fff; }
   th { padding: .8rem .9rem; font-weight: 600; text-align: left; }
   td { padding: .7rem .9rem; border-top: 1px solid #f1f5f9; }
-  tbody tr:hover { background: rgba(201, 162, 39, .04); }
+  tbody tr:hover { background: rgba(13, 148, 136, .04); }
 }
 
 // ── Maps (Leaflet panel) ─────────────────────────────────────────
@@ -1219,15 +1343,27 @@ table.table-sm,
 
 // ── Navbar refinement ────────────────────────────────────────────
 .navbar {
-  border-bottom: 0;
-  box-shadow: $pl-shadow-sm;
-  .navbar-brand img { max-height: 32px; }
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  box-shadow: none;
+  min-height: 52px;
+  padding: 0.3rem 1.75rem;
+
+  .navbar-brand img { max-height: 28px; }
+  .navbar-brand-title {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
   .nav-link {
-    font-weight: 500;
-    font-size: .94rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    font-size: .88rem;
     padding-inline: .9rem !important;
     transition: color $pl-transition;
-    &:hover { color: $map-red !important; }
+    &:hover { color: #fff !important; }
+    // remove the underline-hover flourish from the base rule for a
+    // cleaner data-forward feel
+    &::after { display: none !important; }
   }
 }
 
