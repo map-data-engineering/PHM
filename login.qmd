@@ -7,6 +7,10 @@ search: false
 
 ```{=html}
 <style>
+  /* Standalone page — not part of the site's tab navigation. */
+  #quarto-header, footer.footer{ display:none !important; }
+  body.nav-fixed{ padding-top:0 !important; }
+
   .login-wrap{
     min-height:70vh;display:flex;align-items:center;justify-content:center;
     padding:3rem 1.5rem;
