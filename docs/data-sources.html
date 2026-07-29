@@ -2,20 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>data-sources – HealthScope</title>
+<title>data-sources – PharmaScope</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -38,14 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5b04f34b61a01dc0e7c5060a2e79a386.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-3d91c930332deaa2caca528bdeb0d23c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5b04f34b61a01dc0e7c5060a2e79a386.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-18ef0ae2d05c2c0f106b7e08af913c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7db3b6536d23c89720eeee45feb166fa.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-18ef0ae2d05c2c0f106b7e08af913c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5ffb957567f750bd7ee372548e31c09c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-92eb121b33cb3b86bddd1376c4c60051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-5ffb957567f750bd7ee372548e31c09c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,6 +77,15 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script>
+(function(){
+  var path = window.location.pathname;
+  if (/\/(login|logout)\.html$/.test(path)) return;
+  if (localStorage.getItem('ps_auth') === '1') return;
+  var here = path.split('/').pop() || 'index.html';
+  window.location.replace('login.html?next=' + encodeURIComponent(here));
+})();
+</script>
 
 
 </head>
@@ -248,7 +260,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">HealthScope</span>
+    <span class="navbar-title">PharmaScope</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -267,7 +279,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./registry.html"> 
-<span class="menu-text">Registry Explorer</span></a>
+<span class="menu-text">ADDO Registry</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./population-access.html"> 
@@ -279,11 +291,17 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./find-facility.html"> 
-<span class="menu-text">Find Facility</span></a>
+<span class="menu-text">Site Check</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./help.html"> 
 <span class="menu-text">Help</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./logout.html"> 
+<span class="menu-text">Logout</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -297,224 +315,116 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#principle-regulator-sourced-never-aggregated" id="toc-principle-regulator-sourced-never-aggregated" class="nav-link active" data-scroll-target="#principle-regulator-sourced-never-aggregated">Principle: regulator-sourced, never aggregated</a></li>
+  <li><a href="#current-source" id="toc-current-source" class="nav-link" data-scroll-target="#current-source">Current source</a></li>
+  <li><a href="#what-we-harmonise" id="toc-what-we-harmonise" class="nav-link" data-scroll-target="#what-we-harmonise">What we harmonise</a></li>
+  <li><a href="#data-we-are-actively-looking-for" id="toc-data-we-are-actively-looking-for" class="nav-link" data-scroll-target="#data-we-are-actively-looking-for">Data we are actively looking for</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Data Sources</h1></header>
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Data Sources</h1></header>
 
 
 
 
 
-<style>
-  .ds-hero { padding: 3rem 2rem; color: white; }
-  .ds-hero h1 { font-size: 2.5rem; margin: 0 0 0.5rem 0; }
-  .ds-hero p  { font-size: 1.1rem; opacity: 0.9; margin: 0; }
-
-  .ds-wrap { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
-  .ds-wrap h2 { text-align: center; margin-bottom: 0.5rem; }
-  .ds-lede    { text-align: center; color: #666; margin-bottom: 2rem; }
-
-  .ds-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-  .ds-card {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    border: 1px solid var(--map-border, #e2e8f0);
-    border-top: 4px solid var(--map-red, #c9a227);
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    transition: box-shadow 0.15s, transform 0.15s;
-  }
-  .ds-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
-  .ds-card h3 { margin: 0 0 0.5rem; color: var(--map-red, #c9a227); font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; gap: 0.6rem; }
-  .ds-flag { width: 28px; height: 20px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); object-fit: cover; }
-  .ds-count { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1rem; }
-  .ds-count .num { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--map-navy, #3d3d3d); }
-  .ds-count .lbl { color: #666; font-size: 0.85rem; }
-  .ds-source { color: #333; margin: 0 0 1rem; font-size: 0.92rem; line-height: 1.5; flex: 1; }
-  .ds-source strong { color: var(--map-navy, #3d3d3d); }
-  .ds-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
-  .ds-badge {
-    background: rgba(201, 162, 39, 0.1);
-    color: var(--map-red, #c9a227);
-    padding: 0.25rem 0.55rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  .ds-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .ds-links a {
-    flex: 1;
-    min-width: 100px;
-    padding: 0.55rem 0.75rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .ds-links .primary   { background: var(--map-red, #c9a227); color: #fff; }
-  .ds-links .primary:hover   { background: #a8871e; }
-  .ds-links .secondary { background: rgba(201, 162, 39, 0.08); color: var(--map-red, #c9a227); border: 1px solid rgba(201, 162, 39, 0.3); }
-  .ds-links .secondary:hover { background: rgba(201, 162, 39, 0.15); }
-
-  .ds-summary {
-    max-width: 1200px; margin: 3rem auto; padding: 2rem;
-    background: linear-gradient(135deg, rgba(201,162,39,0.05) 0%, rgba(201,162,39,0.02) 100%);
-    border: 1px solid rgba(201,162,39,0.2); border-radius: 10px;
-  }
-  .ds-summary h3 { color: var(--map-navy, #3d3d3d); margin-top: 0; }
-  .ds-summary ul { color: #666; line-height: 1.8; }
-  .ds-summary strong { color: var(--map-navy, #3d3d3d); }
-
-  .ds-method { max-width: 1200px; margin: 3rem auto 4rem; padding: 0 2rem; }
-  .ds-method p { color: #666; line-height: 1.8; }
-</style>
-
-<section class="page-banner ds-hero">
-  <div style="max-width: 1200px; margin: 0 auto;">
+<section class="page-banner">
+  <div style="max-width:1000px;margin:0 auto;">
     
-    <p>Per-country Ministry of Health registries feeding the HealthScope facility database</p>
+    <p>Where PharmaScope's data comes from — and how you can trace every record back to source.</p>
   </div>
 </section>
-
-<div class="ds-wrap">
-  <h2 class="anchored">Country-Level Sources</h2>
-  <p class="ds-lede">Every facility in HealthScope traces back to an authoritative Ministry of Health registry. Below, the source powering each country in the portal.</p>
-
-  <div class="ds-grid">
-
-    <!-- Botswana -->
-    <div class="ds-card">
-      <h3 class="anchored"><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/bw.svg" alt=""> Botswana</h3>
-      <div class="ds-count"><span class="num">1,076</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>MoH Master Facility List (MFL)</strong> — Ministry of Health &amp; Wellness master facility register, supplemented with published services and infrastructure data.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">Services</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://healthfacilities.gov.bw" target="_blank" rel="noopener">MFL portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Ethiopia -->
-    <div class="ds-card">
-      <h3 class="anchored"><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/et.svg" alt=""> Ethiopia</h3>
-      <div class="ds-count"><span class="num">40,035</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Master Facility Registry (MFR v2)</strong> — Ethiopian Ministry of Health's national facility registry. Geocoded via a per-woreda process (see Ethiopia country page).</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">API</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://mfrv2.moh.gov.et" target="_blank" rel="noopener">MFR v2 portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Kenya -->
-    <div class="ds-card">
-      <h3 class="anchored"><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/ke.svg" alt=""> Kenya</h3>
-      <div class="ds-count"><span class="num">17,353</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Kenya Master Health Facility Registry (KMHFR)</strong> — MoH's authoritative facility register, published by the Health Sector Monitoring &amp; Evaluation Unit.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">Licensed</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://kmhfr.health.go.ke" target="_blank" rel="noopener">KMHFR portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Malawi -->
-    <div class="ds-card">
-      <h3 class="anchored"><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/mw.svg" alt=""> Malawi</h3>
-      <div class="ds-count"><span class="num">1,929</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Master Health Facility Registry (MHFR / Zipatala)</strong> — MoH &amp; Population's national online facility database, replacing the older CMED spreadsheet-based list.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://zipatala.health.gov.mw" target="_blank" rel="noopener">MHFR (Zipatala) ↗</a>
-      </div>
-    </div>
-
-    <!-- Nigeria -->
-    <div class="ds-card">
-      <h3 class="anchored"><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/ng.svg" alt=""> Nigeria</h3>
-      <div class="ds-count"><span class="num">51,023</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Nigeria Health Facility Registry (HFR)</strong> — Federal Ministry of Health's dynamic Master Facility List, integrated with NHMIS on DHIS2 for data flow.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">DHIS2</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://hfr.health.gov.ng" target="_blank" rel="noopener">Nigeria HFR ↗</a>
-      </div>
-    </div>
-
-    <!-- Tanzania -->
-    <div class="ds-card">
-      <h3 class="anchored"><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/tz.svg" alt=""> Tanzania</h3>
-      <div class="ds-count"><span class="num">13,075</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>MoH Health Facility Registry (HFR) Portal</strong> — Ministry of Health, Community Development, Gender, Elderly &amp; Children — national facility registry with services and infrastructure data.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">Services</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://hfrportal.moh.go.tz" target="_blank" rel="noopener">HFR portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Uganda -->
-    <div class="ds-card">
-      <h3 class="anchored"><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/ug.svg" alt=""> Uganda</h3>
-      <div class="ds-count"><span class="num">8,512</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>National Health Facility Registry (NHFR)</strong> — Ministry of Health's authoritative facility database, complemented by the eHMIS reporting platform (DHIS2).</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">DHIS2</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://nhfr.health.go.ug" target="_blank" rel="noopener">NHFR portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Zambia -->
-    <div class="ds-card">
-      <h3 class="anchored"><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/zm.svg" alt=""> Zambia</h3>
-      <div class="ds-count"><span class="num">3,731</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Master Facility List (MFL)</strong> — Zambia Ministry of Health's national online facility directory, maintained alongside HMIS/HRIS platforms.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://mfl.moh.gov.zm/facility/index" target="_blank" rel="noopener">Zambia MFL ↗</a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="ds-summary">
-  <h3 class="anchored">How the sources fit together</h3>
-  <ul>
-    <li><strong>Primary:</strong> Ministry of Health master facility registries — one per country, above.</li>
-    <li><strong>Cross-reference:</strong> OpenStreetMap facility tags, used only to validate coordinates and flag likely coverage gaps. Never overrides the MoH record.</li>
-    <li><strong>Not used:</strong> commercial listings, aggregators, or crowdsourced portals that don't disclose their upstream source.</li>
-  </ul>
-  <p style="color: #666; margin: 1rem 0 0;">All eight sources are refreshed on a rolling basis; see the <a href="about.html">About page</a> for the ETL cadence.</p>
-</div>
-
-<div class="ds-method">
-  <h2 class="anchored">Data Harmonization Methodology</h2>
-  <p>
-    All source datasets are harmonised to a common schema: unique facility ID, official name,
-    administrative hierarchy (country / region / district), facility type (hospital / clinic /
-    health centre), ownership (public / private / faith-based / NGO), GPS coordinates,
-    operational status, last-verification date, and service availability indicators.
-    Quality assessment includes duplicate detection, coordinate validation against the
-    country bounding box, admin-hierarchy consistency checks, and temporal completeness.
-  </p>
-</div>
+<section id="principle-regulator-sourced-never-aggregated" class="level2">
+<h2 class="anchored" data-anchor-id="principle-regulator-sourced-never-aggregated">Principle: regulator-sourced, never aggregated</h2>
+<p>PharmaScope ingests <strong>only authoritative, official records</strong> from Tanzania’s medicines regulators. We do not scrape third-party pharmacy directories or purchase compiled outlet lists. Every row in the registry can be traced back to a specific accreditation record issued by the Pharmacy Council of Tanzania (PCT) or the Tanzania Food and Drug Authority (TFDA).</p>
+</section>
+<section id="current-source" class="level2">
+<h2 class="anchored" data-anchor-id="current-source">Current source</h2>
+<p><strong>Pharmacy Council of Tanzania — ADDO Inventory Form Results (2014)</strong></p>
+<p>This is the underlying dataset that powers the current release of the <a href="registry.html">ADDO Registry</a>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Publisher</td>
+<td>Pharmacy Council of Tanzania</td>
+</tr>
+<tr class="even">
+<td>Instrument</td>
+<td>ADDO Inventory Form</td>
+</tr>
+<tr class="odd">
+<td>Coverage</td>
+<td>Nationwide (Tanzania Mainland)</td>
+</tr>
+<tr class="even">
+<td>Outlets</td>
+<td>4,936 records; ~88% geocoded</td>
+</tr>
+<tr class="odd">
+<td>Regions</td>
+<td>26 canonical Tanzanian regions (post-cleaning)</td>
+</tr>
+<tr class="even">
+<td>Accrediting bodies</td>
+<td>Pharmacy Council (PC), TFDA</td>
+</tr>
+<tr class="odd">
+<td>Business types</td>
+<td>Retail A (RA), Retail Wholesale (RW)</td>
+</tr>
+<tr class="even">
+<td>Reference date</td>
+<td>2014 (inventory snapshot)</td>
+</tr>
+<tr class="odd">
+<td>Format received</td>
+<td>Two-header Excel (<code>.xls</code>)</td>
+</tr>
+<tr class="even">
+<td>Landed as</td>
+<td><code>data-raw/ADDO_Inventory_Form_results-Edited.xls</code></td>
+</tr>
+</tbody>
+</table>
+<p>The full ETL that ingests this file into the site’s canonical schema lives at <a href="https://github.com/map-data-engineering/pharmascope/blob/main/scripts/addo_etl.R"><code>scripts/addo_etl.R</code></a>. It is deterministic, versioned, and re-runnable from source.</p>
+</section>
+<section id="what-we-harmonise" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-harmonise">What we harmonise</h2>
+<p>The raw inventory arrives with regionally-inconsistent free-text fields and two parallel coordinate columns (tablet GPS and hand-held GPS). The ETL applies the following normalisations before publishing:</p>
+<ul>
+<li><strong>Region canonicalisation.</strong> 70+ raw region strings (case variants, misspellings, embedded municipality suffixes) are collapsed to the 26 canonical Tanzanian regions via fuzzy matching. Unmatched values are recorded as <code>NA</code> and preserved in <code>region_raw_clean</code> for audit.</li>
+<li><strong>Business type and accreditation source.</strong> Short codes (<code>RA</code>, <code>RW</code>, <code>PC</code>, <code>TFDA</code>) are expanded to their full labels.</li>
+<li><strong>Coordinate coalescing.</strong> For each outlet we prefer the tablet-GPS coordinate when it falls inside Tanzania’s bounding box; otherwise we fall back to the hand-GPS coordinate; otherwise <code>has_coords = FALSE</code>.</li>
+<li><strong>Stable identifiers.</strong> Each outlet is assigned a <code>TZ-ADDO-#####</code> UID so downstream layers (Service Intelligence, Population and Access) can key against a stable primary key.</li>
+</ul>
+</section>
+<section id="data-we-are-actively-looking-for" class="level2">
+<h2 class="anchored" data-anchor-id="data-we-are-actively-looking-for">Data we are actively looking for</h2>
+<p>The current release covers <em>where</em> accredited outlets exist. To power the <a href="services.html">Service Intelligence</a> and <a href="population-access.html">Population and Access</a> layers we are actively seeking:</p>
+<ul>
+<li>ADDO stock-availability surveys (malaria commodities, antimicrobials).</li>
+<li>LMIS records or supervisory-visit exports covering ADDOs.</li>
+<li>Refreshed accreditation lists more recent than 2014.</li>
+<li>Roads and settlement layers for isochrone modelling.</li>
+</ul>
+<p>If you have or know of such datasets, please reach out via the <a href="help.html">Help</a> page.</p>
 
 
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
-<!--
-  Botpress chat-bubble embed for HealthScope Assistant.
-  Registered via _quarto.yml -> format.html.include-after-body so it appears
-  on every page. The second <script> is the bot-specific config generated
-  by Botpress when the webchat channel was published; regenerate that URL
-  (and swap it here) if the bot is republished.
--->
-<script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
-<script src="https://files.bpcontent.cloud/2026/07/16/10/20260716103402-5A4FNBPV.js" defer=""></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -601,7 +511,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/healthscope-portal");
+        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/-PH--SC");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -939,8 +849,8 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>© 2026 HealthScope — Malaria Atlas Project, Dar es Salaam Node</p>
-<p>Open health facility intelligence for Sub-Saharan Africa</p>
+<p>© 2026 PharmaScope — Malaria Atlas Project, Ifakara Health Institute</p>
+<p>Open pharmacy access intelligence for Tanzania</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

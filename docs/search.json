@@ -1,569 +1,135 @@
 [
   {
-    "objectID": "team.html",
-    "href": "team.html",
-    "title": "The Team",
-    "section": "",
-    "text": "The people behind HealthScope\n  \n\n\n\n  \n\n    \n      CM\n      Christina Mallya\n      Data Scientist\n      \n        Leads the research design, data extraction pipeline, and analytical framework for HealthScope. Specializes in health facility data harmonization, geospatial analysis, and malaria epidemiology across Sub-Saharan Africa.\n      \n    \n\n    \n      KC\n      Kasim Chambulilo\n      Data Scientist\n      \n        Builds and maintains the HealthScope portal, ETL pipelines, and interactive data visualizations. Develops the open-source infrastructure for data processing, quality assessment, and web-based facility mapping.\n      \n    \n\n  \n\n\n\n  \n    Want to Connect?\n    Get in touch for collaborations, data partnerships, or general inquiries.\n    Contact Us\n  \n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "roadmap.html",
-    "href": "roadmap.html",
-    "title": "Roadmap",
-    "section": "",
-    "text": "Planned features, country expansions, and data releases\n\nThe roadmap below reflects the Portal team’s current priorities. Have a suggestion? Open an issue on GitHub.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "population-access.html",
-    "href": "population-access.html",
-    "title": "Population and Access",
-    "section": "",
-    "text": "Who each facility actually serves, and whether those people can realistically reach it. Population from WorldPop 2026 constrained at 100 m; travel time from a modelled cost-of-access surface.\n  \n\n\n\n\n  \n  \n    \n      Country\n      \n        Botswana\n        Ethiopia\n        Kenya\n        Malawi\n        Nigeria\n        Tanzania\n        Uganda\n        Zambia\n      \n    \n    \n      Full accessibility analysis is currently live for Tanzania; other countries are being processed.\n    \n  \n\n  Loading Tanzania accessibility data…\n\n  \n  \n    Full accessibility analysis for … is being prepared.\n    The travel-time + Voronoi-catchment pipeline currently runs only for Tanzania. The same methodology (modelled 100 m travel-time surface, constrained WorldPop 2026, Voronoi catchments clipped to country boundary) will roll out to the other seven countries as country-specific inputs become available.\n    In the meantime, per-country facility distribution and coverage are visible in Registry Explorer.\n  \n\n  \n  \n    \n      Travel time to nearest facility\n      Modelled minutes-to-nearest-facility from every 300 m pixel, classified into four bands. Fast on the green end, slow on the red end.\n    \n    \n      \n        \n        \n           Show facility points\n           Show protected areas\n        \n        \n      \n      \n        \n          National access breakdown\n          \n        \n        \n          Worst-served districts (pop &gt; 60 min)\n          \n            \n          \n        \n      \n    \n  \n\n  \n  \n    \n      Estimated facility catchment\n      Voronoi (nearest-facility) catchments — each polygon is the region of space closer to that facility than to any other, clipped to the country boundary. Non-overlapping, exhaustive; total pop across catchments = national pop.\n    \n    \n      \n        \n        \n           Show facility points\n           Show protected areas\n        \n        \n      \n      \n        \n          Summary\n          \n        \n        \n          Top 15 facilities by catchment population\n          \n            \n          \n        \n      \n    \n  \n\n\n\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "kenya.html",
-    "href": "kenya.html",
-    "title": "🇰🇪 Kenya",
-    "section": "",
-    "text": "Republic of Kenya. Health Facility Dataset v1.1."
-  },
-  {
-    "objectID": "kenya.html#overview",
-    "href": "kenya.html#overview",
-    "title": "🇰🇪 Kenya",
-    "section": "Overview",
-    "text": "Overview\nKenya operates one of the most comprehensive open health facility registries in sub-Saharan Africa — the Kenya Master Health Facility List (KMHFL). The Portal dataset is derived from KMHFL quarterly extracts, supplemented with DHIS2 codes and coordinate cross-validation across all 47 counties."
-  },
-  {
-    "objectID": "kenya.html#facility-breakdown",
-    "href": "kenya.html#facility-breakdown",
-    "title": "🇰🇪 Kenya",
-    "section": "Facility Breakdown",
-    "text": "Facility Breakdown\n\n  By Facility Type\n  \n\n\n\nType\nCount\n%\n\n\n\n\nDispensary / Pharmacy\n5 850\n46.1 %\n\n\nHealth Centre\n2 940\n23.1 %\n\n\nClinic (Private)\n2 210\n17.4 %\n\n\nDistrict Hospital\n1 180\n9.3 %\n\n\nCounty / National Referral\n520\n4.1 %\n\n\n\n\n\n\n\n  By Ownership\n  \n\n\n\nOwnership\nCount\n%\n\n\n\n\nGovernment (MoH Kenya)\n6 350\n50.0 %\n\n\nPrivate for Profit\n3 810\n30.0 %\n\n\nFaith-Based Organisation\n1 780\n14.0 %\n\n\nNGO / Other\n760\n6.0 %"
-  },
-  {
-    "objectID": "kenya.html#data-quality",
-    "href": "kenya.html#data-quality",
-    "title": "🇰🇪 Kenya",
-    "section": "Data Quality",
-    "text": "Data Quality\n\n  Quality Scores — v1.1\n  \n\n\n\nDimension\nScore\n\n\n\n\nCoordinate validity\n91 / 100\n\n\nAttribute completeness\n84 / 100\n\n\nDuplicate rate (post-dedup)\n&lt; 0.3 %\n\n\nAdmin code consistency\n97 / 100\n\n\nTemporal coverage\n2016–2024"
-  },
-  {
-    "objectID": "kenya.html#available-fields",
-    "href": "kenya.html#available-fields",
-    "title": "🇰🇪 Kenya",
-    "section": "Available Fields",
-    "text": "Available Fields\n\n  facility_idsource_id (KMHFL)\n  namefacility_type\n  ownershipadmin1 (County)\n  admin2 (Sub-County)admin3 (Ward)\n  longitudelatitude\n  coord_sourcekeph_level\n  operationalyearversion"
-  },
-  {
-    "objectID": "kenya.html#download",
-    "href": "kenya.html#download",
-    "title": "🇰🇪 Kenya",
-    "section": "Download",
-    "text": "Download\n\n\n\n\n\n\nNote\n\n\n\nData are released under CC BY 4.0. Please cite the Zenodo record in publications.\n\n\n\n\n\nFormat\nLink\n\n\n\n\nCSV (all facilities)\nComing soon\n\n\nGeoPackage (.gpkg)\nComing soon\n\n\nR package {hfportal}\nComing soon\n\n\nQuality report PDF\nComing soon\n\n\n\nZenodo DOI: 10.5281/zenodo.XXXXXX"
-  },
-  {
-    "objectID": "kenya.html#code-example",
-    "href": "kenya.html#code-example",
-    "title": "🇰🇪 Kenya",
-    "section": "Code Example",
-    "text": "Code Example\nlibrary(hfportal)\n\nken &lt;- get_facilities(country = \"KEN\", version = \"1.1\")\n\nlibrary(dplyr)\nken |&gt;\n  count(admin1, facility_type) |&gt;\n  ggplot(aes(x = reorder(admin1, n), y = n, fill = facility_type)) +\n  geom_col() + coord_flip() + theme_minimal() +\n  labs(title = \"Kenya: Facilities by County & Type\", x = NULL)\nDataset last updated: August 2024 | Source: KMHFL (Kenya MoH)\n← All Countries"
-  },
-  {
     "objectID": "help.html",
     "href": "help.html",
     "title": "Help & Support",
     "section": "",
-    "text": "Find answers to common questions about the data and the portal\n  \n\n\n\n\n  Frequently Asked Questions\n\n  \n\n  \n    \n      How do I access the health facilities data?\n      ▼\n    \n    \n      Navigate to the Country Data page and select your country of interest.\n      You can explore the interactive map to view facility locations and then download the full dataset in CSV format.\n      All data is openly downloadable.\n    \n  \n\n  \n    \n      How do I find a nearby health facility?\n      ▼\n    \n    \n      Use our Find Facility tool. Allow your browser to detect your location (or enter coordinates manually),\n      select the service type you need, and the system will show you the nearest facilities offering that service on an interactive map.\n    \n  \n\n  \n    \n      What file formats are available for download?\n      ▼\n    \n    \n      Data is provided as CSV — standard comma-separated values for spreadsheet and statistical analysis.\n    \n  \n\n\n  \n    \n      How frequently is the data updated?\n      ▼\n    \n    \n      Core facility lists are updated quarterly when new data sources become available. Service availability data\n      is refreshed when Ministries of Health publish new registry exports. Coordinate validation is ongoing. Each dataset release includes\n      a version number and changelog so you can track what has changed.\n    \n  \n\n  \n    \n      What countries are currently covered?\n      ▼\n    \n    \n      Coverage is expanding across Sub-Saharan Africa. Visit the\n      Registry Explorer page to see which countries are currently available.\n    \n  \n\n  \n    \n      How do I report data quality issues or errors?\n      ▼\n    \n    \n      If you discover errors or inconsistencies in the data, we appreciate feedback!\n      Email the DET Team\n      with the country, facility name, and a description of the issue.\n    \n  \n\n\n\n\n  Email Contact\n  Prefer direct email? Reach out to our team:\n  \n    DET Team\n  \n  We typically respond within 2–3 business days.\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "downloads.html",
-    "href": "downloads.html",
-    "title": "Downloads",
-    "section": "",
-    "text": "Back to top"
+    "text": "Find answers to common questions about the data and the portal\n  \n\n\n\n\n  Frequently Asked Questions\n\n  \n\n  \n    \n      How do I access the ADDO data?\n      ▼\n    \n    \n      Go to the ADDO Registry. You can filter by region, district, business type and accreditation source, and explore the interactive map and table. Bulk data export is disabled during this preview.\n    \n  \n\n  \n    \n      How do I find the nearest ADDO to a location?\n      ▼\n    \n    \n      The Find ADDO tool will do this once the Demand-Side Access layer is wired up. In the meantime, use the Registry's region/district filters and search box to zero in on a specific area.\n    \n  \n\n  \n    \n      Can I download the data?\n      ▼\n    \n    \n      Not from this preview — bulk export is disabled while the portal is in proof-of-concept review. The registry is fully explorable via the interactive map, table, and filters on the ADDO Registry page.\n    \n  \n\n\n  \n    \n      How frequently is the data updated?\n      ▼\n    \n    \n      The current release is a snapshot of the Pharmacy Council of Tanzania ADDO inventory. Refreshes will land whenever the Pharmacy Council or TFDA publish an updated accreditation list. Each release ships with a version tag and changelog.\n    \n  \n\n  \n    \n      What geography is currently covered?\n      ▼\n    \n    \n      PharmaScope currently covers Tanzania Mainland (26 canonical regions). Zanzibar outlets are not yet included in the source inventory but the schema is ready to receive them. Cross-country expansion is not on the current roadmap.\n    \n  \n\n  \n    \n      How do I report data quality issues or errors?\n      ▼\n    \n    \n      If you spot an incorrect outlet name, misplaced coordinate, or misspelled region, please email the team with the outlet UID (visible in the Registry table) and a short description. We track and fix these on every release.\n    \n  \n\n\n\n\n  Email Contact\n  Prefer direct email? Reach out to our team:\n  \n    DET Team\n  \n  We typically respond within 2–3 business days.\n\n\n\n\n Back to top"
   },
   {
     "objectID": "data-sources.html",
     "href": "data-sources.html",
     "title": "Data Sources",
     "section": "",
-    "text": "Per-country Ministry of Health registries feeding the HealthScope facility database\n  \n\n\n\n  Country-Level Sources\n  Every facility in HealthScope traces back to an authoritative Ministry of Health registry. Below, the source powering each country in the portal.\n\n  \n\n    \n    \n       Botswana\n      1,076facilities\n      MoH Master Facility List (MFL) — Ministry of Health & Wellness master facility register, supplemented with published services and infrastructure data.\n      OfficialPoint DataServices\n      \n        MFL portal ↗\n      \n    \n\n    \n    \n       Ethiopia\n      40,035facilities\n      Master Facility Registry (MFR v2) — Ethiopian Ministry of Health's national facility registry. Geocoded via a per-woreda process (see Ethiopia country page).\n      OfficialPoint DataAPI\n      \n        MFR v2 portal ↗\n      \n    \n\n    \n    \n       Kenya\n      17,353facilities\n      Kenya Master Health Facility Registry (KMHFR) — MoH's authoritative facility register, published by the Health Sector Monitoring & Evaluation Unit.\n      OfficialPoint DataLicensed\n      \n        KMHFR portal ↗\n      \n    \n\n    \n    \n       Malawi\n      1,929facilities\n      Master Health Facility Registry (MHFR / Zipatala) — MoH & Population's national online facility database, replacing the older CMED spreadsheet-based list.\n      OfficialPoint Data\n      \n        MHFR (Zipatala) ↗\n      \n    \n\n    \n    \n       Nigeria\n      51,023facilities\n      Nigeria Health Facility Registry (HFR) — Federal Ministry of Health's dynamic Master Facility List, integrated with NHMIS on DHIS2 for data flow.\n      OfficialPoint DataDHIS2\n      \n        Nigeria HFR ↗\n      \n    \n\n    \n    \n       Tanzania\n      13,075facilities\n      MoH Health Facility Registry (HFR) Portal — Ministry of Health, Community Development, Gender, Elderly & Children — national facility registry with services and infrastructure data.\n      OfficialPoint DataServices\n      \n        HFR portal ↗\n      \n    \n\n    \n    \n       Uganda\n      8,512facilities\n      National Health Facility Registry (NHFR) — Ministry of Health's authoritative facility database, complemented by the eHMIS reporting platform (DHIS2).\n      OfficialPoint DataDHIS2\n      \n        NHFR portal ↗\n      \n    \n\n    \n    \n       Zambia\n      3,731facilities\n      Master Facility List (MFL) — Zambia Ministry of Health's national online facility directory, maintained alongside HMIS/HRIS platforms.\n      OfficialPoint Data\n      \n        Zambia MFL ↗\n      \n    \n\n  \n\n\n\n  How the sources fit together\n  \n    Primary: Ministry of Health master facility registries — one per country, above.\n    Cross-reference: OpenStreetMap facility tags, used only to validate coordinates and flag likely coverage gaps. Never overrides the MoH record.\n    Not used: commercial listings, aggregators, or crowdsourced portals that don't disclose their upstream source.\n  \n  All eight sources are refreshed on a rolling basis; see the About page for the ETL cadence.\n\n\n\n  Data Harmonization Methodology\n  \n    All source datasets are harmonised to a common schema: unique facility ID, official name,\n    administrative hierarchy (country / region / district), facility type (hospital / clinic /\n    health centre), ownership (public / private / faith-based / NGO), GPS coordinates,\n    operational status, last-verification date, and service availability indicators.\n    Quality assessment includes duplicate detection, coordinate validation against the\n    country bounding box, admin-hierarchy consistency checks, and temporal completeness.\n  \n\n\n\n\n Back to top"
+    "text": "Where PharmaScope's data comes from — and how you can trace every record back to source."
   },
   {
-    "objectID": "countries/Zambia.html",
-    "href": "countries/Zambia.html",
-    "title": "\n",
+    "objectID": "data-sources.html#principle-regulator-sourced-never-aggregated",
+    "href": "data-sources.html#principle-regulator-sourced-never-aggregated",
+    "title": "Data Sources",
+    "section": "Principle: regulator-sourced, never aggregated",
+    "text": "Principle: regulator-sourced, never aggregated\nPharmaScope ingests only authoritative, official records from Tanzania’s medicines regulators. We do not scrape third-party pharmacy directories or purchase compiled outlet lists. Every row in the registry can be traced back to a specific accreditation record issued by the Pharmacy Council of Tanzania (PCT) or the Tanzania Food and Drug Authority (TFDA)."
+  },
+  {
+    "objectID": "data-sources.html#current-source",
+    "href": "data-sources.html#current-source",
+    "title": "Data Sources",
+    "section": "Current source",
+    "text": "Current source\nPharmacy Council of Tanzania — ADDO Inventory Form Results (2014)\nThis is the underlying dataset that powers the current release of the ADDO Registry.\n\n\n\nItem\nDetail\n\n\n\n\nPublisher\nPharmacy Council of Tanzania\n\n\nInstrument\nADDO Inventory Form\n\n\nCoverage\nNationwide (Tanzania Mainland)\n\n\nOutlets\n4,936 records; ~88% geocoded\n\n\nRegions\n26 canonical Tanzanian regions (post-cleaning)\n\n\nAccrediting bodies\nPharmacy Council (PC), TFDA\n\n\nBusiness types\nRetail A (RA), Retail Wholesale (RW)\n\n\nReference date\n2014 (inventory snapshot)\n\n\nFormat received\nTwo-header Excel (.xls)\n\n\nLanded as\ndata-raw/ADDO_Inventory_Form_results-Edited.xls\n\n\n\nThe full ETL that ingests this file into the site’s canonical schema lives at scripts/addo_etl.R. It is deterministic, versioned, and re-runnable from source."
+  },
+  {
+    "objectID": "data-sources.html#what-we-harmonise",
+    "href": "data-sources.html#what-we-harmonise",
+    "title": "Data Sources",
+    "section": "What we harmonise",
+    "text": "What we harmonise\nThe raw inventory arrives with regionally-inconsistent free-text fields and two parallel coordinate columns (tablet GPS and hand-held GPS). The ETL applies the following normalisations before publishing:\n\nRegion canonicalisation. 70+ raw region strings (case variants, misspellings, embedded municipality suffixes) are collapsed to the 26 canonical Tanzanian regions via fuzzy matching. Unmatched values are recorded as NA and preserved in region_raw_clean for audit.\nBusiness type and accreditation source. Short codes (RA, RW, PC, TFDA) are expanded to their full labels.\nCoordinate coalescing. For each outlet we prefer the tablet-GPS coordinate when it falls inside Tanzania’s bounding box; otherwise we fall back to the hand-GPS coordinate; otherwise has_coords = FALSE.\nStable identifiers. Each outlet is assigned a TZ-ADDO-##### UID so downstream layers (Service Intelligence, Population and Access) can key against a stable primary key."
+  },
+  {
+    "objectID": "data-sources.html#data-we-are-actively-looking-for",
+    "href": "data-sources.html#data-we-are-actively-looking-for",
+    "title": "Data Sources",
+    "section": "Data we are actively looking for",
+    "text": "Data we are actively looking for\nThe current release covers where accredited outlets exist. To power the Service Intelligence and Population and Access layers we are actively seeking:\n\nADDO stock-availability surveys (malaria commodities, antimicrobials).\nLMIS records or supervisory-visit exports covering ADDOs.\nRefreshed accreditation lists more recent than 2014.\nRoads and settlement layers for isochrone modelling.\n\nIf you have or know of such datasets, please reach out via the Help page."
+  },
+  {
+    "objectID": "population-access.html",
+    "href": "population-access.html",
+    "title": "Population and Access",
     "section": "",
-    "text": "Standardized, geolocated facility information to strengthen modelling, planning, and decision-making"
-  },
-  {
-    "objectID": "countries/Zambia.html#health-facilities-map",
-    "href": "countries/Zambia.html#health-facilities-map",
-    "title": "\n",
-    "section": "Health Facilities Map",
-    "text": "Health Facilities Map"
-  },
-  {
-    "objectID": "countries/Zambia.html#overview",
-    "href": "countries/Zambia.html#overview",
-    "title": "\n",
-    "section": "Overview",
-    "text": "Overview\nZambia has approximately 3,000 health facilities across its ten provinces, governed by the Ministry of Health through district health offices. The country has undergone significant health system reforms, including the rollout of community health workers and the integration of HIV and malaria services. Urban–rural disparities remain a key challenge, with Lusaka province having significantly better facility density than rural provinces like Western and North-Western."
-  },
-  {
-    "objectID": "countries/Zambia.html#demographics",
-    "href": "countries/Zambia.html#demographics",
-    "title": "\n",
-    "section": "Demographics",
-    "text": "Demographics\nZambia’s population of around 20 million is served by a tiered system of health posts, health centres, district hospitals, and tertiary facilities. Health posts are designed to serve approximately 500–1,000 households in rural areas. The country has a physician density of approximately 1.2 per 10,000 population, with nurses and midwives forming the majority of the health workforce."
-  },
-  {
-    "objectID": "countries/Zambia.html#services",
-    "href": "countries/Zambia.html#services",
-    "title": "\n",
-    "section": "Services",
-    "text": "Services\nZambian health facilities provide malaria diagnosis and treatment (including ACT and IPTp for pregnant women), HIV testing and ART, PMTCT, maternal and child health, immunization, family planning, TB services, and management of non-communicable diseases (NCDs) at higher-level facilities. Malaria transmission is perennial in most provinces, with higher intensity in the rainy season (November–April)."
-  },
-  {
-    "objectID": "countries/Zambia.html#data-download",
-    "href": "countries/Zambia.html#data-download",
-    "title": "\n",
-    "section": "Data Download",
-    "text": "Data Download\nDownload facilities dataset here:\n\nFacilities — CSV\n\nProduced by the HealthScope ETL pipeline."
-  },
-  {
-    "objectID": "countries/tanzania.html",
-    "href": "countries/tanzania.html",
-    "title": "\n",
-    "section": "",
-    "text": "Standardized, geolocated facility information to strengthen modelling, planning, and decision-making"
-  },
-  {
-    "objectID": "countries/tanzania.html#health-facilities-map",
-    "href": "countries/tanzania.html#health-facilities-map",
-    "title": "\n",
-    "section": "Health Facilities Map",
-    "text": "Health Facilities Map"
-  },
-  {
-    "objectID": "countries/tanzania.html#overview",
-    "href": "countries/tanzania.html#overview",
-    "title": "\n",
-    "section": "Overview",
-    "text": "Overview\nTanzania has one of the largest health facility networks in sub-Saharan Africa, with over 8,000 facilities spread across 26 regions. The health system is organized into a tiered structure ranging from dispensaries at the village level to national referral hospitals. Despite significant progress in expanding access, rural and remote areas still face challenges with staffing, supply chains, and infrastructure."
-  },
-  {
-    "objectID": "countries/tanzania.html#demographics",
-    "href": "countries/tanzania.html#demographics",
-    "title": "\n",
-    "section": "Demographics",
-    "text": "Demographics\nTanzania’s health facilities primarily serve a population of approximately 63 million people, with a high proportion residing in rural areas. Dispensaries account for the majority of facilities and typically serve catchment populations of 6,000–10,000 people. Health centres serve larger populations and are expected to cover around 50,000 people each. The country faces a critical shortage of health workers, with an estimated 1.7 physicians per 10,000 population."
-  },
-  {
-    "objectID": "countries/tanzania.html#services",
-    "href": "countries/tanzania.html#services",
-    "title": "\n",
-    "section": "Services",
-    "text": "Services\nTanzanian health facilities provide outpatient consultations, maternal and child health (MCH) services, malaria diagnosis and treatment, HIV/AIDS testing and antiretroviral therapy (ART), tuberculosis (TB) diagnosis and treatment, family planning, and immunization. Malaria remains a leading cause of outpatient visits, particularly in high-transmission zones along the coast and Lake Victoria basin."
-  },
-  {
-    "objectID": "countries/tanzania.html#data-download",
-    "href": "countries/tanzania.html#data-download",
-    "title": "\n",
-    "section": "Data Download",
-    "text": "Data Download\nDownload the facilities data here:\n\nFacilities — CSV\nServices — CSV\n\nProduced by the HealthScope ETL pipeline."
-  },
-  {
-    "objectID": "countries/Malawi.html",
-    "href": "countries/Malawi.html",
-    "title": "\n",
-    "section": "",
-    "text": "Standardized, geolocated facility information to strengthen modelling, planning, and decision-making"
-  },
-  {
-    "objectID": "countries/Malawi.html#health-facilities-map",
-    "href": "countries/Malawi.html#health-facilities-map",
-    "title": "\n",
-    "section": "Health Facilities Map",
-    "text": "Health Facilities Map"
-  },
-  {
-    "objectID": "countries/Malawi.html#overview",
-    "href": "countries/Malawi.html#overview",
-    "title": "\n",
-    "section": "Overview",
-    "text": "Overview\nMalawi operates a mixed health system with government facilities managed by the Ministry of Health and a significant proportion run by the Christian Health Association of Malawi (CHAM), which provides nearly 40% of health services. The country has around 1,000 health facilities across its 28 districts. Despite being a low-income country, Malawi has achieved notable gains in reducing child and maternal mortality over recent decades."
-  },
-  {
-    "objectID": "countries/Malawi.html#demographics",
-    "href": "countries/Malawi.html#demographics",
-    "title": "\n",
-    "section": "Demographics",
-    "text": "Demographics\nMalawi has a population of approximately 20 million, with over 80% living in rural areas. Most facilities are health centres and dispensaries serving rural communities. The country faces severe health workforce shortages, with one of the lowest doctor-to-population ratios in the world approximately 0.2 physicians per 10,000 people. Community health workers (Health Surveillance Assistants) play a critical role in bridging service gaps."
-  },
-  {
-    "objectID": "countries/Malawi.html#services",
-    "href": "countries/Malawi.html#services",
-    "title": "\n",
-    "section": "Services",
-    "text": "Services\nMalawian health facilities deliver outpatient care, malaria prevention (including insecticide-treated nets distribution), diagnosis and treatment, maternal and neonatal health, HIV/AIDS services including ART and PMTCT, TB treatment, immunization, and nutrition services. Malaria, respiratory infections, and diarrhoeal diseases are the most common reasons for facility visits."
-  },
-  {
-    "objectID": "countries/Malawi.html#data-download",
-    "href": "countries/Malawi.html#data-download",
-    "title": "\n",
-    "section": "Data Download",
-    "text": "Data Download\nDownload facilities dataset here:\n\nFacilities — CSV\nServices — CSV\n\nProduced by the HealthScope ETL pipeline."
-  },
-  {
-    "objectID": "countries/Botswana.html",
-    "href": "countries/Botswana.html",
-    "title": "\n",
-    "section": "",
-    "text": "Standardized, geolocated facility information to strengthen modelling, planning, and decision-making"
-  },
-  {
-    "objectID": "countries/Botswana.html#health-facilities-map",
-    "href": "countries/Botswana.html#health-facilities-map",
-    "title": "\n",
-    "section": "Health Facilities Map",
-    "text": "Health Facilities Map"
-  },
-  {
-    "objectID": "countries/Botswana.html#overview",
-    "href": "countries/Botswana.html#overview",
-    "title": "\n",
-    "section": "Overview",
-    "text": "Overview\nBotswana has one of the more developed health systems in sub-Saharan Africa, supported by the country’s relative economic prosperity from diamond revenues. The country has around 1,000 health facilities including clinics, primary hospitals, district hospitals, and referral hospitals. The government provides largely free primary health care to citizens, and the country has achieved remarkable success in its HIV response."
-  },
-  {
-    "objectID": "countries/Botswana.html#demographics",
-    "href": "countries/Botswana.html#demographics",
-    "title": "\n",
-    "section": "Demographics",
-    "text": "Demographics\nWith a population of approximately 2.5 million and a relatively low population density, Botswana’s health facilities serve both urban centres and widely dispersed rural communities. The country has a higher physician density than most African peers, at around 3–4 per 10,000 population. Mobile health facilities and outreach teams support populations in remote districts such as the Central Kalahari."
-  },
-  {
-    "objectID": "countries/Botswana.html#services",
-    "href": "countries/Botswana.html#services",
-    "title": "\n",
-    "section": "Services",
-    "text": "Services\nBotswana’s facilities offer comprehensive primary care, one of Africa’s most successful HIV/ART programmes (with over 85% of eligible patients on treatment), TB services, maternal and child health, immunization, malaria diagnosis and treatment (primarily in the northern districts bordering Zimbabwe and Zambia), mental health services, and management of NCDs including diabetes and hypertension.\nService availability has been extracted from the Botswana Master Facility List and standardised through the HealthScope ETL pipeline into the same 3-level domain hierarchy used for every other country."
-  },
-  {
-    "objectID": "countries/Botswana.html#data-download",
-    "href": "countries/Botswana.html#data-download",
-    "title": "\n",
-    "section": "Data Download",
-    "text": "Data Download\nDownload Botswana datasets here:\n\nFacilities — CSV\nServices — CSV\n\nProduced by the HealthScope ETL pipeline."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About HealthScope",
-    "section": "",
-    "text": "Health facility intelligence beyond static inventories."
-  },
-  {
-    "objectID": "about.html#mission",
-    "href": "about.html#mission",
-    "title": "About HealthScope",
-    "section": "Mission",
-    "text": "Mission\nOur mission is to make health facility access measurable, comparable, and continually updated across malaria-endemic Sub-Saharan Africa — so that ministries, researchers, and implementers plan around who can reach care, not just where facilities appear on a map.\nWe commit to four principles:\n\nOpen — every dataset and method behind the portal is freely available under permissive licences, without registration.\nMoH-sourced — primary data comes directly from Ministry of Health registries, never from second-hand aggregators or opaque compilations.\nReproducible — the ETL pipeline that produces every table, chart, and map on this site is versioned, documented, and rerunnable from source.\nPopulation-first — each layer of analysis is built around the people a facility is meant to serve, not just the facility itself."
-  },
-  {
-    "objectID": "about.html#the-gap-we-fill",
-    "href": "about.html#the-gap-we-fill",
-    "title": "About HealthScope",
-    "section": "The Gap We Fill",
-    "text": "The Gap We Fill\nCurrent approaches to health facility mapping focus primarily on documenting facility locations without deeper analysis. HealthScope goes further by providing:\n\nPopulation-demand modelling – reachability analysis beyond simple location pins\nService-level intelligence – mapping of what services exist where\nGeneral information at scale – population-weighted access metrics and facility distribution analysis\n\nHealthScope addresses these gaps as an open, reproducible data platform."
-  },
-  {
-    "objectID": "about.html#intelligence-layers",
-    "href": "about.html#intelligence-layers",
-    "title": "About HealthScope",
-    "section": "Intelligence Layers",
-    "text": "Intelligence Layers\n\n\n  \n    1. Facility Registry Lake\n    Standardized facility data from MoH sources across SSA countries. Multi-country harmonized schema; direct MoH sourcing.\n  \n\n  \n    2. Demand-Side Access\n    Population catchment zones using road networks; travel-time isochrones showing not just location, but reachability.\n  \n\n  \n    3. Service Gap Intelligence\n    Which services exist where. Per-domain coverage across the registry, interactive country switching, and per-facility service profiles.\n  \n\n  \n    4. General Information\n    Country-level descriptive statistics — facility counts, type mix, ownership split — that give a fast picture of the registry without claiming reachability or access modelling we have not yet built."
-  },
-  {
-    "objectID": "about.html#etl-pipeline",
-    "href": "about.html#etl-pipeline",
-    "title": "About HealthScope",
-    "section": "ETL Pipeline",
-    "text": "ETL Pipeline\nThe HealthScope ETL pipeline ingests each Ministry of Health registry through three steps:\n\nExtract — pull the latest country CSV / API payload (Tanzania HFR portal, Kenya KMHFR, Ethiopia MFR v2, etc.) into a country-specific raw folder.\nTransform — standardise columns to a shared schema, validate coordinates against the country’s bounding box, mint a stable global facility UID, and map each raw service name to the canonical 7-domain hierarchy via per-country crosswalks.\nLoad — publish versioned per-country CSVs ({country}_standardized.csv for facilities, {country}_services_standardized.csv for services) that the portal consumes directly via a git submodule."
-  },
-  {
-    "objectID": "about.html#data-sources",
-    "href": "about.html#data-sources",
-    "title": "About HealthScope",
-    "section": "Data Sources",
-    "text": "Data Sources\nHealthScope ingests only authoritative, official sources — Ministry of Health master facility registries and openly-licensed compilations of the same upstream data. For the full per-country source catalogue with license and citation details, visit the dedicated page.\nView Data Sources →"
-  },
-  {
-    "objectID": "about.html#team",
-    "href": "about.html#team",
-    "title": "About HealthScope",
-    "section": "Team",
-    "text": "Team\nThe portal is maintained by a team of data engineers, GIS specialists, epidemiologists, and researchers at the Malaria Atlas Project Dar es Salaam Node.\nVisit the Team Page →"
-  },
-  {
-    "objectID": "countries/Benin.html",
-    "href": "countries/Benin.html",
-    "title": "\n",
-    "section": "",
-    "text": "Standardized, geolocated facility information to strengthen modelling, planning, and decision-making"
-  },
-  {
-    "objectID": "countries/Benin.html#health-facilities-map",
-    "href": "countries/Benin.html#health-facilities-map",
-    "title": "\n",
-    "section": "Health Facilities Map",
-    "text": "Health Facilities Map"
-  },
-  {
-    "objectID": "countries/Benin.html#overview",
-    "href": "countries/Benin.html#overview",
-    "title": "\n",
-    "section": "Overview",
-    "text": "Overview\nBenin’s health system is structured into three levels: peripheral (health zones), intermediate (departmental), and central (national). The country has around 900 public health facilities complemented by a growing private sector. Health zone offices coordinate service delivery across Benin’s 12 departments. Despite improvements, access to care remains unequal, with the northern regions facing greater barriers due to distance and infrastructure."
-  },
-  {
-    "objectID": "countries/Benin.html#demographics",
-    "href": "countries/Benin.html#demographics",
-    "title": "\n",
-    "section": "Demographics",
-    "text": "Demographics\nBenin has a population of approximately 13 million, with high fertility and a young population structure. Most public facilities are community health centres (CSC/CCS) serving rural communities. The country has a significant shortage of skilled health personnel, particularly in rural zones, with a physician density of approximately 0.7 per 10,000 population. Community health agents (relais communautaires) extend the reach of facility-based care."
-  },
-  {
-    "objectID": "countries/Benin.html#services",
-    "href": "countries/Benin.html#services",
-    "title": "\n",
-    "section": "Services",
-    "text": "Services\nHealth facilities in Benin provide outpatient consultations, antenatal care, malaria prevention (IPTp, ITN distribution) and treatment, HIV testing and ART, immunization under the Expanded Programme on Immunization (EPI), nutrition services, and family planning. Malaria is the leading cause of morbidity and mortality in Benin, particularly in children under five, with high transmission in the south."
-  },
-  {
-    "objectID": "countries/Benin.html#data-download",
-    "href": "countries/Benin.html#data-download",
-    "title": "\n",
-    "section": "Data Download",
-    "text": "Data Download\nDownload the facilities dataset here:\n\nCSV\n\nRDS"
-  },
-  {
-    "objectID": "countries/Ethiopia.html",
-    "href": "countries/Ethiopia.html",
-    "title": "\n",
-    "section": "",
-    "text": "Standardized, geolocated facility information to strengthen modelling, planning, and decision-making"
-  },
-  {
-    "objectID": "countries/Ethiopia.html#health-facilities-map",
-    "href": "countries/Ethiopia.html#health-facilities-map",
-    "title": "\n",
-    "section": "Health Facilities Map",
-    "text": "Health Facilities Map"
-  },
-  {
-    "objectID": "countries/Ethiopia.html#overview",
-    "href": "countries/Ethiopia.html#overview",
-    "title": "\n",
-    "section": "Overview",
-    "text": "Overview\nEthiopia operates one of the largest health systems in sub-Saharan Africa, organised in a three-tier structure: primary health care (health posts, health centres and primary hospitals), general hospitals, and specialised / tertiary hospitals. The Federal Ministry of Health maintains the centralised Master Facility Registry v2, and this dataset reflects a recent CSV export from that registry covering all 11 regional administrations and the two chartered city administrations."
-  },
-  {
-    "objectID": "countries/Ethiopia.html#demographics",
-    "href": "countries/Ethiopia.html#demographics",
-    "title": "\n",
-    "section": "Demographics",
-    "text": "Demographics\nWith a population of approximately 125 million — the second-largest in Africa — Ethiopia faces enormous service-delivery demand. The Health Extension Programme has placed two trained extension workers at each rural kebele-level health post, making the country a continental reference for community-based primary care. Doctor density remains low (~1.1 per 10,000), with nurses, midwives and Health Extension Workers carrying most of the front-line workload."
-  },
-  {
-    "objectID": "countries/Ethiopia.html#services",
-    "href": "countries/Ethiopia.html#services",
-    "title": "\n",
-    "section": "Services",
-    "text": "Services\nMFR v2 records four service domains per facility — clinical, diagnostic, support, and 24-hour services — which the HealthScope ETL pipeline unnests and maps to the standard 3-level hierarchy used for every other country. The public MFR v2 CSV export does not include GPS, so coordinates are joined from the openly-licensed WHO AFRO compilation on the Humanitarian Data Exchange (~63% direct match by Facility ID); facilities without an HDX coordinate (mostly drug stores and small private clinics outside WHO AFRO’s traditional coverage scope) are excluded from the map."
-  },
-  {
-    "objectID": "countries/Ethiopia.html#data-download",
-    "href": "countries/Ethiopia.html#data-download",
-    "title": "\n",
-    "section": "Data Download",
-    "text": "Data Download\nDownload Ethiopia datasets here:\n\nFacilities — CSV\nServices — CSV\n\nProduced by the HealthScope ETL pipeline from the Ethiopia MoH Master Facility Registry v2, with coordinates joined from the WHO AFRO compilation on HDX."
-  },
-  {
-    "objectID": "countries/Nigeria.html",
-    "href": "countries/Nigeria.html",
-    "title": "\n",
-    "section": "",
-    "text": "Standardized, geolocated facility information to strengthen modelling, planning, and decision-making"
-  },
-  {
-    "objectID": "countries/Nigeria.html#health-facilities-map",
-    "href": "countries/Nigeria.html#health-facilities-map",
-    "title": "\n",
-    "section": "Health Facilities Map",
-    "text": "Health Facilities Map"
-  },
-  {
-    "objectID": "countries/Nigeria.html#overview",
-    "href": "countries/Nigeria.html#overview",
-    "title": "\n",
-    "section": "Overview",
-    "text": "Overview\nNigeria has the largest health facility network in Africa, with over 40,000 facilities ranging from primary health care centres (PHCs) to federal tertiary hospitals. The health system is decentralized across federal, state, and local government levels, which creates significant variability in service quality and availability across the country’s 36 states and FCT. Northern states generally have lower facility density and worse health outcomes compared to southern states."
-  },
-  {
-    "objectID": "countries/Nigeria.html#demographics",
-    "href": "countries/Nigeria.html#demographics",
-    "title": "\n",
-    "section": "Demographics",
-    "text": "Demographics\nWith a population exceeding 220 million, Nigeria faces enormous demand on its health system. Primary health centres — the most numerous facility type — are designed to serve communities of approximately 5,000 people, though many are under-resourced or non-functional. Nigeria has a physician density of approximately 3.8 per 10,000 population, though distribution is highly skewed toward urban centres. Brain drain of health workers remains a significant systemic challenge. ## Services {#services}\nNigerian health facilities deliver a broad range of services including outpatient and inpatient care, malaria diagnosis and treatment (Nigeria bears the highest global malaria burden, accounting for ~27% of global cases), HIV/AIDS services, maternal and child health (ANC, skilled delivery, postnatal care), immunization under the National Programme on Immunization, TB services, and nutrition support. The private sector plays a large role in service delivery, particularly in urban areas."
-  },
-  {
-    "objectID": "countries/Nigeria.html#data-download",
-    "href": "countries/Nigeria.html#data-download",
-    "title": "\n",
-    "section": "Data Download",
-    "text": "Data Download\nDownload the facilities datset here:\n\nFacilities — CSV\n\nProduced by the HealthScope ETL pipeline."
-  },
-  {
-    "objectID": "countries/uganda.html",
-    "href": "countries/uganda.html",
-    "title": "\n",
-    "section": "",
-    "text": "Standardized, geolocated facility information to strengthen modelling, planning, and decision-making"
-  },
-  {
-    "objectID": "countries/uganda.html#health-facilities-map",
-    "href": "countries/uganda.html#health-facilities-map",
-    "title": "\n",
-    "section": "Health Facilities Map",
-    "text": "Health Facilities Map"
-  },
-  {
-    "objectID": "countries/uganda.html#overview",
-    "href": "countries/uganda.html#overview",
-    "title": "\n",
-    "section": "Overview",
-    "text": "Overview\nUganda’s health system comprises approximately 6,000 government and private facilities, structured into a six-tier system from Village Health Teams (VHTs) at the community level to national referral hospitals. The Ministry of Health has made significant efforts to decentralize health services, though inequities persist between urban and rural areas, particularly in the northern regions."
-  },
-  {
-    "objectID": "countries/uganda.html#demographics",
-    "href": "countries/uganda.html#demographics",
-    "title": "\n",
-    "section": "Demographics",
-    "text": "Demographics\nWith a population of around 47 million — one of the fastest-growing in the world — Uganda’s health facilities face significant demand pressure. Health centre IIs and IIIs form the backbone of primary care, each serving populations of approximately 5,000 and 20,000 respectively. Uganda has a physician density of roughly 0.5 per 10,000 population, and relies heavily on nurses, midwives, and community health workers to deliver frontline care."
-  },
-  {
-    "objectID": "countries/uganda.html#services",
-    "href": "countries/uganda.html#services",
-    "title": "\n",
-    "section": "Services",
-    "text": "Services\nUgandan facilities offer outpatient and inpatient care, malaria diagnosis (RDT and microscopy) and treatment, PMTCT (prevention of mother-to-child transmission of HIV), ART, immunization, reproductive and maternal health services, nutrition support, and TB management. Malaria is the leading cause of morbidity and mortality, accounting for a large share of all outpatient visits, especially in children under five."
-  },
-  {
-    "objectID": "countries/uganda.html#data-download",
-    "href": "countries/uganda.html#data-download",
-    "title": "\n",
-    "section": "Data Download",
-    "text": "Data Download\nDownload the facilities data here:\n\nFacilities — CSV\n\nProduced by the HealthScope ETL pipeline."
-  },
-  {
-    "objectID": "country-data.html",
-    "href": "country-data.html",
-    "title": "Country Health Facilities Data",
-    "section": "",
-    "text": "Select a country below to explore and download facility datasets"
-  },
-  {
-    "objectID": "country-data.html#interactive-facility-map",
-    "href": "country-data.html#interactive-facility-map",
-    "title": "Country Health Facilities Data",
-    "section": "Interactive Facility Map",
-    "text": "Interactive Facility Map\n\n\n\n\n\n\n\n  \n    Note: This is demo data for example purposes. Click markers for facility details. Use the layer control (top right) to toggle facility types.\n  \n\n\n## Download Data\n\n```{=html}\n&lt;section style=\"max-width: 1200px; margin: 3rem auto; padding: 0 2rem;\"&gt;\n  &lt;div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;\"&gt;\n    \n    &lt;div class=\"card-modern\" style=\"border-top: 4px solid var(--map-red, #c9a227);\"&gt;\n      &lt;h3 style=\"margin-top: 0; color: var(--map-red, #c9a227);\"&gt;📥 Download CSV&lt;/h3&gt;\n      &lt;p style=\"color: #666;\"&gt;Get all health facility data in CSV format. Includes facility ID, name, type, ownership, coordinates, beds, and service status.&lt;/p&gt;\n      &lt;button class=\"btn-cta\" style=\"width: 100%;\"&gt;Download Kenya Facilities (CSV)&lt;/button&gt;\n      &lt;p style=\"font-size: 0.85rem; color: #999; margin-top: 1rem;\"&gt;Last updated: 2026-05-01 | Format: CSV&lt;/p&gt;\n    &lt;/div&gt;\n\n    &lt;div class=\"card-modern\" style=\"border-top: 4px solid var(--map-red, #c9a227);\"&gt;\n      &lt;h3 style=\"margin-top: 0; color: var(--map-red, #c9a227);\"&gt;🗺️ Download GeoJSON&lt;/h3&gt;\n      &lt;p style=\"color: #666;\"&gt;Get facility data in GeoJSON format with full geographic properties. Ideal for web mapping and GIS analysis.&lt;/p&gt;\n      &lt;button class=\"btn-cta\" style=\"width: 100%;\"&gt;Download Kenya Facilities (GeoJSON)&lt;/button&gt;\n      &lt;p style=\"font-size: 0.85rem; color: #999; margin-top: 1rem;\"&gt;Last updated: 2026-05-01 | Format: GeoJSON&lt;/p&gt;\n    &lt;/div&gt;\n\n  &lt;/div&gt;\n\n  &lt;div style=\"margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(201, 162, 39, 0.05) 0%, rgba(201, 162, 39, 0.02) 100%); border-radius: 8px; border: 1px solid rgba(201, 162, 39, 0.2);\"&gt;\n    &lt;p style=\"margin: 0; font-size: 0.9rem; color: #666;\"&gt;\n      &lt;strong&gt;License:&lt;/strong&gt; All data released under &lt;a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\" style=\"color: var(--map-red, #c9a227); text-decoration: none;\"&gt;CC BY 4.0&lt;/a&gt; license. \n      You are free to use, share, and adapt with attribution. &lt;strong&gt;Version 1.2.1&lt;/strong&gt; • Dataset ID: &lt;code style=\"background: white; padding: 2px 6px; border-radius: 3px;\"&gt;KEN-HF-2026-01&lt;/code&gt;\n    &lt;/p&gt;\n  &lt;/div&gt;\n\n&lt;/section&gt;"
-  },
-  {
-    "objectID": "country-data.html#facilities-summary-table",
-    "href": "country-data.html#facilities-summary-table",
-    "title": "Country Health Facilities Data",
-    "section": "Facilities Summary Table",
-    "text": "Facilities Summary Table\n\n\n\n\n\n\n\n  Need help?\n  Visit our Help & Support page for common questions about data formats, coverage, and licensing."
-  },
-  {
-    "objectID": "demographics.html",
-    "href": "demographics.html",
-    "title": "demographic",
-    "section": "",
-    "text": "Back to top"
-  },
-  {
-    "objectID": "find-facility.html",
-    "href": "find-facility.html",
-    "title": "Find Nearby Health Facility",
-    "section": "",
-    "text": "Select a service you need and get the closest facilities that provide it\n  \n\n\n\n\n  \n  \n    \n      1\n      Share Your Location\n      Allow your browser to detect your current location or enter coordinates manually\n    \n    \n      2\n      Select a Service\n      Choose the type of health service you are looking for from the dropdown\n    \n    \n      3\n      View Results\n      See the nearest facilities on the map with distance and service details\n    \n  \n\n  \n  \n    \n      Country\n      \n        Botswana\n        Ethiopia\n        Kenya\n        Malawi\n        Tanzania\n        Zambia\n      \n    \n    \n      Service Type\n      \n        -- Loading services... --\n      \n    \n    \n      Travel Mode\n      \n        Drive\n        Walk\n        Cycle\n      \n    \n    \n      \n        Show nearest\n        \n          5 facilities\n          10 facilities\n          20 facilities\n          50 facilities\n        \n      \n    \n    \n      Detect My Location\n      Search\n    \n  \n\n  \n  \n    \n      \n        Latitude\n        \n      \n      \n        Longitude\n        \n      \n      Use These Coordinates\n    \n  \n\n  \n  \n    Tip: click anywhere on the map to set your location, or use the\n    Detect My Location button.\n  \n\n  \n  \n    \n    \n      \n        Facility details\n        Click any facility marker on the map to view its full information and complete service list here.\n      \n      \n    \n  \n\n  \n  \n    Nearest Facilities\n    \n  \n\n\n\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "HealthScope",
-    "section": "",
-    "text": "HealthScope\n    \n    \n      Health Facility Intelligence Portal\n    \n\n    \n      \n        An open-access health facility intelligence portal designed to move beyond static facility inventories toward dynamic, demand-driven health access analytics across malaria-endemic countries in Sub-Saharan Africa.\n      \n      \n        Developed from data extracted directly from Ministries of Health, HealthScope transforms raw registry data into actionable intelligence — revealing not just where health facilities exist, but whether populations can realistically access them and what services they offer.\n      \n    \n  \n\n  \n    \n  \n\n\n\n\n  \n    \n      Intelligence Layers\n      Each layer transforms raw registry data into actionable health system intelligence\n    \n\n    \n\n      \n      \n        \n          \n        \n        Facility Registry Lake\n        Standardized facility data from MoH sources across 8 SSA countries. Multi-country harmonized schema with 136,000+ facilities — directly from Ministries, not aggregators.\n        Explore Registry →\n      \n\n      \n      \n        \n          \n        \n        Demand-Side Access\n        Find the nearest facility offering the service you need. Travel-time isochrones and population catchment zones — showing not just location, but reachability.\n        Find Nearest Facility →\n      \n\n      \n      \n        \n          \n        \n        Service Gap Intelligence\n        Which services exist where? Identify malaria service deserts, lab coverage gaps, and emergency preparedness blind spots at the facility level.\n        View Service Analysis →\n      \n\n      \n      \n        \n          \n        \n        Population and Access\n        Population catchments, accessibility surfaces, and equity of access to health facilities — drive-time isochrones, walking-time coverage, and population-weighted reach. Coming soon.\n        View Population & Access →\n      \n\n    \n  \n\n\n\n\n  Start Exploring\n  Choose a country or tool to begin working with HealthScope data\n  \n    Registry Explorer\n    Find Nearby Facility\n    Population and Access\n  \n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "methodology.html",
-    "href": "methodology.html",
-    "title": "Methodology",
-    "section": "",
-    "text": "How we source, clean, harmonise, and quality-assess health facility data"
-  },
-  {
-    "objectID": "methodology.html#overview",
-    "href": "methodology.html#overview",
-    "title": "Methodology",
-    "section": "Overview",
-    "text": "Overview\nThis page describes the end-to-end pipeline used to produce each country dataset. The pipeline runs through four stages: source collation → harmonization → quality assessment → versioned release. All pipeline code is open-source and available in the GitHub repository."
-  },
-  {
-    "objectID": "methodology.html#source-collation",
-    "href": "methodology.html#source-collation",
-    "title": "Methodology",
-    "section": "1. Source Collation",
-    "text": "1. Source Collation\n\nPrimary Sources\n\n\n\nCountry\nPrimary Source\nUpdate Frequency\n\n\n\n\nTanzania\nMOH Tanzania\nAnnual\n\n\nUganda\nMoH Uganda HMIS\nAnnual\n\n\n\n\n\nSecondary Sources\nWhere the MFL has coverage gaps we supplement with DHIS2 organisation unit exports, OpenStreetMap for coordinate cross-validation, and HDX historical snapshots (e.g. the WHO AFRO Ethiopia coordinate compilation)."
-  },
-  {
-    "objectID": "methodology.html#harmonization",
-    "href": "methodology.html#harmonization",
-    "title": "Methodology",
-    "section": "2. Harmonization",
-    "text": "2. Harmonization\n\nCommon Schema\nAll datasets are transformed to a shared flat schema before analysis:\nfacility_id     character   Portal-assigned unique ID (ISO2_NNNNN)\nsource_id       character   Identifier in the original source\nname            character   Facility name (original language)\nfacility_type   character   Hospital / Health Centre / Dispensary / Clinic / Other\nownership       character   Public / Private-for-profit / Faith-based / NGO\nadmin1          character   Province / Region\nadmin2          character   District / County\nadmin3          character   Division / Sub-county (if available)\nadmin4          character   Ward / Parish (if available)\nlongitude       numeric     WGS84 decimal degrees\nlatitude        numeric     WGS84 decimal degrees\ncoord_source    character   GPS / Geocoded / Centroid / Unknown\noperational     logical     Operational at time of data extraction\nyear            integer     Reference year of the record\nversion         character   Portal dataset version"
-  },
-  {
-    "objectID": "methodology.html#quality-assessment",
-    "href": "methodology.html#quality-assessment",
-    "title": "Methodology",
-    "section": "3. Quality Assessment",
-    "text": "3. Quality Assessment\n\n  📍 Coordinate Validity\n  Proportion of records with non-missing GPS coordinates falling within the\n  country boundary. Centroid-imputed coordinates are flagged separately.\n\n\n\n  🗂 Attribute Completeness\n  Proportion of non-missing values per schema field, reported individually and\n  as an overall completeness score (0–100).\n\n\n\n  🔁 Duplicate Rate\n  Estimated proportion of duplicate records before and after deduplication\n  using the name × coordinate matching procedure.\n\n\n\n  📅 Temporal Coverage\n  Year range spanned by records, and the proportion of facilities with a\n  recorded update date within the past 24 months.\n\n\n\n  🏛 Administrative Consistency\n  Proportion of records whose admin1–admin2 codes are consistent with\n  official GADM v4.1 administrative boundary files."
-  },
-  {
-    "objectID": "methodology.html#versioned-release",
-    "href": "methodology.html#versioned-release",
-    "title": "Methodology",
-    "section": "4. Versioned Release",
-    "text": "4. Versioned Release\nDatasets follow semantic versioning (MAJOR.MINOR.PATCH):\n\nMAJOR — schema-breaking changes\nMINOR — new facilities or additional fields (backward-compatible)\nPATCH — coordinate corrections or name fixes\n\n\nAbout the Project\nRoadmap"
+    "text": "How many people live within walking or driving distance of an accredited outlet — and where the equity gaps sit.\n  \n\n\n\n  Coming soon\n  What this layer will show\n  Facility counts alone do not tell us whether a rural mother can actually reach medicines when her child spikes a fever. This layer overlays outlet locations on population surfaces and road-network isochrones to expose the real reachability picture.\n\n  \n    ADDOs per 10,000 population, by region and district.\n    Walking-time and drive-time isochrones (15/30/60 min) around every geocoded outlet.\n    Population-weighted coverage: percentage of population within X minutes of the nearest accredited outlet.\n    Equity gaps: wards where population is high but accredited-outlet coverage is low.\n  \n\n  \n    While this layer is being built, the ADDO Registry already lets you filter by region and district and inspect the raw geographic distribution.\n  \n\n\n\n\n Back to top"
   },
   {
     "objectID": "registry.html",
     "href": "registry.html",
-    "title": "Facility Registry Explorer",
+    "title": "ADDO Registry Explorer",
     "section": "",
-    "text": "Coverage at a glance. The eight countries the HealthScope registry currently reaches, with searchable facility-level detail below.\n  \n\n\n\n\n  \n  \n    \n      Country\n      \n        All Countries\n        Botswana (1,076)\n        Ethiopia (40,035)\n        Kenya (17,353)\n        Malawi (1,929)\n        Nigeria (51,023)\n        Tanzania (13,075)\n        Uganda (8,512)\n        Zambia (3,731)\n      \n    \n    \n      Facility Type\n      \n        All Types\n      \n    \n    \n      Ownership\n      \n        All Ownership\n      \n    \n    \n      Search\n      \n    \n    \n       \n      \n        \n        Download CSV\n      \n    \n  \n\n  \n  Loading facility data from 8 countries...\n\n  \n  \n\n  \n  \n\n  \n  \n    \n      General Information — \n    \n\n    \n\n    \n      \n        Facility Type Distribution\n        \n      \n      \n        Ownership Breakdown\n        \n      \n    \n\n    \n      \n        Facilities by Region\n        \n      \n      \n        Regional Facility Distribution\n        \n          \n\n\n\nRegion\nFacilities\nPublic %\nDistribution\n\n\n\n\n\n\n        \n      \n    \n  \n\n\n\n\n\n\n\n Back to top"
+    "text": "Every Accredited Drug Dispensing Outlet in the Pharmacy Council of Tanzania inventory — searchable, filterable, and mapped as points or admin-boundary choropleths.\n  \n\n\n\n\n  Loading ADDO registry…\n\n  \n\n  \n    Map view\n    Regions\n    Districts\n    Wards\n    \n    \n  \n\n  \n    \n      Region\n      All regions\n    \n    \n      District\n      All districts\n    \n    \n      Ward\n      All wards\n    \n    \n      Business type\n      All types\n    \n    \n      Accreditation\n      All sources\n    \n    \n      Search\n      \n    \n  \n\n  \n\n  \n    \n      \n\n\n\nOutlet\nType\nAccreditation\nRegion\nDistrict\nWard\nGeocoded\n\n\n\n\n\n\n    \n  \n\n  \n    Coverage snapshot\n    \n      \n        Outlets per region (top 15)\n        \n      \n      \n        Accreditation source\n        \n      \n    \n  \n\n\n\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "\n        Every accredited\n        drug outlet in Tanzania,\n        mapped and searchable.\n      ",
+    "section": "",
+    "text": "PharmaScope\n      ADDO access intelligence · Tanzania\n      \n        Every accredited\n        drug outlet in Tanzania,\n        mapped and searchable.\n      \n      \n        PharmaScope is a demand-side pharmacy-access portal built from Pharmacy Council of Tanzania and TFDA accreditation records — showing not just where outlets sit, but whether populations can realistically reach them and which regulator issued each accreditation.\n      \n      \n        Open ADDO Registry\n        About PharmaScope\n      \n    \n\n    \n      \n        Total outlets\n        4,936\n        Retail A · Retail Wholesale\n      \n      \n        Geocoded\n        88.4%\n        Tablet + hand-GPS coverage\n      \n      \n        Regions\n        23\n        of 26 mainland regions\n      \n      \n        Sources\n        PC · TFDA\n        Regulator-issued only\n      \n    \n\n  \n\n\n\n\n  \n    Intelligence layers\n    Four layers of pharmacy access, from raw accreditation records to population-weighted reach.\n  \n\n  \n\n    \n      01\n      \n        ADDO Registry Lake\n        Standardised accreditation data from the Pharmacy Council of Tanzania and TFDA. ~4,900 outlets across 21+ regions, harmonised from regulator source records rather than third-party aggregators.\n      \n      Explore registry\n    \n\n    \n      02\n      \n        Site Check — new registrations / LIVE\n        Before accrediting a new outlet, drop a pin at the proposed location and get an evidence-based saturation verdict — number of existing ADDOs within walking distance, density per km2, and whether the applicant should be redirected to an under-served ward.\n      \n      Open Site Check\n    \n\n    \n      03\n      \n        Service gap intelligence / SOON\n        Which medicines are actually available where. Malaria commodities (RDTs, ACTs), antimicrobial availability by AWaRe category, and outlet-level service gaps drawn from stock-availability surveys.\n      \n      View service analysis\n    \n\n    \n      04\n      \n        Population and access / SOON\n        Outlets per 10,000 population, accessibility surfaces, and equity of access to accredited outlets — drive-time isochrones, walking-time coverage, and population-weighted reach.\n      \n      View population & access\n    \n\n  \n\n\n\n\n  \n    Start exploring\n    Jump straight into the ADDO registry or check a proposed site.\n    \n      ADDO Registry\n      Site Check\n    \n  \n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About PharmaScope",
+    "section": "",
+    "text": "Pharmacy access intelligence beyond static outlet inventories."
+  },
+  {
+    "objectID": "about.html#mission",
+    "href": "about.html#mission",
+    "title": "About PharmaScope",
+    "section": "Mission",
+    "text": "Mission\nOur mission is to make access to accredited medicines outlets measurable, comparable, and continually updated across Tanzania — so that the Pharmacy Council, TFDA, implementers, and researchers plan around who can reach a legitimate outlet, not just where outlets appear on a map.\nWe commit to four principles:\n\nOpen — every dataset and method behind the portal is freely available under permissive licences, without registration.\nRegulator-sourced — primary data comes directly from the Pharmacy Council of Tanzania and TFDA accreditation records, never from second-hand aggregators.\nReproducible — the ETL pipeline that produces every table, chart, and map on this site is versioned, documented, and rerunnable from source.\nPopulation-first — each layer of analysis is built around the people an outlet is meant to serve, not just the outlet itself."
+  },
+  {
+    "objectID": "about.html#the-gap-we-fill",
+    "href": "about.html#the-gap-we-fill",
+    "title": "About PharmaScope",
+    "section": "The Gap We Fill",
+    "text": "The Gap We Fill\nExisting pharmacy datasets tend to list outlets without saying whether populations can realistically reach them or what medicines they actually stock. PharmaScope goes further by providing:\n\nPopulation-demand modelling — reachability analysis beyond simple location pins\nService-level intelligence — mapping of which malaria commodities, antimicrobials, and priority medicines are stocked where\nAccess metrics at scale — outlets per 10,000 population, equity of coverage, and gaps by region and ward\n\nPharmaScope addresses these gaps as an open, reproducible data platform for Tanzania’s private drug-retail sector."
+  },
+  {
+    "objectID": "about.html#intelligence-layers",
+    "href": "about.html#intelligence-layers",
+    "title": "About PharmaScope",
+    "section": "Intelligence Layers",
+    "text": "Intelligence Layers\n\n\n  \n    1. ADDO Registry Lake\n    Standardized outlet data from the Pharmacy Council of Tanzania and TFDA. Harmonized schema; direct regulator sourcing.\n  \n\n  \n    2. Demand-Side Access\n    Population catchment zones using road networks; travel-time isochrones showing not just outlet location, but reachability.\n  \n\n  \n    3. Service Gap Intelligence\n    Which medicines and priority services exist where. Malaria commodities, antimicrobials, and outlet-level service profiles.\n  \n\n  \n    4. General Information\n    Region-level descriptive statistics — outlet counts, business type, accreditation source — that give a fast picture of the registry without claiming reachability we have not yet modelled."
+  },
+  {
+    "objectID": "about.html#etl-pipeline",
+    "href": "about.html#etl-pipeline",
+    "title": "About PharmaScope",
+    "section": "ETL Pipeline",
+    "text": "ETL Pipeline\nThe PharmaScope ETL pipeline ingests the Pharmacy Council and TFDA records through three steps:\n\nExtract — pull the latest ADDO inventory export (Pharmacy Council of Tanzania) into data-raw/.\nTransform — standardise columns to a shared schema, normalise region/district casing, coalesce the two coordinate sources (tablet GPS and hand GPS), validate coordinates against Tanzania’s bounding box, and mint a stable outlet UID.\nLoad — publish a versioned CSV (data/tanzania/addo_standardized.csv) that the portal reads directly at page load."
+  },
+  {
+    "objectID": "about.html#data-sources",
+    "href": "about.html#data-sources",
+    "title": "About PharmaScope",
+    "section": "Data Sources",
+    "text": "Data Sources\nPharmaScope ingests only authoritative, official sources — the Pharmacy Council of Tanzania ADDO inventory and TFDA accreditation records. For source details and citation, visit the dedicated page.\nView Data Sources →"
+  },
+  {
+    "objectID": "about.html#team",
+    "href": "about.html#team",
+    "title": "About PharmaScope",
+    "section": "Team",
+    "text": "Team\nThe portal is maintained at the Ifakara Health Institute (Malaria Atlas Project node), with contributions from data engineers, GIS specialists, and pharmacy-sector researchers.\nVisit the Team Page →"
   },
   {
     "objectID": "services.html",
     "href": "services.html",
     "title": "Service Gap Intelligence",
     "section": "",
-    "text": "Facility-level service data across countries. Identifying coverage gaps and service deserts.\n  \n\n\n\n\n  \n  \n    Country\n    \n      Botswana\n      Ethiopia\n      Kenya\n      Malawi\n      Tanzania\n      Zambia\n    \n  \n\n  Loading data...\n\n  \n    Service Category Coverage — click a category to explore\n    \n  \n\n  \n    \n      Regional Coverage\n      \n    \n    \n      Map\n      \n      \n         Facilities offering this service\n      \n    \n  \n\n  \n    Specific Services\n    \n  \n\n  \n    \n      Coverage Rate by Category\n      \n    \n    \n      Facility Type Distribution\n      \n    \n  \n\n\n\n\n\n\n\n Back to top"
+    "text": "Which medicines and priority services are stocked where — outlet-level availability for malaria commodities, antimicrobials, and other priority medicines.\n  \n\n\n\n  Coming soon\n  What this layer will show\n  The accreditation records used in the ADDO Registry tell us where outlets exist. Service Gap Intelligence will layer on what medicines each outlet actually stocks, drawn from stock-availability surveys and supervisory visit records.\n\n  \n    Malaria commodities: RDT availability, ACT stock by first-line regimen (AL, ASAQ), quality of stored medicines.\n    Antimicrobials: presence of Access, Watch and Reserve categories, over-the-counter dispensing patterns.\n    Reproductive, maternal and child health medicines: iron-folate, ORS+zinc, family-planning commodities.\n    Service deserts: wards and districts where accredited outlets exist but priority commodities are chronically absent.\n  \n\n  \n    Data we are looking for: if you have a validated ADDO stock-availability dataset for Tanzania (LMIS, supervisory reports, retail audits), we would love to hear from you. Please write to us via the Help page.\n  \n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "find-facility.html",
+    "href": "find-facility.html",
+    "title": "Site Check",
+    "section": "",
+    "text": "Before accrediting a new outlet, check how many existing ADDOs already sit within walking distance of the proposed location.\n  \n\n\n\n\n  \n    How to use it. Drop a pin on the map at the proposed pharmacy location (or paste GPS coordinates / search an address). PharmaScope returns the number of accredited outlets within your chosen radius, the distance to the nearest one, the density per km2, and a suggested verdict — saturated, well-served, adequate, or under-served. Use it as evidence, not a decision.\n  \n\n  \n\n    \n    \n\n      \n        Coordinates — lat, lon\n        \n      \n\n      \n        Or search an address\n        \n      \n\n      \n        Use my location\n        Clear\n      \n\n      \n        \n          Search radius 2.0 km\n        \n        \n      \n\n      \n        Drop a pin on the map to check this location.\n      \n\n      \n        Verdict thresholds are density-based (accredited outlets per km2 inside the search radius). They are guidance only — the Pharmacy Council retains full discretion on new applications.\n      \n\n    \n\n    \n    \n  \n\n  \n  \n    \n      Nearby accredited outlets\n      —\n    \n    \n      \n\n\n\nOutlet\nType\nRegion / District\nDistance\n\n\n\n\n\n\n    \n  \n\n\n\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "team.html",
+    "href": "team.html",
+    "title": "The Team",
+    "section": "",
+    "text": "The people behind PharmaScope\n  \n\n\n\n  \n\n    \n      CM\n      Christina Mallya\n      Data Scientist\n      \n        Leads the research design, data extraction pipeline, and analytical framework for PharmaScope. Specializes in pharmacy-sector data harmonization, geospatial analysis of medicines access, and malaria epidemiology across Tanzania.\n      \n    \n\n    \n      KC\n      Kasim Chambulilo\n      Data Scientist\n      \n        Builds and maintains the PharmaScope portal, ETL pipelines, and interactive data visualizations. Develops the open-source infrastructure for data processing, quality assessment, and web-based mapping of accredited drug outlets.\n      \n    \n\n  \n\n\n\n  \n    Want to Connect?\n    Get in touch for collaborations, data partnerships, or general inquiries.\n    Contact Us\n  \n\n\n\n\n Back to top"
   }
 ]

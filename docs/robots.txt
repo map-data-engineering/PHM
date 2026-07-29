@@ -1,1 +1,1 @@
-Sitemap: https://map-data-engineering.github.io/healthscope-portal/sitemap.xml
+Sitemap: https://map-data-engineering.github.io/-PH--SC/sitemap.xml

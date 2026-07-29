@@ -2,20 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>help – HealthScope</title>
+<title>help – PharmaScope</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -38,14 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5b04f34b61a01dc0e7c5060a2e79a386.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-3d91c930332deaa2caca528bdeb0d23c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5b04f34b61a01dc0e7c5060a2e79a386.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-18ef0ae2d05c2c0f106b7e08af913c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7db3b6536d23c89720eeee45feb166fa.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-18ef0ae2d05c2c0f106b7e08af913c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5ffb957567f750bd7ee372548e31c09c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-92eb121b33cb3b86bddd1376c4c60051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-5ffb957567f750bd7ee372548e31c09c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,6 +77,15 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script>
+(function(){
+  var path = window.location.pathname;
+  if (/\/(login|logout)\.html$/.test(path)) return;
+  if (localStorage.getItem('ps_auth') === '1') return;
+  var here = path.split('/').pop() || 'index.html';
+  window.location.replace('login.html?next=' + encodeURIComponent(here));
+})();
+</script>
 
 
 </head>
@@ -248,7 +260,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">HealthScope</span>
+    <span class="navbar-title">PharmaScope</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -267,7 +279,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./registry.html"> 
-<span class="menu-text">Registry Explorer</span></a>
+<span class="menu-text">ADDO Registry</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./population-access.html"> 
@@ -279,11 +291,17 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./find-facility.html"> 
-<span class="menu-text">Find Facility</span></a>
+<span class="menu-text">Site Check</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./help.html" aria-current="page"> 
 <span class="menu-text">Help</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./logout.html"> 
+<span class="menu-text">Logout</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -319,7 +337,7 @@ ul.task-list li input[type="checkbox"] {
   <style>
     .faq-item { margin-bottom:1rem; }
     .faq-title {
-      background: var(--map-navy, #1a2332);
+      background: var(--map-navy, #0f172a);
       color: white;
       padding: 1rem 1.5rem;
       border-radius: 8px;
@@ -332,14 +350,14 @@ ul.task-list li input[type="checkbox"] {
       border: 1px solid rgba(255,255,255,0.06);
     }
     .faq-title:hover {
-      background: var(--map-navy-light, #243044);
-      border-color: rgba(201,162,39,0.3);
+      background: var(--map-navy-light, #1e293b);
+      border-color: rgba(13,148,136,0.3);
     }
     .faq-content {
       display: none;
       background: var(--map-bg-section, #f1f5f9);
       padding: 1.5rem;
-      border-left: 4px solid var(--map-red, #c9a227);
+      border-left: 4px solid var(--map-red, #0d9488);
       border-radius: 0 8px 8px 0;
       line-height: 1.7;
       color: var(--map-text-muted, #64748b);
@@ -355,34 +373,31 @@ ul.task-list li input[type="checkbox"] {
 
   <div class="faq-item">
     <div class="faq-title" onclick="this.parentElement.classList.toggle('active')">
-      <span>How do I access the health facilities data?</span>
+      <span>How do I access the ADDO data?</span>
       <span class="faq-toggle">▼</span>
     </div>
     <div class="faq-content">
-      Navigate to the <a href="registry.html" style="color:var(--map-red);text-decoration:none;font-weight:600;">Country Data</a> page and select your country of interest.
-      You can explore the interactive map to view facility locations and then download the full dataset in CSV format.
-      All data is openly downloadable.
+      Go to the <a href="registry.html" style="color:var(--map-red);text-decoration:none;font-weight:600;">ADDO Registry</a>. You can filter by region, district, business type and accreditation source, and explore the interactive map and table. Bulk data export is disabled during this preview.
     </div>
   </div>
 
   <div class="faq-item">
     <div class="faq-title" onclick="this.parentElement.classList.toggle('active')">
-      <span>How do I find a nearby health facility?</span>
+      <span>How do I find the nearest ADDO to a location?</span>
       <span class="faq-toggle">▼</span>
     </div>
     <div class="faq-content">
-      Use our <a href="find-facility.html" style="color:var(--map-red);text-decoration:none;font-weight:600;">Find Facility</a> tool. Allow your browser to detect your location (or enter coordinates manually),
-      select the service type you need, and the system will show you the nearest facilities offering that service on an interactive map.
+      The <a href="find-facility.html" style="color:var(--map-red);text-decoration:none;font-weight:600;">Find ADDO</a> tool will do this once the Demand-Side Access layer is wired up. In the meantime, use the Registry's region/district filters and search box to zero in on a specific area.
     </div>
   </div>
 
   <div class="faq-item">
     <div class="faq-title" onclick="this.parentElement.classList.toggle('active')">
-      <span>What file formats are available for download?</span>
+      <span>Can I download the data?</span>
       <span class="faq-toggle">▼</span>
     </div>
     <div class="faq-content">
-      Data is provided as <strong>CSV</strong> — standard comma-separated values for spreadsheet and statistical analysis.
+      Not from this preview — bulk export is disabled while the portal is in proof-of-concept review. The registry is fully explorable via the interactive map, table, and filters on the <a href="registry.html" style="color:var(--map-red);text-decoration:none;font-weight:600;">ADDO Registry</a> page.
     </div>
   </div>
 
@@ -393,20 +408,17 @@ ul.task-list li input[type="checkbox"] {
       <span class="faq-toggle">▼</span>
     </div>
     <div class="faq-content">
-      Core facility lists are updated quarterly when new data sources become available. Service availability data
-      is refreshed when Ministries of Health publish new registry exports. Coordinate validation is ongoing. Each dataset release includes
-      a version number and changelog so you can track what has changed.
+      The current release is a snapshot of the Pharmacy Council of Tanzania ADDO inventory. Refreshes will land whenever the Pharmacy Council or TFDA publish an updated accreditation list. Each release ships with a version tag and changelog.
     </div>
   </div>
 
   <div class="faq-item">
     <div class="faq-title" onclick="this.parentElement.classList.toggle('active')">
-      <span>What countries are currently covered?</span>
+      <span>What geography is currently covered?</span>
       <span class="faq-toggle">▼</span>
     </div>
     <div class="faq-content">
-      Coverage is expanding across Sub-Saharan Africa. Visit the
-      <a href="registry.html" style="color:var(--map-red);text-decoration:none;font-weight:600;">Registry Explorer</a> page to see which countries are currently available.
+      PharmaScope currently covers Tanzania Mainland (26 canonical regions). Zanzibar outlets are not yet included in the source inventory but the schema is ready to receive them. Cross-country expansion is not on the current roadmap.
     </div>
   </div>
 
@@ -416,19 +428,17 @@ ul.task-list li input[type="checkbox"] {
       <span class="faq-toggle">▼</span>
     </div>
     <div class="faq-content">
-      If you discover errors or inconsistencies in the data, we appreciate feedback!
-      Email the <a href="mailto:cmyalla@ihi.or.tz" style="color:var(--map-red);text-decoration:none;font-weight:600;">DET Team</a>
-      with the country, facility name, and a description of the issue.
+      If you spot an incorrect outlet name, misplaced coordinate, or misspelled region, please email the team with the outlet UID (visible in the Registry table) and a short description. We track and fix these on every release.
     </div>
   </div>
 </section>
 
 <!-- EMAIL CONTACT -->
-<section style="max-width:900px;margin:0 auto 3rem;padding:2rem;background:linear-gradient(135deg,rgba(201,162,39,0.04) 0%,rgba(37,99,235,0.03) 100%);border:1px solid var(--map-border,#e2e8f0);border-radius:12px;text-align:center;">
+<section style="max-width:900px;margin:0 auto 3rem;padding:2rem;background:linear-gradient(135deg,rgba(13,148,136,0.04) 0%,rgba(13,148,136,0.03) 100%);border:1px solid var(--map-border,#e2e8f0);border-radius:12px;text-align:center;">
   <h3 style="margin-top:0;" class="anchored">Email Contact</h3>
   <p style="color:var(--map-text-muted,#64748b);margin-bottom:1rem;">Prefer direct email? Reach out to our team:</p>
   <p style="margin:0;font-size:1.1rem;">
-    <a href="mailto:cmyalla@ihi.or.tz" style="color:var(--map-red,#c9a227);text-decoration:none;font-weight:600;">DET Team</a>
+    <a href="mailto:cmyalla@ihi.or.tz" style="color:var(--map-red,#0d9488);text-decoration:none;font-weight:600;">DET Team</a>
   </p>
   <p style="color:var(--map-text-muted);font-size:0.9rem;margin-top:0.5rem;">We typically respond within 2–3 business days.</p>
 </section>
@@ -436,15 +446,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
-<!--
-  Botpress chat-bubble embed for HealthScope Assistant.
-  Registered via _quarto.yml -> format.html.include-after-body so it appears
-  on every page. The second <script> is the bot-specific config generated
-  by Botpress when the webchat channel was published; regenerate that URL
-  (and swap it here) if the bot is republished.
--->
-<script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
-<script src="https://files.bpcontent.cloud/2026/07/16/10/20260716103402-5A4FNBPV.js" defer=""></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -531,7 +532,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/healthscope-portal");
+        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/-PH--SC");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -869,8 +870,8 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>© 2026 HealthScope — Malaria Atlas Project, Dar es Salaam Node</p>
-<p>Open health facility intelligence for Sub-Saharan Africa</p>
+<p>© 2026 PharmaScope — Malaria Atlas Project, Ifakara Health Institute</p>
+<p>Open pharmacy access intelligence for Tanzania</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
