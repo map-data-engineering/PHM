@@ -56,7 +56,7 @@ toc: false
 <section class="features-section">
   <div class="section-header">
     <h2>Intelligence layers</h2>
-    <p>Four layers of pharmacy access, from raw accreditation records to population-weighted reach.</p>
+    <p>Five layers of pharmacy access, from raw accreditation records to population-weighted reach.</p>
   </div>
 
   <div class="feature-cards">
@@ -73,6 +73,15 @@ toc: false
     <div class="feature-card">
       <span class="row-num">02</span>
       <div>
+        <h3>Find the nearest pharmacy <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
+        <p>Enter your address, share your location, or drop a pin on the map &mdash; PharmaScope returns the closest accredited ADDOs sorted by distance, with contact numbers and one-tap directions to each.</p>
+      </div>
+      <a href="find-pharmacy.html">Find nearest pharmacy</a>
+    </div>
+
+    <div class="feature-card">
+      <span class="row-num">03</span>
+      <div>
         <h3>Site Check &mdash; new registrations <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
         <p>Before accrediting a new outlet, drop a pin at the proposed location and get an evidence-based saturation verdict &mdash; number of existing ADDOs within walking distance, density per km<sup>2</sup>, and whether the applicant should be redirected to an under-served ward.</p>
       </div>
@@ -80,7 +89,7 @@ toc: false
     </div>
 
     <div class="feature-card">
-      <span class="row-num">03</span>
+      <span class="row-num">04</span>
       <div>
         <h3>Service gap intelligence <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#64748b;font-weight:400;letter-spacing:0.04em;margin-left:0.4rem;">/ SOON</span></h3>
         <p>Which medicines are actually available where. Malaria commodities (RDTs, ACTs), antimicrobial availability by AWaRe category, and outlet-level service gaps drawn from stock-availability surveys.</p>
@@ -89,7 +98,7 @@ toc: false
     </div>
 
     <div class="feature-card">
-      <span class="row-num">04</span>
+      <span class="row-num">05</span>
       <div>
         <h3>Population and access <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#64748b;font-weight:400;letter-spacing:0.04em;margin-left:0.4rem;">/ SOON</span></h3>
         <p>Outlets per 10,000 population, accessibility surfaces, and equity of access to accredited outlets &mdash; drive-time isochrones, walking-time coverage, and population-weighted reach.</p>
@@ -107,6 +116,7 @@ toc: false
     <p>Jump straight into the ADDO registry or check a proposed site.</p>
     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
       <a href="registry.html" class="btn-primary">ADDO Registry</a>
+      <a href="find-pharmacy.html" class="btn-secondary">Find Pharmacy</a>
       <a href="find-facility.html" class="btn-secondary">Site Check</a>
     </div>
   </div>

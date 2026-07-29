@@ -5,9 +5,10 @@ project:
     - index.qmd
     - about.qmd
     - registry.qmd
+    - find-pharmacy.qmd
+    - find-facility.qmd
     - services.qmd
     - population-access.qmd
-    - find-facility.qmd
     - data-sources.qmd
     - team.qmd
     - help.qmd
@@ -48,12 +49,14 @@ website:
         href: about.qmd
       - text: "ADDO Registry"
         href: registry.qmd
+      - text: "Find Pharmacy"
+        href: find-pharmacy.qmd
+      - text: "Site Check"
+        href: find-facility.qmd
       - text: "Population and Access"
         href: population-access.qmd
       - text: "Service Intelligence"
         href: services.qmd
-      - text: "Site Check"
-        href: find-facility.qmd
       - text: "Help"
         href: help.qmd
 
