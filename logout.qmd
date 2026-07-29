@@ -1,0 +1,13 @@
+---
+title: ""
+page-layout: full
+toc: false
+search: false
+---
+
+```{=html}
+<script>
+  localStorage.removeItem('ps_auth');
+  window.location.replace('login.html');
+</script>
+```
