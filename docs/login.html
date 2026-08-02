@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>registry – PharmaScope</title>
+<title>login – PharmaScope</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -41,14 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0075513c2176209f5a3e8bb3f0baabc0.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5b04f34b61a01dc0e7c5060a2e79a386.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-3d91c930332deaa2caca528bdeb0d23c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-5b04f34b61a01dc0e7c5060a2e79a386.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b6c58e8a992ea039af537537450ff9ba.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5ffb957567f750bd7ee372548e31c09c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-92eb121b33cb3b86bddd1376c4c60051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-5ffb957567f750bd7ee372548e31c09c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -278,8 +278,8 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./registry.html" aria-current="page"> 
-<span class="menu-text">CPP Registry</span></a>
+    <a class="nav-link" href="./registry.html"> 
+<span class="menu-text">ADDO Registry</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./find-pharmacy.html"> 
@@ -290,8 +290,12 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Site Check</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./data-quality.html"> 
-<span class="menu-text">Data Quality</span></a>
+    <a class="nav-link" href="./population-access.html"> 
+<span class="menu-text">Population and Access</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./services.html"> 
+<span class="menu-text">Service Intelligence</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./help.html"> 
@@ -317,520 +321,90 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">CPP Registry Explorer</h1></header>
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <style>
-  .reg-hero{background:var(--map-navy,#0f172a);color:#fff;padding:2.5rem 2rem;}
-  .reg-hero h1{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
-  .reg-hero p{opacity:.75;margin:0;font-size:1rem;}
-  .reg-wrap{max-width:1400px;margin:0 auto;padding:1.5rem 1.5rem 3rem;}
+  /* Standalone page — not part of the site's tab navigation. */
+  #quarto-header, footer.footer{ display:none !important; }
+  body.nav-fixed{ padding-top:0 !important; }
 
-  /* Controls bar */
-  .reg-controls{display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;padding:1.25rem;background:#fff;border-radius:4px;border:1px solid var(--map-border,#e2e8f0);box-shadow:var(--map-shadow);margin-bottom:1rem;}
-  .reg-controls .ctrl{display:flex;flex-direction:column;gap:.3rem;}
-  .reg-controls label{font-size:.78rem;font-weight:600;color:var(--map-text-muted,#64748b);text-transform:uppercase;letter-spacing:.03em;}
-  .reg-controls select,.reg-controls input[type=search]{padding:.55rem .75rem;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;font-size:.9rem;min-width:170px;background:#fff;}
-  .reg-controls select:focus,.reg-controls input[type=search]:focus{outline:none;border-color:var(--map-red,#0d9488);box-shadow:0 0 0 2px rgba(13,148,136,.1);}
-
-  /* Boundary-level pill row */
-  .reg-viewbar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:.75rem;font-size:.85rem;}
-  .reg-viewbar .lbl{color:var(--map-text-muted,#64748b);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:.72rem;margin-right:.35rem;}
-  .reg-viewpill{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .95rem;border-radius:4px;font-size:.82rem;font-weight:600;background:#f1f5f9;color:var(--map-text-muted,#64748b);border:none;cursor:pointer;transition:all .15s;}
-  .reg-viewpill.active{background:var(--map-red,#0d9488);color:#fff;}
-  .reg-viewpill:not(.active):hover{background:#e2e8f0;}
-
-  #reg-map{width:100%;height:600px;border-radius:4px;border:1px solid var(--map-border,#e2e8f0);box-shadow:var(--map-shadow);z-index:1;}
-
-  .reg-status{padding:.75rem 1rem;border-radius:4px;font-size:.88rem;margin-bottom:1rem;background:rgba(13,148,136,.05);border-left:4px solid var(--map-red,#0d9488);}
-  .reg-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin:1rem 0;}
-  .reg-scard{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1rem;text-align:center;box-shadow:var(--map-shadow);}
-  .reg-scard .val{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--map-red,#0d9488);}
-  .reg-scard .lbl{font-size:.75rem;color:var(--map-text-muted,#64748b);margin-top:.2rem;}
-
-  /* Legend */
-  .info.legend{background:#fff;padding:.6rem .8rem;border-radius:4px;box-shadow:0 1px 4px rgba(15,23,42,.15);font-size:.78rem;line-height:1.4;color:#0f172a;border:1px solid #e2e8f0;max-width:200px;}
-  .info.legend .lg-title{font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:#64748b;margin-bottom:.35rem;}
-  .info.legend .lg-row{display:flex;align-items:center;gap:.4rem;margin:2px 0;}
-  .info.legend i{display:inline-block;width:14px;height:14px;border-radius:2px;border:1px solid rgba(0,0,0,.08);}
-
-  /* Hover panel */
-  .info.hover-panel{background:rgba(255,255,255,.95);padding:.55rem .75rem;border-radius:4px;box-shadow:0 1px 4px rgba(15,23,42,.15);font-size:.82rem;color:#0f172a;border:1px solid #e2e8f0;min-width:180px;}
-  .info.hover-panel .h-name{font-weight:700;font-family:'IBM Plex Sans Condensed',sans-serif;color:#0f172a;}
-  .info.hover-panel .h-parent{color:#64748b;font-size:.75rem;margin-top:1px;}
-  .info.hover-panel .h-count{margin-top:.35rem;color:var(--map-red,#0d9488);font-weight:700;font-size:1.1rem;}
-
-  /* Table */
-  .reg-table-wrap{margin-top:1.5rem;}
-  .reg-table-container{max-height:440px;overflow:auto;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;}
-  #reg-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-  #reg-table thead{background:var(--map-navy,#0f172a);color:#fff;position:sticky;top:0;}
-  #reg-table th{padding:.65rem .75rem;text-align:left;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap;}
-  #reg-table th:hover{background:rgba(255,255,255,.1);}
-  #reg-table td{padding:.55rem .75rem;border-bottom:1px solid var(--map-border,#e2e8f0);}
-  #reg-table tbody tr:hover{background:rgba(13,148,136,.03);}
-
-  .dl-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;background:var(--map-red,#0d9488);color:#fff;border:none;border-radius:4px;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;}
-  .dl-btn:hover{background:#0f766e;color:#fff;}
-
-  .gi-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--map-border,#e2e8f0);}
-  .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
-  .gi-card{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1.25rem;box-shadow:var(--map-shadow);}
-  .gi-card h3{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1rem;margin:0 0 .75rem;color:var(--map-navy,#0f172a);}
-  .gi-card canvas{max-height:300px !important;}
-  @media(max-width:768px){#reg-map{height:400px;} .gi-grid{grid-template-columns:1fr;}}
+  .login-wrap{
+    min-height:70vh;display:flex;align-items:center;justify-content:center;
+    padding:3rem 1.5rem;
+  }
+  .login-card{
+    width:100%;max-width:380px;background:#fff;border:1px solid var(--map-border,#e2e8f0);
+    border-radius:6px;box-shadow:var(--map-shadow,0 1px 4px rgba(15,23,42,.08));
+    padding:2rem 2rem 1.75rem;
+  }
+  .login-logo{
+    font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:1.5rem;
+    color:var(--map-navy,#0f172a);text-align:center;margin-bottom:.25rem;
+  }
+  .login-logo span{color:var(--map-red,#0d9488);}
+  .login-sub{
+    text-align:center;color:var(--map-text-muted,#64748b);font-size:.9rem;margin:0 0 1.5rem;
+  }
+  .login-card label{
+    display:block;font-size:.78rem;font-weight:600;color:var(--map-text-muted,#64748b);
+    text-transform:uppercase;letter-spacing:.03em;margin:1rem 0 .35rem;
+  }
+  .login-card input{
+    width:100%;padding:.6rem .75rem;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;
+    font-size:.95rem;box-sizing:border-box;
+  }
+  .login-card input:focus{
+    outline:none;border-color:var(--map-red,#0d9488);box-shadow:0 0 0 2px rgba(13,148,136,.1);
+  }
+  .login-submit{
+    width:100%;margin-top:1.5rem;padding:.7rem 1rem;background:var(--map-red,#0d9488);
+    color:#fff;border:none;border-radius:4px;font-size:.92rem;font-weight:600;cursor:pointer;
+  }
+  .login-submit:hover{background:#0f766e;}
+  .login-error{
+    margin-top:1rem;padding:.6rem .75rem;border-radius:4px;font-size:.85rem;
+    background:rgba(220,38,38,.08);color:#b91c1c;border-left:3px solid #dc2626;
+  }
 </style>
 
-<section class="reg-hero">
-  <div style="max-width:1400px;margin:0 auto;">
-    
-    <p>Every Community Pharmaceutical Premise in the Pharmacy Council of Tanzania inventory — searchable, filterable, and mapped as points or admin-boundary choropleths.</p>
+<section class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">Pharma<span>Scope</span></div>
+    <p class="login-sub">Sign in to continue</p>
+    <form id="login-form">
+      <label for="login-user">Username</label>
+      <input type="text" id="login-user" autocomplete="username" required="">
+      <label for="login-pass">Password</label>
+      <input type="password" id="login-pass" autocomplete="current-password" required="">
+      <button type="submit" class="login-submit">Sign in</button>
+      <div id="login-error" class="login-error" style="display:none;">Incorrect username or password.</div>
+    </form>
   </div>
 </section>
 
-<div class="reg-wrap">
-
-  <div class="reg-status" id="reg-status">Loading CPP registry…</div>
-
-  <div class="reg-summary" id="reg-summary"></div>
-
-  <div class="reg-viewbar">
-    <span class="lbl">Map view</span>
-    <button class="reg-viewpill active" data-view="regions">Regions</button>
-    <button class="reg-viewpill" data-view="districts">Districts</button>
-    <button class="reg-viewpill" data-view="wards">Wards</button>
-    <span style="flex:1"></span>
-    <span id="reg-view-note" style="color:#64748b;font-size:.75rem;"></span>
-  </div>
-
-  <div class="reg-controls">
-    <div class="ctrl">
-      <label for="f-region">Region</label>
-      <select id="f-region"><option value="">All regions</option></select>
-    </div>
-    <div class="ctrl">
-      <label for="f-district">District</label>
-      <select id="f-district" disabled=""><option value="">All districts</option></select>
-    </div>
-    <div class="ctrl">
-      <label for="f-ward">Ward</label>
-      <select id="f-ward" disabled=""><option value="">All wards</option></select>
-    </div>
-    <div class="ctrl">
-      <label for="f-biz">Business type</label>
-      <select id="f-biz"><option value="">All types</option></select>
-    </div>
-    <div class="ctrl">
-      <label for="f-acc">Accreditation</label>
-      <select id="f-acc"><option value="">All sources</option></select>
-    </div>
-    <div class="ctrl">
-      <label for="f-search">Search</label>
-      <input type="search" id="f-search" placeholder="Outlet, ward, street…">
-    </div>
-    <div class="ctrl" style="flex:1;text-align:right;">
-      <a class="dl-btn" href="data/tanzania/addo_standardized.csv" download="">
-        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        Download CSV
-      </a>
-    </div>
-  </div>
-
-  <div id="reg-map"></div>
-
-  <div class="reg-table-wrap">
-    <div class="reg-table-container">
-      
-<table id="reg-table" class="caption-top">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" data-k="addo_name">Outlet</th>
-<th data-quarto-table-cell-role="th" data-k="business_type">Type</th>
-<th data-quarto-table-cell-role="th" data-k="accreditation_source">Accreditation</th>
-<th data-quarto-table-cell-role="th" data-k="region">Region</th>
-<th data-quarto-table-cell-role="th" data-k="district">District</th>
-<th data-quarto-table-cell-role="th" data-k="ward">Ward</th>
-<th data-quarto-table-cell-role="th" data-k="has_coords">Geocoded</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-
-    </div>
-  </div>
-
-  <div class="gi-section">
-    <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1.5rem;color:var(--map-navy,#0f172a);margin:0 0 1rem;" class="anchored">Coverage snapshot</h2>
-    <div class="gi-grid">
-      <div class="gi-card">
-        <h3 class="anchored">Outlets per region (top 15)</h3>
-        <canvas id="chart-region"></canvas>
-      </div>
-      <div class="gi-card">
-        <h3 class="anchored">Accreditation source</h3>
-        <canvas id="chart-acc"></canvas>
-      </div>
-    </div>
-  </div>
-
-</div>
-
 <script>
-(function () {
-  // ── Endpoints ────────────────────────────────────────────────────
-  const CSV_URL  = "data/tanzania/addo_standardized.csv";
-  const GEO_URLS = {
-    regions:   "data/tanzania/boundaries/tza_regions.geojson",
-    districts: "data/tanzania/boundaries/tza_districts.geojson",
-    wards:     "data/tanzania/boundaries/tza_wards.geojson",
-  };
-  const GID_COL = { regions: "gid_region", districts: "gid_district", wards: "gid_ward" };
+(function(){
+  // Simple client-side gate — no backend, no external auth service.
+  // Credentials live here in plain sight; change them by editing this file.
+  var VALID_USER = "pharmascope";
+  var VALID_PASS = "MapPharma2026";
 
-  const els = {
-    status: document.getElementById("reg-status"),
-    summary: document.getElementById("reg-summary"),
-    fRegion: document.getElementById("f-region"),
-    fDistrict: document.getElementById("f-district"),
-    fWard: document.getElementById("f-ward"),
-    fBiz: document.getElementById("f-biz"),
-    fAcc: document.getElementById("f-acc"),
-    fSearch: document.getElementById("f-search"),
-    tbody: document.querySelector("#reg-table tbody"),
-    viewNote: document.getElementById("reg-view-note"),
-    viewPills: document.querySelectorAll(".reg-viewpill"),
-  };
-
-  // ── Map + basemap ────────────────────────────────────────────────
-  const map = L.map("reg-map", { preferCanvas: true }).setView([-6.4, 35.0], 6);
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-    { attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19 }).addTo(map);
-
-  let polyLayer = null;   // Leaflet GeoJSON layer for the active polygon view
-  let currentView = "regions";
-  const geoCache = {};    // level -> parsed GeoJSON
-
-  // Sequential teal ramp (Colorbrewer YlGnBu variant biased toward teals)
-  const RAMP = ["#f1f5f9", "#ccfbf1", "#5eead4", "#14b8a6", "#0d9488", "#0f766e", "#134e4a"];
-
-  // Legend + hover control (Leaflet controls, bottom-right / top-right)
-  const legendCtl = L.control({ position: "bottomright" });
-  legendCtl.onAdd = function () {
-    this._div = L.DomUtil.create("div", "info legend");
-    return this._div;
-  };
-  legendCtl.update = function (breaks, unit) {
-    if (!breaks) { this._div.innerHTML = ""; return; }
-    let html = `<div class="lg-title">${unit} · CPPs</div>`;
-    for (let i = 0; i < breaks.length - 1; i++) {
-      html += `<div class="lg-row"><i style="background:${RAMP[i + 1]}"></i>${breaks[i].toLocaleString()}${i === breaks.length - 2 ? "+" : "&ndash;" + (breaks[i + 1] - 1).toLocaleString()}</div>`;
-    }
-    html += `<div class="lg-row"><i style="background:${RAMP[0]}"></i>0</div>`;
-    this._div.innerHTML = html;
-  };
-
-  const hoverCtl = L.control({ position: "topright" });
-  hoverCtl.onAdd = function () {
-    this._div = L.DomUtil.create("div", "info hover-panel");
-    this._div.innerHTML = '<em style="color:#94a3b8;">Hover a polygon</em>';
-    return this._div;
-  };
-  hoverCtl.update = function (props) {
-    if (!props) { this._div.innerHTML = '<em style="color:#94a3b8;">Hover a polygon</em>'; return; }
-    const parent = [props.district, props.region].filter(Boolean).join(" · ");
-    this._div.innerHTML =
-      `<div class="h-name">${escapeHtml(props.name || "—")}</div>` +
-      (parent ? `<div class="h-parent">${escapeHtml(parent)}</div>` : "") +
-      `<div class="h-count">${(props.addo_count || 0).toLocaleString()} <span style="font-weight:400;color:#64748b;font-size:.75rem;">ADDOs</span></div>`;
-  };
-
-  // ── State ────────────────────────────────────────────────────────
-  let all = [];
-  let currentRows = [];
-  let sortState = { key: "addo_name", dir: 1 };
-  const regionChart = { instance: null };
-  const accChart    = { instance: null };
-
-  // ── Helpers ──────────────────────────────────────────────────────
-  const fmt = (v) => (v === null || v === undefined || v === "" ? "&mdash;" : String(v));
-  const cmp = (a, b) => (a == null ? 1 : b == null ? -1 : a > b ? 1 : a < b ? -1 : 0);
-  const uniq = (rows, k) => [...new Set(rows.map((r) => r[k]).filter((v) => v !== null && v !== ""))].sort();
-  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
-
-  // Compute quantile-ish breakpoints for the choropleth ramp given raw counts.
-  function computeBreaks(values) {
-    const nz = values.filter(v => v > 0).sort((a, b) => a - b);
-    if (nz.length === 0) return [0, 1, 2, 3, 4, 5, 6];
-    const q = (p) => nz[Math.min(nz.length - 1, Math.floor(p * nz.length))];
-    const raw = [1, q(0.20), q(0.40), q(0.60), q(0.80), q(0.95)];
-    // dedupe + ensure monotonic
-    const out = [];
-    for (const v of raw) { if (!out.length || v > out[out.length - 1]) out.push(v); }
-    while (out.length < 6) out.push((out[out.length - 1] || 0) + 1);
-    out.push(Infinity);
-    return out;  // length 7 → 6 filled bins
-  }
-  function colorFor(count, breaks) {
-    if (count <= 0) return RAMP[0];
-    for (let i = 0; i < breaks.length - 1; i++) {
-      if (count >= breaks[i] && count < breaks[i + 1]) return RAMP[i + 1];
-    }
-    return RAMP[RAMP.length - 1];
-  }
-
-  // ── Data load ────────────────────────────────────────────────────
-  Papa.parse(CSV_URL, {
-    download: true, header: true, skipEmptyLines: true, dynamicTyping: false,
-    complete: (res) => {
-      all = res.data.map((r) => ({
-        ...r,
-        latitude: r.latitude ? parseFloat(r.latitude) : null,
-        longitude: r.longitude ? parseFloat(r.longitude) : null,
-        has_coords: r.has_coords === "True" || r.has_coords === "true",
-        gid_region: r.gid_region || null,
-        gid_district: r.gid_district || null,
-        gid_ward: r.gid_ward || null,
-      }));
-      populateFilters();
-      applyFilters();
-      els.status.innerHTML =
-        `Loaded <strong>${all.length.toLocaleString()}</strong> outlets. ` +
-        `Toggle <em>Regions</em> / <em>Districts</em> / <em>Wards</em> above to switch the map to a choropleth of CPP counts per polygon.`;
-    },
-    error: (err) => {
-      els.status.textContent = "Failed to load registry: " + err.message;
-      els.status.style.borderLeftColor = "#dc2626";
-    },
-  });
-
-  // ── Filter controls ──────────────────────────────────────────────
-  function populateFilters() {
-    for (const v of uniq(all, "region")) els.fRegion.add(new Option(v, v));
-    for (const v of uniq(all, "business_type")) els.fBiz.add(new Option(v, v));
-    for (const v of uniq(all, "accreditation_source")) els.fAcc.add(new Option(v, v));
-
-    els.fRegion.addEventListener("input", () => {
-      rebuildChildSelect(els.fDistrict, "district", (r) => !els.fRegion.value || r.region === els.fRegion.value);
-      els.fWard.innerHTML = '<option value="">All wards</option>';
-      els.fWard.disabled = true;
-      applyFilters();
-    });
-    els.fDistrict.addEventListener("input", () => {
-      rebuildChildSelect(els.fWard, "ward", (r) =>
-        (!els.fRegion.value   || r.region === els.fRegion.value) &&
-        (!els.fDistrict.value || r.district === els.fDistrict.value));
-      applyFilters();
-    });
-    [els.fWard, els.fBiz, els.fAcc, els.fSearch].forEach((el) =>
-      el.addEventListener("input", applyFilters)
-    );
-
-    els.viewPills.forEach(btn => btn.addEventListener("click", () => setView(btn.dataset.view)));
-
-    document.querySelectorAll("#reg-table th").forEach((th) =>
-      th.addEventListener("click", () => {
-        const k = th.dataset.k;
-        sortState = { key: k, dir: sortState.key === k ? -sortState.dir : 1 };
-        renderTable(currentRows);
-      })
-    );
-  }
-
-  function rebuildChildSelect(sel, key, filter) {
-    const values = uniq(all.filter(filter), key);
-    sel.innerHTML = `<option value="">All ${key === "district" ? "districts" : "wards"}</option>`;
-    for (const v of values) sel.add(new Option(v, v));
-    sel.disabled = values.length === 0;
-  }
-
-  function applyFilters() {
-    const q = els.fSearch.value.trim().toLowerCase();
-    currentRows = all.filter((r) => {
-      if (els.fRegion.value   && r.region   !== els.fRegion.value)   return false;
-      if (els.fDistrict.value && r.district !== els.fDistrict.value) return false;
-      if (els.fWard.value     && r.ward     !== els.fWard.value)     return false;
-      if (els.fBiz.value && r.business_type !== els.fBiz.value) return false;
-      if (els.fAcc.value && r.accreditation_source !== els.fAcc.value) return false;
-      if (q) {
-        const hay = [r.addo_name, r.district, r.ward, r.village_street].join(" ").toLowerCase();
-        if (!hay.includes(q)) return false;
-      }
-      return true;
-    });
-    renderSummary(currentRows);
-    renderMap();  // uses currentView + currentRows
-    renderTable(currentRows);
-    renderCharts(currentRows);
-  }
-
-  // ── Summary cards ────────────────────────────────────────────────
-  function renderSummary(rows) {
-    const geocoded = rows.filter((r) => r.has_coords).length;
-    const regions   = new Set(rows.map((r) => r.region).filter(Boolean)).size;
-    const districts = new Set(rows.map((r) => r.district).filter(Boolean)).size;
-    els.summary.innerHTML = `
-      <div class="reg-scard"><div class="val">${rows.length.toLocaleString()}</div><div class="lbl">Outlets in view</div></div>
-      <div class="reg-scard"><div class="val">${geocoded.toLocaleString()}</div><div class="lbl">With GPS (${rows.length ? Math.round((100 * geocoded) / rows.length) : 0}%)</div></div>
-      <div class="reg-scard"><div class="val">${regions}</div><div class="lbl">Regions</div></div>
-      <div class="reg-scard"><div class="val">${districts}</div><div class="lbl">Districts</div></div>`;
-  }
-
-  // ── Map: view switcher ───────────────────────────────────────────
-  function setView(view) {
-    currentView = view;
-    els.viewPills.forEach(b => b.classList.toggle("active", b.dataset.view === view));
-    renderMap();
-  }
-
-  function renderMap() {
-    if (polyLayer) { map.removeLayer(polyLayer); polyLayer = null; }
-    map.removeControl(legendCtl); map.removeControl(hoverCtl);
-    renderChoropleth(currentView);
-  }
-
-  async function loadGeo(level) {
-    if (geoCache[level]) return geoCache[level];
-    els.viewNote.textContent = `Loading ${level} boundaries…`;
-    const res = await fetch(GEO_URLS[level]);
-    if (!res.ok) throw new Error(`Failed to load ${level}: ${res.status}`);
-    const gj = await res.json();
-    geoCache[level] = gj;
-    return gj;
-  }
-
-  async function renderChoropleth(level) {
-    let gj;
-    try { gj = await loadGeo(level); }
-    catch (e) {
-      els.viewNote.textContent = e.message;
-      els.viewNote.style.color = "#dc2626";
-      return;
-    }
-
-    // Recompute counts from currentRows so filters flow into the choropleth.
-    const gidKey = GID_COL[level];
-    const counts = {};
-    let unmatched = 0;
-    for (const r of currentRows) {
-      const g = r[gidKey];
-      if (g) counts[g] = (counts[g] || 0) + 1;
-      else unmatched += 1;
-    }
-
-    const values = gj.features.map(f => counts[f.properties.gid] || 0);
-    const breaks = computeBreaks(values);
-
-    polyLayer = L.geoJSON(gj, {
-      style: (f) => ({
-        fillColor: colorFor(counts[f.properties.gid] || 0, breaks),
-        weight: level === "wards" ? 0.3 : 0.7,
-        opacity: 1,
-        color: "#ffffff",
-        fillOpacity: 0.85,
-      }),
-      onEachFeature: (feature, layer) => {
-        const p = { ...feature.properties, addo_count: counts[feature.properties.gid] || 0 };
-        layer.on({
-          mouseover: (e) => {
-            e.target.setStyle({ weight: 2, color: "#0f172a" });
-            e.target.bringToFront();
-            hoverCtl.update(p);
-          },
-          mouseout: (e) => {
-            polyLayer.resetStyle(e.target);
-            hoverCtl.update(null);
-          },
-          click: (e) => {
-            map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
-            L.popup()
-              .setLatLng(e.latlng)
-              .setContent(
-                `<strong>${escapeHtml(p.name)}</strong><br/>` +
-                (p.district ? `${escapeHtml(p.district)}, ` : "") +
-                (p.region ? `${escapeHtml(p.region)}<br/>` : "") +
-                `<strong style="color:#0d9488">${(p.addo_count).toLocaleString()}</strong> CPPs`
-              ).openOn(map);
-          },
-        });
-      },
-    }).addTo(map);
-
-    legendCtl.addTo(map);
-    hoverCtl.addTo(map);
-    legendCtl.update(breaks, level.charAt(0).toUpperCase() + level.slice(1, -1));
-
-    // Fit to the filtered subset when a filter zooms us to a region/district
-    if (els.fRegion.value || els.fDistrict.value) {
-      map.fitBounds(polyLayer.getBounds(), { padding: [20, 20], maxZoom: 10 });
+  document.getElementById('login-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var u = document.getElementById('login-user').value.trim();
+    var p = document.getElementById('login-pass').value;
+    if (u === VALID_USER && p === VALID_PASS) {
+      localStorage.setItem('ps_auth', '1');
+      var next = new URLSearchParams(window.location.search).get('next');
+      window.location.href = next || 'index.html';
     } else {
-      map.setView([-6.4, 35.0], 6);
+      document.getElementById('login-error').style.display = 'block';
     }
-
-    const matched = currentRows.length - unmatched;
-    const pct = currentRows.length ? Math.round(100 * matched / currentRows.length) : 0;
-    els.viewNote.style.color = "#64748b";
-    els.viewNote.textContent =
-      `${matched.toLocaleString()} / ${currentRows.length.toLocaleString()} outlets placed in ${level} polygons (${pct}%). ` +
-      `${unmatched.toLocaleString()} could not be auto-matched.`;
-  }
-
-  // ── Table ────────────────────────────────────────────────────────
-  function renderTable(rows) {
-    const { key, dir } = sortState;
-    const sorted = [...rows].sort((a, b) => dir * cmp(a[key], b[key]));
-    const first = sorted.slice(0, 500);
-    els.tbody.innerHTML = first.map((r) => `
-      <tr>
-        <td>${fmt(r.addo_name)}</td>
-        <td>${fmt(r.business_type)}</td>
-        <td>${fmt(r.accreditation_source)}</td>
-        <td>${fmt(r.region)}</td>
-        <td>${fmt(r.district)}</td>
-        <td>${fmt(r.ward)}</td>
-        <td>${r.has_coords ? "&#10003;" : "&mdash;"}</td>
-      </tr>`).join("");
-    if (rows.length > 500) {
-      els.tbody.insertAdjacentHTML("beforeend",
-        `<tr><td colspan="7" style="text-align:center;font-style:italic;color:#64748b;padding:.75rem;">Showing first 500 of ${rows.length.toLocaleString()} outlets &mdash; narrow the filters to see more, or download the CSV.</td></tr>`);
-    }
-  }
-
-  // ── Charts ───────────────────────────────────────────────────────
-  function tally(rows, k, top) {
-    const counts = {};
-    for (const r of rows) {
-      const v = r[k] || "Unknown";
-      counts[v] = (counts[v] || 0) + 1;
-    }
-    const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    return top ? entries.slice(0, top) : entries;
-  }
-  function renderCharts(rows) {
-    const regions = tally(rows, "region", 15);
-    const acc = tally(rows, "accreditation_source");
-    if (regionChart.instance) regionChart.instance.destroy();
-    if (accChart.instance) accChart.instance.destroy();
-    regionChart.instance = new Chart(document.getElementById("chart-region"), {
-      type: "bar",
-      data: { labels: regions.map(e => e[0]), datasets: [{ data: regions.map(e => e[1]), backgroundColor: "#0d9488" }] },
-      options: { indexAxis: "y", responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } },
-    });
-    accChart.instance = new Chart(document.getElementById("chart-acc"), {
-      type: "doughnut",
-      data: { labels: acc.map(e => e[0]), datasets: [{ data: acc.map(e => e[1]),
-        backgroundColor: ["#0d9488", "#0f172a", "#64748b", "#f59e0b"] }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } },
-    });
-  }
+  });
 })();
 </script>
 
@@ -923,7 +497,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/pharmascope");
+        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/-PH--SC");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

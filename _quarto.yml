@@ -11,6 +11,8 @@ project:
     - data-sources.qmd
     - team.qmd
     - help.qmd
+    - login.qmd
+    - logout.qmd
   resources:
     - images/
     - data/tanzania/addo_standardized.csv
@@ -54,6 +56,10 @@ website:
         href: data-quality.qmd
       - text: "Help"
         href: help.qmd
+
+    right:
+      - text: "Logout"
+        href: logout.qmd
 
 format:
   html:

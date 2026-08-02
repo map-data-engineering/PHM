@@ -75,7 +75,7 @@ toc: false
 
   <div class="faq-item">
     <div class="faq-title" onclick="this.parentElement.classList.toggle('active')">
-      <span>What file formats are available for download?</span>
+      <span>Can I download the data?</span>
       <span class="faq-toggle">&#9660;</span>
     </div>
     <div class="faq-content">

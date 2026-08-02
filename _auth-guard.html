@@ -1,0 +1,9 @@
+<script>
+(function(){
+  var path = window.location.pathname;
+  if (/\/(login|logout)\.html$/.test(path)) return;
+  if (localStorage.getItem('ps_auth') === '1') return;
+  var here = path.split('/').pop() || 'index.html';
+  window.location.replace('login.html?next=' + encodeURIComponent(here));
+})();
+</script>

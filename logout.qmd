@@ -1,0 +1,18 @@
+---
+title: ""
+page-layout: full
+toc: false
+search: false
+---
+
+```{=html}
+<style>
+  /* Standalone page — not part of the site's tab navigation. */
+  #quarto-header, footer.footer{ display:none !important; }
+  body.nav-fixed{ padding-top:0 !important; }
+</style>
+<script>
+  localStorage.removeItem('ps_auth');
+  window.location.replace('login.html');
+</script>
+```

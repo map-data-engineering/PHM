@@ -1,0 +1,89 @@
+---
+title: ""
+page-layout: full
+toc: false
+search: false
+---
+
+```{=html}
+<style>
+  /* Standalone page — not part of the site's tab navigation. */
+  #quarto-header, footer.footer{ display:none !important; }
+  body.nav-fixed{ padding-top:0 !important; }
+
+  .login-wrap{
+    min-height:70vh;display:flex;align-items:center;justify-content:center;
+    padding:3rem 1.5rem;
+  }
+  .login-card{
+    width:100%;max-width:380px;background:#fff;border:1px solid var(--map-border,#e2e8f0);
+    border-radius:6px;box-shadow:var(--map-shadow,0 1px 4px rgba(15,23,42,.08));
+    padding:2rem 2rem 1.75rem;
+  }
+  .login-logo{
+    font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:1.5rem;
+    color:var(--map-navy,#0f172a);text-align:center;margin-bottom:.25rem;
+  }
+  .login-logo span{color:var(--map-red,#0d9488);}
+  .login-sub{
+    text-align:center;color:var(--map-text-muted,#64748b);font-size:.9rem;margin:0 0 1.5rem;
+  }
+  .login-card label{
+    display:block;font-size:.78rem;font-weight:600;color:var(--map-text-muted,#64748b);
+    text-transform:uppercase;letter-spacing:.03em;margin:1rem 0 .35rem;
+  }
+  .login-card input{
+    width:100%;padding:.6rem .75rem;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;
+    font-size:.95rem;box-sizing:border-box;
+  }
+  .login-card input:focus{
+    outline:none;border-color:var(--map-red,#0d9488);box-shadow:0 0 0 2px rgba(13,148,136,.1);
+  }
+  .login-submit{
+    width:100%;margin-top:1.5rem;padding:.7rem 1rem;background:var(--map-red,#0d9488);
+    color:#fff;border:none;border-radius:4px;font-size:.92rem;font-weight:600;cursor:pointer;
+  }
+  .login-submit:hover{background:#0f766e;}
+  .login-error{
+    margin-top:1rem;padding:.6rem .75rem;border-radius:4px;font-size:.85rem;
+    background:rgba(220,38,38,.08);color:#b91c1c;border-left:3px solid #dc2626;
+  }
+</style>
+
+<section class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">Pharma<span>Scope</span></div>
+    <p class="login-sub">Sign in to continue</p>
+    <form id="login-form">
+      <label for="login-user">Username</label>
+      <input type="text" id="login-user" autocomplete="username" required>
+      <label for="login-pass">Password</label>
+      <input type="password" id="login-pass" autocomplete="current-password" required>
+      <button type="submit" class="login-submit">Sign in</button>
+      <div id="login-error" class="login-error" style="display:none;">Incorrect username or password.</div>
+    </form>
+  </div>
+</section>
+
+<script>
+(function(){
+  // Simple client-side gate — no backend, no external auth service.
+  // Credentials live here in plain sight; change them by editing this file.
+  var VALID_USER = "pharmascope";
+  var VALID_PASS = "MapPharma2026";
+
+  document.getElementById('login-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var u = document.getElementById('login-user').value.trim();
+    var p = document.getElementById('login-pass').value;
+    if (u === VALID_USER && p === VALID_PASS) {
+      localStorage.setItem('ps_auth', '1');
+      var next = new URLSearchParams(window.location.search).get('next');
+      window.location.href = next || 'index.html';
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  });
+})();
+</script>
+```
