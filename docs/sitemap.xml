@@ -1,95 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/team.html</loc>
-    <lastmod>2026-06-22T08:36:36.654Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/help.html</loc>
+    <lastmod>2026-08-02T06:54:01.095Z</lastmod>
   </url>
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/roadmap.html</loc>
-    <lastmod>2026-05-15T12:48:33.874Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/data-sources.html</loc>
+    <lastmod>2026-08-02T06:54:01.092Z</lastmod>
   </url>
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/population-access.html</loc>
-    <lastmod>2026-07-14T20:03:50.062Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/find-facility.html</loc>
+    <lastmod>2026-08-02T06:54:01.088Z</lastmod>
   </url>
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/kenya.html</loc>
-    <lastmod>2026-06-22T09:36:33.950Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/registry.html</loc>
+    <lastmod>2026-08-02T06:54:01.075Z</lastmod>
   </url>
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/help.html</loc>
-    <lastmod>2026-06-22T09:29:41.795Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/index.html</loc>
+    <lastmod>2026-08-02T06:54:49.747Z</lastmod>
   </url>
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/downloads.html</loc>
-    <lastmod>2026-05-15T12:48:33.144Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/about.html</loc>
+    <lastmod>2026-08-02T06:54:01.069Z</lastmod>
   </url>
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/data-sources.html</loc>
-    <lastmod>2026-07-13T15:06:10.258Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/find-pharmacy.html</loc>
+    <lastmod>2026-08-02T06:56:32.111Z</lastmod>
   </url>
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/countries/Zambia.html</loc>
-    <lastmod>2026-06-01T08:07:24.491Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/data-quality.html</loc>
+    <lastmod>2026-08-02T07:03:07.271Z</lastmod>
   </url>
   <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/countries/tanzania.html</loc>
-    <lastmod>2026-06-01T08:07:03.651Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/countries/Malawi.html</loc>
-    <lastmod>2026-06-01T08:07:33.734Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/countries/Botswana.html</loc>
-    <lastmod>2026-06-01T11:56:58.102Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/about.html</loc>
-    <lastmod>2026-07-13T15:04:39.946Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/countries/Benin.html</loc>
-    <lastmod>2026-05-15T12:48:29.707Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/countries/Ethiopia.html</loc>
-    <lastmod>2026-06-15T08:28:58.632Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/countries/Nigeria.html</loc>
-    <lastmod>2026-06-01T08:07:43.868Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/countries/uganda.html</loc>
-    <lastmod>2026-06-01T08:07:14.969Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/country-data.html</loc>
-    <lastmod>2026-07-13T15:09:09.114Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/demographics.html</loc>
-    <lastmod>2026-05-15T12:48:30.274Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/find-facility.html</loc>
-    <lastmod>2026-07-13T15:07:14.438Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/index.html</loc>
-    <lastmod>2026-07-17T04:19:09.774Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/methodology.html</loc>
-    <lastmod>2026-06-22T03:26:00.915Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/registry.html</loc>
-    <lastmod>2026-07-16T02:32:13.565Z</lastmod>
-  </url>
-  <url>
-    <loc>https://map-data-engineering.github.io/healthscope-portal/services.html</loc>
-    <lastmod>2026-07-13T15:08:33.520Z</lastmod>
+    <loc>https://map-data-engineering.github.io/pharmascope/team.html</loc>
+    <lastmod>2026-08-02T06:55:39.198Z</lastmod>
   </url>
 </urlset>

@@ -1,47 +1,57 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - index.qmd
+    - about.qmd
+    - registry.qmd
+    - find-pharmacy.qmd
+    - find-facility.qmd
+    - data-quality.qmd
+    - data-sources.qmd
+    - team.qmd
+    - help.qmd
   resources:
     - images/
-    - etl/data/processed/country_standardized/*.csv
-    - data/population/processed/*.csv
-    - data/population/processed/*.geojson
-    - ors-key.js
+    - data/tanzania/addo_standardized.csv
+    - data/tanzania/boundaries/tza_regions.geojson
+    - data/tanzania/boundaries/tza_districts.geojson
+    - data/tanzania/boundaries/tza_wards.geojson
 
 website:
-  title: "HealthScope"
-  site-url: https://map-data-engineering.github.io/healthscope-portal
+  title: "PharmaScope"
+  site-url: https://map-data-engineering.github.io/pharmascope
   back-to-top-navigation: true
 
   page-footer:
     left: |
-      &copy; 2026 HealthScope &mdash; Malaria Atlas Project, Dar es Salaam Node
+      &copy; 2026 PharmaScope &mdash; Malaria Atlas Project, Ifakara Health Institute
 
-      Open health facility intelligence for Sub-Saharan Africa
-    background: "#3d3d3d"
+      Open pharmacy access intelligence for Tanzania
+    background: "#0f172a"
     foreground: light
     border: false
 
   navbar:
     pinned: true
     search: true
-    title: "HealthScope"
+    title: "PharmaScope"
     logo-href: /index.html
-    background: "#3d3d3d"
+    background: "#0f172a"
 
     left:
       - text: "Home"
         href: index.qmd
       - text: "About"
         href: about.qmd
-      - text: "Registry Explorer"
+      - text: "CPP Registry"
         href: registry.qmd
-      - text: "Population and Access"
-        href: population-access.qmd
-      - text: "Service Intelligence"
-        href: services.qmd
-      - text: "Find Facility"
+      - text: "Find Pharmacy"
+        href: find-pharmacy.qmd
+      - text: "Site Check"
         href: find-facility.qmd
+      - text: "Data Quality"
+        href: data-quality.qmd
       - text: "Help"
         href: help.qmd
 
@@ -54,8 +64,6 @@ format:
     link-external-icon: true
     link-external-newwindow: true
     smooth-scroll: true
-    include-after-body:
-      - _chatbot-embed.html
     grid:
       body-width: 1400px
       sidebar-width: 0px

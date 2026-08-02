@@ -5,105 +5,113 @@ toc: false
 ---
 
 ```{=html}
-<!-- ═══════════════ HERO ═══════════════ -->
+<!-- ═══════════════ HERO — data-forward split ═══════════════ -->
 <section class="hero-section">
-  <div class="hero-grid-bg"></div>
+  <div class="hero-inner">
 
-  <!-- Animated orbs -->
-  <div style="position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;">
-    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,0.12),transparent 70%);top:8%;left:3%;animation:float 8s ease-in-out infinite;"></div>
-    <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.1),transparent 70%);bottom:12%;right:8%;animation:float 6s ease-in-out infinite 1s;"></div>
-    <div style="position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.08),transparent 70%);top:55%;left:55%;animation:float 7s ease-in-out infinite 2s;"></div>
-  </div>
-
-  <div class="hero-content">
-    <!-- Rendered as a div (not <h1>) to prevent Quarto's title-block
-         machinery from hoisting it out of the hero container. -->
-    <div class="hero-title" role="heading" aria-level="1"
-         style="font-family:'Space Grotesk',sans-serif;font-size:3.8rem;font-weight:800;color:#fff;line-height:1.1;margin:0 auto 1.5rem;letter-spacing:-0.03em;text-align:center;">
-      <span class="hero-accent">HealthScope</span>
-    </div>
-    <p style="font-size:1.4rem;color:rgba(255,255,255,0.9);margin:0 auto 1.5rem;font-weight:500;max-width:800px;">
-      Health Facility Intelligence Portal
-    </p>
-
-    <div style="max-width:820px;margin:0 auto 2.25rem;">
-      <p style="font-size:1.05rem;line-height:1.75;color:rgba(255,255,255,0.78);margin:0 0 0.9rem;">
-        An open-access health facility intelligence portal designed to move beyond static facility inventories toward <strong style="color:rgba(255,255,255,0.95);font-weight:600;">dynamic, demand-driven health access analytics</strong> across malaria-endemic countries in Sub-Saharan Africa.
+    <div class="hero-copy">
+      <div class="hero-wordmark">Pharma<span>Scope</span></div>
+      <span class="hero-eyebrow">CPP access intelligence · Tanzania</span>
+      <h1 class="hero-title-block">
+        Every <span class="accent">accredited</span><br>
+        drug outlet in Tanzania,<br>
+        mapped and searchable.
+      </h1>
+      <p class="hero-lede">
+        PharmaScope is a demand-side pharmacy-access portal built from Pharmacy Council of Tanzania and TFDA accreditation records &mdash; showing not just <em>where</em> outlets sit, but whether populations can realistically reach them and which regulator issued each accreditation.
       </p>
-      <p style="font-size:1.05rem;line-height:1.75;color:rgba(255,255,255,0.78);margin:0;">
-        Developed from data extracted directly from <strong style="color:rgba(255,255,255,0.95);font-weight:600;">Ministries of Health</strong>, HealthScope transforms raw registry data into actionable intelligence &mdash; revealing not just <em>where</em> health facilities exist, but whether populations can realistically access them and what services they offer.
-      </p>
+      <div class="hero-ctas">
+        <a href="registry.html" class="btn-primary">Open CPP Registry</a>
+        <a href="about.html" class="btn-secondary">About PharmaScope</a>
+      </div>
     </div>
-  </div>
 
-  <div style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:3;animation:float 3s ease-in-out infinite;">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="lbl">Total outlets</span>
+        <span class="val">4,944</span>
+        <span class="sub">Retail A · Retail Wholesale</span>
+      </div>
+      <div class="hero-stat">
+        <span class="lbl">Geocoded</span>
+        <span class="val">88.4%</span>
+        <span class="sub">Tablet + hand-GPS coverage</span>
+      </div>
+      <div class="hero-stat">
+        <span class="lbl">Regions</span>
+        <span class="val">23</span>
+        <span class="sub">of 26 mainland regions</span>
+      </div>
+      <div class="hero-stat">
+        <span class="lbl">Sources</span>
+        <span class="val">PC · TFDA</span>
+        <span class="sub">Regulator-issued only</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- ═══════════════ FIVE INTELLIGENCE LAYERS ═══════════════ -->
+<!-- ═══════════════ INTELLIGENCE LAYERS ═══════════════ -->
 <section class="features-section">
-  <div style="max-width:1200px;margin:0 auto;padding:0 2rem;">
-    <div class="section-header">
-      <h2>Intelligence Layers</h2>
-      <p>Each layer transforms raw registry data into actionable health system intelligence</p>
+  <div class="section-header">
+    <h2>Intelligence layers</h2>
+    <p>Four layers of pharmacy access, from raw accreditation records to population-weighted reach.</p>
+  </div>
+
+  <div class="feature-cards">
+
+    <div class="feature-card">
+      <span class="row-num">01</span>
+      <div>
+        <h3>CPP Registry Lake</h3>
+        <p>Standardised accreditation data from the Pharmacy Council of Tanzania and TFDA. ~4,900 outlets across 21+ regions, harmonised from regulator source records rather than third-party aggregators.</p>
+      </div>
+      <a href="registry.html">Explore registry</a>
     </div>
 
-    <div class="feature-cards" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));">
-
-      <!-- Layer 1: Registry -->
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(201,162,39,0.08);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
-        </div>
-        <h3>Facility Registry Lake</h3>
-        <p>Standardized facility data from MoH sources across 8 SSA countries. Multi-country harmonized schema with 136,000+ facilities &mdash; directly from Ministries, not aggregators.</p>
-        <a href="registry.html">Explore Registry &rarr;</a>
+    <div class="feature-card">
+      <span class="row-num">02</span>
+      <div>
+        <h3>Find the nearest pharmacy <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
+        <p>Enter your address, share your location, or drop a pin on the map &mdash; PharmaScope returns the closest accredited CPPs sorted by distance, with contact numbers and one-tap directions to each.</p>
       </div>
-
-      <!-- Layer 2: Access -->
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(5,150,105,0.08);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <h3>Demand-Side Access</h3>
-        <p>Find the nearest facility offering the service you need. Travel-time isochrones and population catchment zones &mdash; showing not just location, but reachability.</p>
-        <a href="find-facility.html">Find Nearest Facility &rarr;</a>
-      </div>
-
-      <!-- Layer 4: Service Gaps -->
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(245,158,11,0.08);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-        </div>
-        <h3>Service Gap Intelligence</h3>
-        <p>Which services exist where? Identify malaria service deserts, lab coverage gaps, and emergency preparedness blind spots at the facility level.</p>
-        <a href="services.html">View Service Analysis &rarr;</a>
-      </div>
-
-      <!-- Layer 4: Population and Access -->
-      <div class="feature-card">
-        <div class="feature-icon" style="background:rgba(6,182,212,0.08);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h3>Population and Access</h3>
-        <p>Population catchments, accessibility surfaces, and equity of access to health facilities &mdash; drive-time isochrones, walking-time coverage, and population-weighted reach. <em>Coming soon.</em></p>
-        <a href="population-access.html">View Population &amp; Access &rarr;</a>
-      </div>
-
+      <a href="find-pharmacy.html">Find nearest pharmacy</a>
     </div>
+
+    <div class="feature-card">
+      <span class="row-num">03</span>
+      <div>
+        <h3>Site Check &mdash; new registrations <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
+        <p>Before accrediting a new outlet, drop a pin at the proposed location and get an evidence-based saturation verdict &mdash; number of existing CPPs within walking distance, density per km<sup>2</sup>, and whether the applicant should be redirected to an under-served ward.</p>
+      </div>
+      <a href="find-facility.html">Open Site Check</a>
+    </div>
+
+    <div class="feature-card">
+      <span class="row-num">04</span>
+      <div>
+        <h3>Data Quality intelligence <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
+        <p>Every field in the CPP registry inspected for completeness &mdash; how many outlets are geocoded, which regions are under-reported, where the raw <code>.xls</code> lost information, and which fixes have the highest payoff for the next data refresh.</p>
+      </div>
+      <a href="data-quality.html">Inspect data quality</a>
+    </div>
+
   </div>
 </section>
 
-<!-- ═══════════════ CTA ═══════════════ -->
+<!-- ═══════════════ CTA STRIP ═══════════════ -->
 <section class="countries-banner">
-  <h2>Start Exploring</h2>
-  <p>Choose a country or tool to begin working with HealthScope data</p>
-  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:0.5rem;">
-    <a href="registry.html" class="btn-primary">Registry Explorer</a>
-    <a href="find-facility.html" class="btn-secondary">Find Nearby Facility</a>
-    <a href="population-access.html" class="btn-secondary">Population and Access</a>
+  <div style="max-width:1400px;margin:0 auto;">
+    <h2>Start exploring</h2>
+    <p>Jump straight into the CPP registry or download the standardised CSV.</p>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+      <a href="registry.html" class="btn-primary">CPP Registry</a>
+      <a href="find-pharmacy.html" class="btn-secondary">Find Pharmacy</a>
+      <a href="find-facility.html" class="btn-secondary">Site Check</a>
+      <a href="data-quality.html" class="btn-secondary">Data Quality</a>
+      <a href="data/tanzania/addo_standardized.csv" class="btn-secondary" download>Download CSV</a>
+    </div>
   </div>
 </section>
 ```

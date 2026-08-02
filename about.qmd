@@ -8,56 +8,56 @@ toc-depth: 2
 ```{=html}
 <section class="page-banner">
   <div style="max-width:1000px;margin:0 auto;">
-    <h1>About HealthScope</h1>
-    <p>Health facility intelligence beyond static inventories.</p>
+    <h1>About PharmaScope</h1>
+    <p>Pharmacy access intelligence beyond static outlet inventories.</p>
   </div>
 </section>
 ```
 
 ## Mission
 
-Our mission is to make health facility access **measurable, comparable, and continually updated** across malaria-endemic Sub-Saharan Africa &mdash; so that ministries, researchers, and implementers plan around who can reach care, not just where facilities appear on a map.
+Our mission is to make access to accredited medicines outlets **measurable, comparable, and continually updated** across Tanzania &mdash; so that the Pharmacy Council, TFDA, implementers, and researchers plan around who can reach a legitimate outlet, not just where outlets appear on a map.
 
 We commit to four principles:
 
 - **Open** &mdash; every dataset and method behind the portal is freely available under permissive licences, without registration.
-- **MoH-sourced** &mdash; primary data comes directly from Ministry of Health registries, never from second-hand aggregators or opaque compilations.
+- **Regulator-sourced** &mdash; primary data comes directly from the Pharmacy Council of Tanzania and TFDA accreditation records, never from second-hand aggregators.
 - **Reproducible** &mdash; the ETL pipeline that produces every table, chart, and map on this site is versioned, documented, and rerunnable from source.
-- **Population-first** &mdash; each layer of analysis is built around the people a facility is meant to serve, not just the facility itself.
+- **Population-first** &mdash; each layer of analysis is built around the people an outlet is meant to serve, not just the outlet itself.
 
 ## The Gap We Fill
 
-Current approaches to health facility mapping focus primarily on documenting facility locations without deeper analysis. HealthScope goes further by providing:
+Existing pharmacy datasets tend to list outlets without saying whether populations can realistically reach them or what medicines they actually stock. PharmaScope goes further by providing:
 
-- **Population-demand modelling** -- reachability analysis beyond simple location pins
-- **Service-level intelligence** -- mapping of what services exist where
-- **General information at scale** -- population-weighted access metrics and facility distribution analysis
+- **Population-demand modelling** &mdash; reachability analysis beyond simple location pins
+- **Service-level intelligence** &mdash; mapping of which malaria commodities, antimicrobials, and priority medicines are stocked where
+- **Access metrics at scale** &mdash; outlets per 10,000 population, equity of coverage, and gaps by region and ward
 
-HealthScope addresses these gaps as an open, reproducible data platform.
+PharmaScope addresses these gaps as an open, reproducible data platform for Tanzania's private drug-retail sector.
 
 ## Intelligence Layers
 
 ```{=html}
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin:2rem 0;">
 
-  <div class="card-modern" style="border-left:4px solid var(--map-red,#c9a227);">
-    <h3 style="color:var(--map-red,#c9a227);margin-top:0;">1. Facility Registry Lake</h3>
-    <p>Standardized facility data from MoH sources across SSA countries. Multi-country harmonized schema; direct MoH sourcing.</p>
+  <div class="card-modern" style="border-left:4px solid var(--map-red,#0d9488);">
+    <h3 style="color:var(--map-red,#0d9488);margin-top:0;">1. CPP Registry Lake</h3>
+    <p>Standardized outlet data from the Pharmacy Council of Tanzania and TFDA. Harmonized schema; direct regulator sourcing.</p>
   </div>
 
   <div class="card-modern" style="border-left:4px solid #059669;">
     <h3 style="color:#059669;margin-top:0;">2. Demand-Side Access</h3>
-    <p>Population catchment zones using road networks; travel-time isochrones showing not just location, but reachability.</p>
+    <p>Population catchment zones using road networks; travel-time isochrones showing not just outlet location, but reachability.</p>
   </div>
 
   <div class="card-modern" style="border-left:4px solid #f59e0b;">
     <h3 style="color:#f59e0b;margin-top:0;">3. Service Gap Intelligence</h3>
-    <p>Which services exist where. Per-domain coverage across the registry, interactive country switching, and per-facility service profiles.</p>
+    <p>Which medicines and priority services exist where. Malaria commodities, antimicrobials, and outlet-level service profiles.</p>
   </div>
 
   <div class="card-modern" style="border-left:4px solid #06b6d4;">
     <h3 style="color:#06b6d4;margin-top:0;">4. General Information</h3>
-    <p>Country-level descriptive statistics &mdash; facility counts, type mix, ownership split &mdash; that give a fast picture of the registry without claiming reachability or access modelling we have not yet built.</p>
+    <p>Region-level descriptive statistics &mdash; outlet counts, business type, accreditation source &mdash; that give a fast picture of the registry without claiming reachability we have not yet modelled.</p>
   </div>
 
 </div>
@@ -65,20 +65,20 @@ HealthScope addresses these gaps as an open, reproducible data platform.
 
 ## ETL Pipeline
 
-The HealthScope ETL pipeline ingests each Ministry of Health registry through three steps:
+The PharmaScope ETL pipeline ingests the Pharmacy Council and TFDA records through three steps:
 
-1. **Extract** &mdash; pull the latest country CSV / API payload (Tanzania HFR portal, Kenya KMHFR, Ethiopia MFR v2, etc.) into a country-specific raw folder.
-2. **Transform** &mdash; standardise columns to a shared schema, validate coordinates against the country's bounding box, mint a stable global facility UID, and map each raw service name to the canonical 7-domain hierarchy via per-country crosswalks.
-3. **Load** &mdash; publish versioned per-country CSVs (`{country}_standardized.csv` for facilities, `{country}_services_standardized.csv` for services) that the portal consumes directly via a git submodule.
+1. **Extract** &mdash; pull the latest CPP inventory export (Pharmacy Council of Tanzania) into `data-raw/`.
+2. **Transform** &mdash; standardise columns to a shared schema, normalise region/district casing, coalesce the two coordinate sources (tablet GPS and hand GPS), validate coordinates against Tanzania's bounding box, and mint a stable outlet UID.
+3. **Load** &mdash; publish a versioned CSV (`data/tanzania/addo_standardized.csv`) that the portal reads directly at page load.
 
 ## Data Sources
 
-HealthScope ingests **only authoritative, official sources** — Ministry of Health master facility registries and openly-licensed compilations of the same upstream data. For the full per-country source catalogue with license and citation details, visit the dedicated page.
+PharmaScope ingests **only authoritative, official sources** &mdash; the Pharmacy Council of Tanzania CPP inventory and TFDA accreditation records. For source details and citation, visit the dedicated page.
 
 [**View Data Sources &rarr;**](data-sources.html)
 
 ## Team
 
-The portal is maintained by a team of data engineers, GIS specialists, epidemiologists, and researchers at the Malaria Atlas Project Dar es Salaam Node.
+The portal is maintained at the Ifakara Health Institute (Malaria Atlas Project node), with contributions from data engineers, GIS specialists, and pharmacy-sector researchers.
 
 [**Visit the Team Page &rarr;**](team.html)

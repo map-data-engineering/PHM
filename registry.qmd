@@ -11,481 +11,503 @@ toc: false
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <style>
-  .reg-hero{background:var(--map-navy,#3d3d3d);color:#fff;padding:2.5rem 2rem;}
-  .reg-hero h1{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
-  .reg-hero p{opacity:.7;margin:0;font-size:1rem;}
+  .reg-hero{background:var(--map-navy,#0f172a);color:#fff;padding:2.5rem 2rem;}
+  .reg-hero h1{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
+  .reg-hero p{opacity:.75;margin:0;font-size:1rem;}
   .reg-wrap{max-width:1400px;margin:0 auto;padding:1.5rem 1.5rem 3rem;}
-  .reg-controls{display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;padding:1.25rem;background:#fff;border-radius:10px;border:1px solid var(--map-border,#e2e8f0);box-shadow:var(--map-shadow);margin-bottom:1rem;}
+
+  /* Controls bar */
+  .reg-controls{display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;padding:1.25rem;background:#fff;border-radius:4px;border:1px solid var(--map-border,#e2e8f0);box-shadow:var(--map-shadow);margin-bottom:1rem;}
   .reg-controls .ctrl{display:flex;flex-direction:column;gap:.3rem;}
-  .reg-controls label{font-size:.8rem;font-weight:600;color:var(--map-text-muted,#64748b);}
-  .reg-controls select{padding:.55rem .75rem;border:1px solid var(--map-border,#e2e8f0);border-radius:6px;font-size:.9rem;min-width:160px;background:#fff;}
-  .reg-controls select:focus{outline:none;border-color:var(--map-red,#c9a227);box-shadow:0 0 0 2px rgba(201,162,39,.1);}
-  .reg-pill{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .85rem;border-radius:100px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .15s;}
-  .reg-pill.active{background:var(--map-red,#c9a227);color:#fff;}
-  .reg-pill:not(.active){background:var(--map-bg-section,#f1f5f9);color:var(--map-text-muted,#64748b);}
-  .reg-pill:hover:not(.active){background:#e2e8f0;}
-  #reg-map{width:100%;height:600px;border-radius:10px;border:1px solid var(--map-border,#e2e8f0);box-shadow:var(--map-shadow);z-index:1;}
-  .reg-status{padding:.75rem 1rem;border-radius:8px;font-size:.88rem;margin-bottom:1rem;background:rgba(201,162,39,.05);border-left:4px solid var(--map-red,#c9a227);}
+  .reg-controls label{font-size:.78rem;font-weight:600;color:var(--map-text-muted,#64748b);text-transform:uppercase;letter-spacing:.03em;}
+  .reg-controls select,.reg-controls input[type=search]{padding:.55rem .75rem;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;font-size:.9rem;min-width:170px;background:#fff;}
+  .reg-controls select:focus,.reg-controls input[type=search]:focus{outline:none;border-color:var(--map-red,#0d9488);box-shadow:0 0 0 2px rgba(13,148,136,.1);}
+
+  /* Boundary-level pill row */
+  .reg-viewbar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:.75rem;font-size:.85rem;}
+  .reg-viewbar .lbl{color:var(--map-text-muted,#64748b);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:.72rem;margin-right:.35rem;}
+  .reg-viewpill{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .95rem;border-radius:4px;font-size:.82rem;font-weight:600;background:#f1f5f9;color:var(--map-text-muted,#64748b);border:none;cursor:pointer;transition:all .15s;}
+  .reg-viewpill.active{background:var(--map-red,#0d9488);color:#fff;}
+  .reg-viewpill:not(.active):hover{background:#e2e8f0;}
+
+  #reg-map{width:100%;height:600px;border-radius:4px;border:1px solid var(--map-border,#e2e8f0);box-shadow:var(--map-shadow);z-index:1;}
+
+  .reg-status{padding:.75rem 1rem;border-radius:4px;font-size:.88rem;margin-bottom:1rem;background:rgba(13,148,136,.05);border-left:4px solid var(--map-red,#0d9488);}
   .reg-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin:1rem 0;}
-  .reg-scard{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:8px;padding:1rem;text-align:center;box-shadow:var(--map-shadow);}
-  .reg-scard .val{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:var(--map-red,#c9a227);}
+  .reg-scard{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1rem;text-align:center;box-shadow:var(--map-shadow);}
+  .reg-scard .val{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--map-red,#0d9488);}
   .reg-scard .lbl{font-size:.75rem;color:var(--map-text-muted,#64748b);margin-top:.2rem;}
-  .reg-table-wrap{margin-top:1.5rem;overflow-x:auto;}
+
+  /* Legend */
+  .info.legend{background:#fff;padding:.6rem .8rem;border-radius:4px;box-shadow:0 1px 4px rgba(15,23,42,.15);font-size:.78rem;line-height:1.4;color:#0f172a;border:1px solid #e2e8f0;max-width:200px;}
+  .info.legend .lg-title{font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:#64748b;margin-bottom:.35rem;}
+  .info.legend .lg-row{display:flex;align-items:center;gap:.4rem;margin:2px 0;}
+  .info.legend i{display:inline-block;width:14px;height:14px;border-radius:2px;border:1px solid rgba(0,0,0,.08);}
+
+  /* Hover panel */
+  .info.hover-panel{background:rgba(255,255,255,.95);padding:.55rem .75rem;border-radius:4px;box-shadow:0 1px 4px rgba(15,23,42,.15);font-size:.82rem;color:#0f172a;border:1px solid #e2e8f0;min-width:180px;}
+  .info.hover-panel .h-name{font-weight:700;font-family:'IBM Plex Sans Condensed',sans-serif;color:#0f172a;}
+  .info.hover-panel .h-parent{color:#64748b;font-size:.75rem;margin-top:1px;}
+  .info.hover-panel .h-count{margin-top:.35rem;color:var(--map-red,#0d9488);font-weight:700;font-size:1.1rem;}
+
+  /* Table */
+  .reg-table-wrap{margin-top:1.5rem;}
+  .reg-table-container{max-height:440px;overflow:auto;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;}
   #reg-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-  #reg-table thead{background:var(--map-navy,#3d3d3d);color:#fff;position:sticky;top:0;}
-  #reg-table th{padding:.65rem .75rem;text-align:left;font-weight:600;cursor:pointer;user-select:none;}
+  #reg-table thead{background:var(--map-navy,#0f172a);color:#fff;position:sticky;top:0;}
+  #reg-table th{padding:.65rem .75rem;text-align:left;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap;}
   #reg-table th:hover{background:rgba(255,255,255,.1);}
   #reg-table td{padding:.55rem .75rem;border-bottom:1px solid var(--map-border,#e2e8f0);}
-  #reg-table tbody tr:hover{background:rgba(201,162,39,.03);}
-  .reg-table-container{max-height:400px;overflow-y:auto;border:1px solid var(--map-border,#e2e8f0);border-radius:8px;}
-  .search-input{padding:.55rem .75rem;border:1px solid var(--map-border,#e2e8f0);border-radius:6px;font-size:.9rem;min-width:220px;}
-  .search-input:focus{outline:none;border-color:var(--map-red,#c9a227);box-shadow:0 0 0 2px rgba(201,162,39,.1);}
-  .dl-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;background:var(--map-red,#c9a227);color:#fff;border:none;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .15s;}
-  .dl-btn:hover{background:#a8871e;transform:translateY(-1px);}
-  @media(max-width:768px){
-    #reg-map{height:400px;}
-    .reg-controls{flex-direction:column;}
-    .reg-controls select,.search-input{width:100%;min-width:unset;}
-  }
+  #reg-table tbody tr:hover{background:rgba(13,148,136,.03);}
 
-  /* General Information section (per selected country, below the map) */
+  .dl-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;background:var(--map-red,#0d9488);color:#fff;border:none;border-radius:4px;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;}
+  .dl-btn:hover{background:#0f766e;color:#fff;}
+
   .gi-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--map-border,#e2e8f0);}
-  .gi-header{display:flex;align-items:baseline;gap:.6rem;margin-bottom:1rem;}
-  .gi-header h2{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin:0;color:var(--map-navy,#3d3d3d);}
-  .gi-header .gi-country{color:var(--map-red,#c9a227);font-weight:600;}
-  .gi-header p{margin:0;font-size:.88rem;color:var(--map-text-muted,#64748b);}
-  .gi-topbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-bottom:1.25rem;}
-  .gi-metric{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:8px;padding:1rem;text-align:center;box-shadow:var(--map-shadow);}
-  .gi-metric .val{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;color:var(--map-red,#c9a227);}
-  .gi-metric .lbl{font-size:.75rem;color:var(--map-text-muted,#64748b);margin-top:.15rem;}
-  .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;}
-  .gi-card{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:10px;padding:1.5rem;box-shadow:var(--map-shadow);}
-  .gi-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin:0 0 1rem;color:var(--map-navy,#3d3d3d);}
+  .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+  .gi-card{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1.25rem;box-shadow:var(--map-shadow);}
+  .gi-card h3{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1rem;margin:0 0 .75rem;color:var(--map-navy,#0f172a);}
   .gi-card canvas{max-height:300px !important;}
-  .gi-region-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-  .gi-region-table thead{background:var(--map-navy,#3d3d3d);color:#fff;}
-  .gi-region-table th{padding:.6rem .75rem;text-align:left;font-weight:600;}
-  .gi-region-table td{padding:.5rem .75rem;border-bottom:1px solid var(--map-border,#e2e8f0);}
-  .gi-region-table tbody tr:hover{background:rgba(201,162,39,.03);}
-  .gi-bar{height:8px;border-radius:4px;background:var(--map-bg-section,#f1f5f9);overflow:hidden;min-width:80px;}
-  .gi-bar-fill{height:100%;border-radius:4px;transition:width .3s;}
-  .gi-table-scroll{max-height:380px;overflow-y:auto;}
-  @media(max-width:768px){.gi-grid{grid-template-columns:1fr;}}
+  @media(max-width:768px){#reg-map{height:400px;} .gi-grid{grid-template-columns:1fr;}}
 </style>
 
 <section class="reg-hero">
   <div style="max-width:1400px;margin:0 auto;">
-    <h1>Facility Registry Explorer</h1>
-    <p>Coverage at a glance. The eight countries the HealthScope registry currently reaches, with searchable facility-level detail below.</p>
+    <h1>CPP Registry Explorer</h1>
+    <p>Every Community Pharmaceutical Premise in the Pharmacy Council of Tanzania inventory &mdash; searchable, filterable, and mapped as points or admin-boundary choropleths.</p>
   </div>
 </section>
 
 <div class="reg-wrap">
 
-  <!-- Controls -->
+  <div class="reg-status" id="reg-status">Loading CPP registry…</div>
+
+  <div class="reg-summary" id="reg-summary"></div>
+
+  <div class="reg-viewbar">
+    <span class="lbl">Map view</span>
+    <button class="reg-viewpill active" data-view="regions">Regions</button>
+    <button class="reg-viewpill" data-view="districts">Districts</button>
+    <button class="reg-viewpill" data-view="wards">Wards</button>
+    <span style="flex:1"></span>
+    <span id="reg-view-note" style="color:#64748b;font-size:.75rem;"></span>
+  </div>
+
   <div class="reg-controls">
     <div class="ctrl">
-      <label>Country</label>
-      <select id="f-country">
-        <option value="all" selected>All Countries</option>
-        <option value="botswana">Botswana (1,076)</option>
-        <option value="ethiopia">Ethiopia (40,035)</option>
-        <option value="kenya">Kenya (17,353)</option>
-        <option value="malawi">Malawi (1,929)</option>
-        <option value="nigeria">Nigeria (51,023)</option>
-        <option value="tanzania">Tanzania (13,075)</option>
-        <option value="uganda">Uganda (8,512)</option>
-        <option value="zambia">Zambia (3,731)</option>
-      </select>
+      <label for="f-region">Region</label>
+      <select id="f-region"><option value="">All regions</option></select>
     </div>
     <div class="ctrl">
-      <label>Facility Type</label>
-      <select id="f-type">
-        <option value="all">All Types</option>
-      </select>
+      <label for="f-district">District</label>
+      <select id="f-district" disabled><option value="">All districts</option></select>
     </div>
     <div class="ctrl">
-      <label>Ownership</label>
-      <select id="f-ownership">
-        <option value="all">All Ownership</option>
-      </select>
+      <label for="f-ward">Ward</label>
+      <select id="f-ward" disabled><option value="">All wards</option></select>
     </div>
     <div class="ctrl">
-      <label>Search</label>
-      <input type="text" id="f-search" class="search-input" placeholder="Search facility name..."/>
+      <label for="f-biz">Business type</label>
+      <select id="f-biz"><option value="">All types</option></select>
     </div>
-    <div class="ctrl" style="margin-left:auto;">
-      <label>&nbsp;</label>
-      <button class="dl-btn" id="dl-btn" onclick="downloadFiltered()">
+    <div class="ctrl">
+      <label for="f-acc">Accreditation</label>
+      <select id="f-acc"><option value="">All sources</option></select>
+    </div>
+    <div class="ctrl">
+      <label for="f-search">Search</label>
+      <input type="search" id="f-search" placeholder="Outlet, ward, street…"/>
+    </div>
+    <div class="ctrl" style="flex:1;text-align:right;">
+      <a class="dl-btn" href="data/tanzania/addo_standardized.csv" download>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download CSV
-      </button>
+      </a>
     </div>
   </div>
 
-  <!-- Status -->
-  <div class="reg-status" id="reg-status">Loading facility data from 8 countries...</div>
-
-  <!-- Summary cards -->
-  <div class="reg-summary" id="reg-summary"></div>
-
-  <!-- Map -->
   <div id="reg-map"></div>
 
-  <!-- General Information (per-country; hidden when "All Countries" is selected) -->
-  <section class="gi-section" id="reg-general-info" style="display:none;">
-    <div class="gi-header">
-      <h2>General Information &mdash; <span class="gi-country" id="gi-country-name"></span></h2>
+  <div class="reg-table-wrap">
+    <div class="reg-table-container">
+      <table id="reg-table">
+        <thead><tr>
+          <th data-k="addo_name">Outlet</th>
+          <th data-k="business_type">Type</th>
+          <th data-k="accreditation_source">Accreditation</th>
+          <th data-k="region">Region</th>
+          <th data-k="district">District</th>
+          <th data-k="ward">Ward</th>
+          <th data-k="has_coords">Geocoded</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
     </div>
+  </div>
 
-    <div class="gi-topbar" id="gi-topbar"></div>
-
+  <div class="gi-section">
+    <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1.5rem;color:var(--map-navy,#0f172a);margin:0 0 1rem;">Coverage snapshot</h2>
     <div class="gi-grid">
       <div class="gi-card">
-        <h3>Facility Type Distribution</h3>
-        <canvas id="gi-chart-type"></canvas>
+        <h3>Outlets per region (top 15)</h3>
+        <canvas id="chart-region"></canvas>
       </div>
       <div class="gi-card">
-        <h3>Ownership Breakdown</h3>
-        <canvas id="gi-chart-ownership"></canvas>
+        <h3>Accreditation source</h3>
+        <canvas id="chart-acc"></canvas>
       </div>
     </div>
-
-    <div class="gi-grid">
-      <div class="gi-card">
-        <h3>Facilities by Region</h3>
-        <canvas id="gi-chart-region" style="max-height:350px!important;"></canvas>
-      </div>
-      <div class="gi-card">
-        <h3>Regional Facility Distribution</h3>
-        <div class="gi-table-scroll">
-          <table class="gi-region-table">
-            <thead><tr><th>Region</th><th>Facilities</th><th>Public %</th><th>Distribution</th></tr></thead>
-            <tbody id="gi-region-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
 
 </div>
 
 <script>
-(function(){
-  var ETL_BASE = 'etl/data/processed/country_standardized';
-  var COUNTRIES = {
-    kenya:    {file: ETL_BASE + '/kenya_standardized.csv',    label:'Kenya',    color:'#c9a227', bounds:[-4.7, 5.5, 33.9,41.9]},
-    tanzania: {file: ETL_BASE + '/tanzania_standardized.csv', label:'Tanzania', color:'#c9a227', bounds:[-11.8,-1.0,29.2,40.6]},
-    nigeria:  {file: ETL_BASE + '/nigeria_standardized.csv',  label:'Nigeria',  color:'#c9a227', bounds:[ 4,  14,  2.7,14.7]},
-    uganda:   {file: ETL_BASE + '/uganda_standardized.csv',   label:'Uganda',   color:'#c9a227', bounds:[-1.5, 4.3,29.5,35.1]},
-    zambia:   {file: ETL_BASE + '/zambia_standardized.csv',   label:'Zambia',   color:'#c9a227', bounds:[-18.1,-8.2,21.9,33.7]},
-    malawi:   {file: ETL_BASE + '/malawi_standardized.csv',   label:'Malawi',   color:'#c9a227', bounds:[-17.2,-9.3,32.6,36.0]},
-    botswana: {file: ETL_BASE + '/botswana_standardized.csv', label:'Botswana', color:'#c9a227', bounds:[-27, -17.7,19.9,29.4]},
-    ethiopia: {file: ETL_BASE + '/ethiopia_standardized.csv', label:'Ethiopia', color:'#c9a227', bounds:[ 3.0,15.0,33.0,48.0]}
+(function () {
+  // ── Endpoints ────────────────────────────────────────────────────
+  const CSV_URL  = "data/tanzania/addo_standardized.csv";
+  const GEO_URLS = {
+    regions:   "data/tanzania/boundaries/tza_regions.geojson",
+    districts: "data/tanzania/boundaries/tza_districts.geojson",
+    wards:     "data/tanzania/boundaries/tza_wards.geojson",
+  };
+  const GID_COL = { regions: "gid_region", districts: "gid_district", wards: "gid_ward" };
+
+  const els = {
+    status: document.getElementById("reg-status"),
+    summary: document.getElementById("reg-summary"),
+    fRegion: document.getElementById("f-region"),
+    fDistrict: document.getElementById("f-district"),
+    fWard: document.getElementById("f-ward"),
+    fBiz: document.getElementById("f-biz"),
+    fAcc: document.getElementById("f-acc"),
+    fSearch: document.getElementById("f-search"),
+    tbody: document.querySelector("#reg-table tbody"),
+    viewNote: document.getElementById("reg-view-note"),
+    viewPills: document.querySelectorAll(".reg-viewpill"),
   };
 
-  var allFacilities = [];
-  var filtered = [];
-  var map, coverageLayer;
-  var typesSet = new Set(), ownershipSet = new Set();
-  var loadedCount = 0, failedCount = 0, totalCountries = Object.keys(COUNTRIES).length;
-  var giChartType, giChartOwn, giChartRegion;
-  var GI_COLORS = ['#c9a227','#2563eb','#059669','#f59e0b','#8b5cf6','#06b6d4','#ec4899','#84cc16','#f97316','#6366f1','#14b8a6','#e11d48','#0ea5e9','#a855f7','#eab308'];
-  // Country-name strings as they appear in the world GeoJSON
-  // (Natural Earth via johan/world.geo.json), keyed to our local key.
-  var COUNTRY_NAMES = {
-    kenya: 'Kenya', tanzania: 'United Republic of Tanzania', nigeria: 'Nigeria',
-    uganda: 'Uganda', zambia: 'Zambia', malawi: 'Malawi', botswana: 'Botswana',
-    ethiopia: 'Ethiopia'
+  // ── Map + basemap ────────────────────────────────────────────────
+  const map = L.map("reg-map", { preferCanvas: true }).setView([-6.4, 35.0], 6);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    { attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19 }).addTo(map);
+
+  let polyLayer = null;   // Leaflet GeoJSON layer for the active polygon view
+  let currentView = "regions";
+  const geoCache = {};    // level -> parsed GeoJSON
+
+  // Sequential teal ramp (Colorbrewer YlGnBu variant biased toward teals)
+  const RAMP = ["#f1f5f9", "#ccfbf1", "#5eead4", "#14b8a6", "#0d9488", "#0f766e", "#134e4a"];
+
+  // Legend + hover control (Leaflet controls, bottom-right / top-right)
+  const legendCtl = L.control({ position: "bottomright" });
+  legendCtl.onAdd = function () {
+    this._div = L.DomUtil.create("div", "info legend");
+    return this._div;
+  };
+  legendCtl.update = function (breaks, unit) {
+    if (!breaks) { this._div.innerHTML = ""; return; }
+    let html = `<div class="lg-title">${unit} · CPPs</div>`;
+    for (let i = 0; i < breaks.length - 1; i++) {
+      html += `<div class="lg-row"><i style="background:${RAMP[i + 1]}"></i>${breaks[i].toLocaleString()}${i === breaks.length - 2 ? "+" : "&ndash;" + (breaks[i + 1] - 1).toLocaleString()}</div>`;
+    }
+    html += `<div class="lg-row"><i style="background:${RAMP[0]}"></i>0</div>`;
+    this._div.innerHTML = html;
   };
 
-  map = L.map('reg-map').setView([4, 25], 3);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
-    attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:8
-  }).addTo(map);
+  const hoverCtl = L.control({ position: "topright" });
+  hoverCtl.onAdd = function () {
+    this._div = L.DomUtil.create("div", "info hover-panel");
+    this._div.innerHTML = '<em style="color:#94a3b8;">Hover a polygon</em>';
+    return this._div;
+  };
+  hoverCtl.update = function (props) {
+    if (!props) { this._div.innerHTML = '<em style="color:#94a3b8;">Hover a polygon</em>'; return; }
+    const parent = [props.district, props.region].filter(Boolean).join(" · ");
+    this._div.innerHTML =
+      `<div class="h-name">${escapeHtml(props.name || "—")}</div>` +
+      (parent ? `<div class="h-parent">${escapeHtml(parent)}</div>` : "") +
+      `<div class="h-count">${(props.addo_count || 0).toLocaleString()} <span style="font-weight:400;color:#64748b;font-size:.75rem;">ADDOs</span></div>`;
+  };
 
-  // Load world country boundaries once and overlay only our covered set
-  fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
-    .then(function(r){return r.json();})
-    .then(function(geojson){
-      // Build reverse map: GeoJSON name -> our country key
-      var nameToKey = {};
-      Object.keys(COUNTRY_NAMES).forEach(function(k){ nameToKey[COUNTRY_NAMES[k]] = k; });
-      coverageLayer = L.geoJSON(geojson, {
-        filter: function(feature){ return !!nameToKey[feature.properties.name]; },
-        style: function(feature){
-          var key = nameToKey[feature.properties.name];
-          var col = COUNTRIES[key].color;
-          return {color: col, weight: 1.5, opacity: 0.85, fillColor: col, fillOpacity: 0.35};
-        },
-        onEachFeature: function(feature, layer){
-          layer._countryKey = nameToKey[feature.properties.name];
-          layer.on('mouseover', function(){ this.setStyle({fillOpacity: 0.6, weight: 2.5}); });
-          layer.on('mouseout',  function(){ coverageLayer.resetStyle(this); });
-          layer.on('click', function(){
-            document.getElementById('f-country').value = this._countryKey;
-            applyFilters();
-          });
-        }
-      }).addTo(map);
-      refreshCoveragePopups();
-      map.fitBounds(coverageLayer.getBounds(), {padding:[20,20]});
-    })
-    .catch(function(err){ console.error('GeoJSON load failed:', err); });
+  // ── State ────────────────────────────────────────────────────────
+  let all = [];
+  let currentRows = [];
+  let sortState = { key: "addo_name", dir: 1 };
+  const regionChart = { instance: null };
+  const accChart    = { instance: null };
 
-  function refreshCoveragePopups(){
-    if (!coverageLayer) return;
-    // Compute current count per country from `filtered` (or `allFacilities` if no filter yet)
-    var src = filtered.length > 0 ? filtered : allFacilities;
-    var counts = {};
-    src.forEach(function(f){ counts[f._country] = (counts[f._country] || 0) + 1; });
-    coverageLayer.eachLayer(function(layer){
-      var k = layer._countryKey;
-      var label = COUNTRIES[k].label;
-      var n = counts[k] || 0;
-      layer.bindPopup(
-        '<div style="min-width:180px;">' +
-        '<strong style="font-size:1.05rem;color:'+COUNTRIES[k].color+';">'+label+'</strong><br/>' +
-        '<span style="color:#6b6b6b;">Facilities in registry:</span> <strong>'+n.toLocaleString()+'</strong><br/>' +
-        '<a href="countries/'+(k.charAt(0).toUpperCase()+k.slice(1))+'.html" style="color:'+COUNTRIES[k].color+';text-decoration:none;font-weight:600;">Open country page &rarr;</a>' +
-        '</div>'
-      );
-    });
+  // ── Helpers ──────────────────────────────────────────────────────
+  const fmt = (v) => (v === null || v === undefined || v === "" ? "&mdash;" : String(v));
+  const cmp = (a, b) => (a == null ? 1 : b == null ? -1 : a > b ? 1 : a < b ? -1 : 0);
+  const uniq = (rows, k) => [...new Set(rows.map((r) => r[k]).filter((v) => v !== null && v !== ""))].sort();
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+  // Compute quantile-ish breakpoints for the choropleth ramp given raw counts.
+  function computeBreaks(values) {
+    const nz = values.filter(v => v > 0).sort((a, b) => a - b);
+    if (nz.length === 0) return [0, 1, 2, 3, 4, 5, 6];
+    const q = (p) => nz[Math.min(nz.length - 1, Math.floor(p * nz.length))];
+    const raw = [1, q(0.20), q(0.40), q(0.60), q(0.80), q(0.95)];
+    // dedupe + ensure monotonic
+    const out = [];
+    for (const v of raw) { if (!out.length || v > out[out.length - 1]) out.push(v); }
+    while (out.length < 6) out.push((out[out.length - 1] || 0) + 1);
+    out.push(Infinity);
+    return out;  // length 7 → 6 filled bins
+  }
+  function colorFor(count, breaks) {
+    if (count <= 0) return RAMP[0];
+    for (let i = 0; i < breaks.length - 1; i++) {
+      if (count >= breaks[i] && count < breaks[i + 1]) return RAMP[i + 1];
+    }
+    return RAMP[RAMP.length - 1];
   }
 
-  function countryDone(key, success){
-    if(success) loadedCount++; else failedCount++;
-    document.getElementById('reg-status').innerHTML = 'Loaded ' + (loadedCount) + '/' + totalCountries + ' countries...';
-    if(loadedCount + failedCount >= totalCountries) onAllLoaded();
-  }
-
-  Object.keys(COUNTRIES).forEach(function(key){
-    Papa.parse(COUNTRIES[key].file,{
-      download:true, header:true, skipEmptyLines:true,
-      complete:function(res){
-        res.data.forEach(function(r){
-          if(!r.facility_name || r.facility_name === 'facility_name') return;
-          var lat=parseFloat(r.latitude), lon=parseFloat(r.longitude);
-          // Validate coords within country bounding box
-          var b = COUNTRIES[key].bounds;
-          if(!isNaN(lat) && !isNaN(lon) && (lat < b[0] || lat > b[1] || lon < b[2] || lon > b[3])) { lat=NaN; lon=NaN; }
-          r._country = key;
-          r._countryLabel = COUNTRIES[key].label;
-          r._color = COUNTRIES[key].color;
-          r._lat = isNaN(lat)?null:lat;
-          r._lon = isNaN(lon)?null:lon;
-          r.admin1 = r.admin1 || r.admin2 || '';
-          allFacilities.push(r);
-          if(r.facility_type && r.facility_type!=='facility_type') typesSet.add(r.facility_type);
-          // ETL canonical column is `ownership`; older portal-local CSVs used `facility_ownership`
-          var ownVal = r.ownership || r.facility_ownership || '';
-          r._ownership = ownVal;
-          if(ownVal && ownVal!=='ownership' && ownVal!=='facility_ownership') ownershipSet.add(ownVal);
-        });
-        countryDone(key, true);
-      },
-      error:function(){ countryDone(key, false); }
-    });
+  // ── Data load ────────────────────────────────────────────────────
+  Papa.parse(CSV_URL, {
+    download: true, header: true, skipEmptyLines: true, dynamicTyping: false,
+    complete: (res) => {
+      all = res.data.map((r) => ({
+        ...r,
+        latitude: r.latitude ? parseFloat(r.latitude) : null,
+        longitude: r.longitude ? parseFloat(r.longitude) : null,
+        has_coords: r.has_coords === "True" || r.has_coords === "true",
+        gid_region: r.gid_region || null,
+        gid_district: r.gid_district || null,
+        gid_ward: r.gid_ward || null,
+      }));
+      populateFilters();
+      applyFilters();
+      els.status.innerHTML =
+        `Loaded <strong>${all.length.toLocaleString()}</strong> outlets. ` +
+        `Toggle <em>Regions</em> / <em>Districts</em> / <em>Wards</em> above to switch the map to a choropleth of CPP counts per polygon.`;
+    },
+    error: (err) => {
+      els.status.textContent = "Failed to load registry: " + err.message;
+      els.status.style.borderLeftColor = "#dc2626";
+    },
   });
 
-  function onAllLoaded(){
-    // Populate filter dropdowns
-    var typeSelect = document.getElementById('f-type');
-    Array.from(typesSet).sort().forEach(function(t){
-      var o=document.createElement('option'); o.value=t; o.textContent=t; typeSelect.appendChild(o);
+  // ── Filter controls ──────────────────────────────────────────────
+  function populateFilters() {
+    for (const v of uniq(all, "region")) els.fRegion.add(new Option(v, v));
+    for (const v of uniq(all, "business_type")) els.fBiz.add(new Option(v, v));
+    for (const v of uniq(all, "accreditation_source")) els.fAcc.add(new Option(v, v));
+
+    els.fRegion.addEventListener("input", () => {
+      rebuildChildSelect(els.fDistrict, "district", (r) => !els.fRegion.value || r.region === els.fRegion.value);
+      els.fWard.innerHTML = '<option value="">All wards</option>';
+      els.fWard.disabled = true;
+      applyFilters();
     });
-    var ownSelect = document.getElementById('f-ownership');
-    Array.from(ownershipSet).sort().forEach(function(t){
-      var o=document.createElement('option'); o.value=t; o.textContent=t; ownSelect.appendChild(o);
+    els.fDistrict.addEventListener("input", () => {
+      rebuildChildSelect(els.fWard, "ward", (r) =>
+        (!els.fRegion.value   || r.region === els.fRegion.value) &&
+        (!els.fDistrict.value || r.district === els.fDistrict.value));
+      applyFilters();
     });
-    applyFilters();
+    [els.fWard, els.fBiz, els.fAcc, els.fSearch].forEach((el) =>
+      el.addEventListener("input", applyFilters)
+    );
+
+    els.viewPills.forEach(btn => btn.addEventListener("click", () => setView(btn.dataset.view)));
+
+    document.querySelectorAll("#reg-table th").forEach((th) =>
+      th.addEventListener("click", () => {
+        const k = th.dataset.k;
+        sortState = { key: k, dir: sortState.key === k ? -sortState.dir : 1 };
+        renderTable(currentRows);
+      })
+    );
   }
 
-  function applyFilters(){
-    var country = document.getElementById('f-country').value;
-    var type = document.getElementById('f-type').value;
-    var own = document.getElementById('f-ownership').value;
-    var search = document.getElementById('f-search').value.toLowerCase().trim();
+  function rebuildChildSelect(sel, key, filter) {
+    const values = uniq(all.filter(filter), key);
+    sel.innerHTML = `<option value="">All ${key === "district" ? "districts" : "wards"}</option>`;
+    for (const v of values) sel.add(new Option(v, v));
+    sel.disabled = values.length === 0;
+  }
 
-    filtered = allFacilities.filter(function(f){
-      if(country!=='all' && f._country!==country) return false;
-      if(type!=='all' && f.facility_type!==type) return false;
-      if(own!=='all' && f._ownership!==own) return false;
-      if(search && f.facility_name.toLowerCase().indexOf(search)===-1) return false;
+  function applyFilters() {
+    const q = els.fSearch.value.trim().toLowerCase();
+    currentRows = all.filter((r) => {
+      if (els.fRegion.value   && r.region   !== els.fRegion.value)   return false;
+      if (els.fDistrict.value && r.district !== els.fDistrict.value) return false;
+      if (els.fWard.value     && r.ward     !== els.fWard.value)     return false;
+      if (els.fBiz.value && r.business_type !== els.fBiz.value) return false;
+      if (els.fAcc.value && r.accreditation_source !== els.fAcc.value) return false;
+      if (q) {
+        const hay = [r.addo_name, r.district, r.ward, r.village_street].join(" ").toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
       return true;
     });
-
-    updateStatus();
-    updateSummary();
-    updateMap();
-    zoomToSelection();
-    updateGeneralInfo();
+    renderSummary(currentRows);
+    renderMap();  // uses currentView + currentRows
+    renderTable(currentRows);
+    renderCharts(currentRows);
   }
 
-  // Show country-specific General Information below the map.
-  // Hidden when "All Countries" is selected — the stats are inherently per-country
-  // (regions don't generalise across the 8 countries).
-  function updateGeneralInfo(){
-    var section = document.getElementById('reg-general-info');
-    var country = document.getElementById('f-country').value;
-    if (country === 'all') { section.style.display = 'none'; return; }
-    section.style.display = 'block';
-    document.getElementById('gi-country-name').textContent = COUNTRIES[country].label;
-    renderGeneralInfo(country);
+  // ── Summary cards ────────────────────────────────────────────────
+  function renderSummary(rows) {
+    const geocoded = rows.filter((r) => r.has_coords).length;
+    const regions   = new Set(rows.map((r) => r.region).filter(Boolean)).size;
+    const districts = new Set(rows.map((r) => r.district).filter(Boolean)).size;
+    els.summary.innerHTML = `
+      <div class="reg-scard"><div class="val">${rows.length.toLocaleString()}</div><div class="lbl">Outlets in view</div></div>
+      <div class="reg-scard"><div class="val">${geocoded.toLocaleString()}</div><div class="lbl">With GPS (${rows.length ? Math.round((100 * geocoded) / rows.length) : 0}%)</div></div>
+      <div class="reg-scard"><div class="val">${regions}</div><div class="lbl">Regions</div></div>
+      <div class="reg-scard"><div class="val">${districts}</div><div class="lbl">Districts</div></div>`;
   }
 
-  function renderGeneralInfo(countryKey){
-    var data = allFacilities.filter(function(f){ return f._country === countryKey; });
-
-    // Top metrics
-    var total = data.length;
-    var withCoords = data.filter(function(f){ return f._lat !== null && f._lon !== null; }).length;
-    var publicCount = data.filter(function(f){
-      var o = (f._ownership || '').toLowerCase();
-      return o.indexOf('public') > -1 || o.indexOf('gov') > -1 || o === 'moh';
-    }).length;
-
-    var regions = {};
-    data.forEach(function(f){
-      var r = f.admin1 || f.admin2 || 'Unknown';
-      if (!regions[r]) regions[r] = {total:0, pub:0};
-      regions[r].total++;
-      var o = (f._ownership || '').toLowerCase();
-      if (o.indexOf('public') > -1 || o.indexOf('gov') > -1 || o === 'moh') regions[r].pub++;
-    });
-    var regionEntries = Object.entries(regions).sort(function(a,b){ return b[1].total - a[1].total; });
-    var regionCount = regionEntries.length;
-
-    document.getElementById('gi-topbar').innerHTML =
-      '<div class="gi-metric"><div class="val">'+total.toLocaleString()+'</div><div class="lbl">Total Facilities</div></div>'+
-      '<div class="gi-metric"><div class="val">'+regionCount+'</div><div class="lbl">Regions</div></div>'+
-      '<div class="gi-metric"><div class="val">'+(total>0?Math.round(publicCount/total*100):0)+'%</div><div class="lbl">Public Ownership</div></div>'+
-      '<div class="gi-metric"><div class="val">'+(total>0?Math.round(withCoords/total*100):0)+'%</div><div class="lbl">Geocoded</div></div>';
-
-    // Type chart (top 8)
-    var types = {};
-    data.forEach(function(f){ types[f.facility_type || 'Unknown'] = (types[f.facility_type || 'Unknown'] || 0) + 1; });
-    var typeEntries = Object.entries(types).sort(function(a,b){ return b[1] - a[1]; }).slice(0,8);
-    if (giChartType) giChartType.destroy();
-    giChartType = new Chart(document.getElementById('gi-chart-type'), {
-      type: 'doughnut',
-      data: { labels: typeEntries.map(function(e){return e[0];}), datasets: [{ data: typeEntries.map(function(e){return e[1];}), backgroundColor: GI_COLORS.slice(0, typeEntries.length), borderWidth: 0 }] },
-      options: { responsive: true, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } } }
-    });
-
-    // Ownership chart (top 8)
-    var owns = {};
-    data.forEach(function(f){ owns[f._ownership || 'Unknown'] = (owns[f._ownership || 'Unknown'] || 0) + 1; });
-    var ownEntries = Object.entries(owns).sort(function(a,b){ return b[1] - a[1]; }).slice(0,8);
-    if (giChartOwn) giChartOwn.destroy();
-    giChartOwn = new Chart(document.getElementById('gi-chart-ownership'), {
-      type: 'doughnut',
-      data: { labels: ownEntries.map(function(e){return e[0];}), datasets: [{ data: ownEntries.map(function(e){return e[1];}), backgroundColor: GI_COLORS.slice(0, ownEntries.length), borderWidth: 0 }] },
-      options: { responsive: true, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } } }
-    });
-
-    // Region bar chart (top 15)
-    var topRegions = regionEntries.slice(0,15);
-    if (giChartRegion) giChartRegion.destroy();
-    giChartRegion = new Chart(document.getElementById('gi-chart-region'), {
-      type: 'bar',
-      data: {
-        labels: topRegions.map(function(e){ return e[0]; }),
-        datasets: [{ label: 'Facilities', data: topRegions.map(function(e){ return e[1].total; }), backgroundColor: '#c9a227', borderRadius: 4 }]
-      },
-      options: {
-        indexAxis: 'y', responsive: true,
-        plugins: { legend: { display: false } },
-        scales: { x: { grid: { display: false } }, y: { grid: { display: false }, ticks: { font: { size: 11 } } } }
-      }
-    });
-
-    // Region table
-    var maxCount = regionEntries[0] ? regionEntries[0][1].total : 1;
-    var tbody = '';
-    regionEntries.forEach(function(e){
-      var pct  = e[1].total > 0 ? Math.round(e[1].pub / e[1].total * 100) : 0;
-      var barW = Math.round(e[1].total / maxCount * 100);
-      tbody += '<tr><td><strong>'+e[0]+'</strong></td><td>'+e[1].total.toLocaleString()+'</td><td>'+pct+'%</td>'+
-        '<td><div class="gi-bar"><div class="gi-bar-fill" style="width:'+barW+'%;background:#c9a227;"></div></div></td></tr>';
-    });
-    document.getElementById('gi-region-tbody').innerHTML = tbody;
+  // ── Map: view switcher ───────────────────────────────────────────
+  function setView(view) {
+    currentView = view;
+    els.viewPills.forEach(b => b.classList.toggle("active", b.dataset.view === view));
+    renderMap();
   }
 
-  function zoomToSelection(){
-    var country = document.getElementById('f-country').value;
-    if (!coverageLayer) return;
-    if (country === 'all') {
-      map.fitBounds(coverageLayer.getBounds(), {padding: [20, 20]});
+  function renderMap() {
+    if (polyLayer) { map.removeLayer(polyLayer); polyLayer = null; }
+    map.removeControl(legendCtl); map.removeControl(hoverCtl);
+    renderChoropleth(currentView);
+  }
+
+  async function loadGeo(level) {
+    if (geoCache[level]) return geoCache[level];
+    els.viewNote.textContent = `Loading ${level} boundaries…`;
+    const res = await fetch(GEO_URLS[level]);
+    if (!res.ok) throw new Error(`Failed to load ${level}: ${res.status}`);
+    const gj = await res.json();
+    geoCache[level] = gj;
+    return gj;
+  }
+
+  async function renderChoropleth(level) {
+    let gj;
+    try { gj = await loadGeo(level); }
+    catch (e) {
+      els.viewNote.textContent = e.message;
+      els.viewNote.style.color = "#dc2626";
       return;
     }
-    // Zoom to the selected country's polygon
-    coverageLayer.eachLayer(function(layer){
-      if (layer._countryKey === country) {
-        map.fitBounds(layer.getBounds(), {padding: [30, 30]});
-      }
+
+    // Recompute counts from currentRows so filters flow into the choropleth.
+    const gidKey = GID_COL[level];
+    const counts = {};
+    let unmatched = 0;
+    for (const r of currentRows) {
+      const g = r[gidKey];
+      if (g) counts[g] = (counts[g] || 0) + 1;
+      else unmatched += 1;
+    }
+
+    const values = gj.features.map(f => counts[f.properties.gid] || 0);
+    const breaks = computeBreaks(values);
+
+    polyLayer = L.geoJSON(gj, {
+      style: (f) => ({
+        fillColor: colorFor(counts[f.properties.gid] || 0, breaks),
+        weight: level === "wards" ? 0.3 : 0.7,
+        opacity: 1,
+        color: "#ffffff",
+        fillOpacity: 0.85,
+      }),
+      onEachFeature: (feature, layer) => {
+        const p = { ...feature.properties, addo_count: counts[feature.properties.gid] || 0 };
+        layer.on({
+          mouseover: (e) => {
+            e.target.setStyle({ weight: 2, color: "#0f172a" });
+            e.target.bringToFront();
+            hoverCtl.update(p);
+          },
+          mouseout: (e) => {
+            polyLayer.resetStyle(e.target);
+            hoverCtl.update(null);
+          },
+          click: (e) => {
+            map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
+            L.popup()
+              .setLatLng(e.latlng)
+              .setContent(
+                `<strong>${escapeHtml(p.name)}</strong><br/>` +
+                (p.district ? `${escapeHtml(p.district)}, ` : "") +
+                (p.region ? `${escapeHtml(p.region)}<br/>` : "") +
+                `<strong style="color:#0d9488">${(p.addo_count).toLocaleString()}</strong> CPPs`
+              ).openOn(map);
+          },
+        });
+      },
+    }).addTo(map);
+
+    legendCtl.addTo(map);
+    hoverCtl.addTo(map);
+    legendCtl.update(breaks, level.charAt(0).toUpperCase() + level.slice(1, -1));
+
+    // Fit to the filtered subset when a filter zooms us to a region/district
+    if (els.fRegion.value || els.fDistrict.value) {
+      map.fitBounds(polyLayer.getBounds(), { padding: [20, 20], maxZoom: 10 });
+    } else {
+      map.setView([-6.4, 35.0], 6);
+    }
+
+    const matched = currentRows.length - unmatched;
+    const pct = currentRows.length ? Math.round(100 * matched / currentRows.length) : 0;
+    els.viewNote.style.color = "#64748b";
+    els.viewNote.textContent =
+      `${matched.toLocaleString()} / ${currentRows.length.toLocaleString()} outlets placed in ${level} polygons (${pct}%). ` +
+      `${unmatched.toLocaleString()} could not be auto-matched.`;
+  }
+
+  // ── Table ────────────────────────────────────────────────────────
+  function renderTable(rows) {
+    const { key, dir } = sortState;
+    const sorted = [...rows].sort((a, b) => dir * cmp(a[key], b[key]));
+    const first = sorted.slice(0, 500);
+    els.tbody.innerHTML = first.map((r) => `
+      <tr>
+        <td>${fmt(r.addo_name)}</td>
+        <td>${fmt(r.business_type)}</td>
+        <td>${fmt(r.accreditation_source)}</td>
+        <td>${fmt(r.region)}</td>
+        <td>${fmt(r.district)}</td>
+        <td>${fmt(r.ward)}</td>
+        <td>${r.has_coords ? "&#10003;" : "&mdash;"}</td>
+      </tr>`).join("");
+    if (rows.length > 500) {
+      els.tbody.insertAdjacentHTML("beforeend",
+        `<tr><td colspan="7" style="text-align:center;font-style:italic;color:#64748b;padding:.75rem;">Showing first 500 of ${rows.length.toLocaleString()} outlets &mdash; narrow the filters to see more, or download the CSV.</td></tr>`);
+    }
+  }
+
+  // ── Charts ───────────────────────────────────────────────────────
+  function tally(rows, k, top) {
+    const counts = {};
+    for (const r of rows) {
+      const v = r[k] || "Unknown";
+      counts[v] = (counts[v] || 0) + 1;
+    }
+    const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    return top ? entries.slice(0, top) : entries;
+  }
+  function renderCharts(rows) {
+    const regions = tally(rows, "region", 15);
+    const acc = tally(rows, "accreditation_source");
+    if (regionChart.instance) regionChart.instance.destroy();
+    if (accChart.instance) accChart.instance.destroy();
+    regionChart.instance = new Chart(document.getElementById("chart-region"), {
+      type: "bar",
+      data: { labels: regions.map(e => e[0]), datasets: [{ data: regions.map(e => e[1]), backgroundColor: "#0d9488" }] },
+      options: { indexAxis: "y", responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } },
+    });
+    accChart.instance = new Chart(document.getElementById("chart-acc"), {
+      type: "doughnut",
+      data: { labels: acc.map(e => e[0]), datasets: [{ data: acc.map(e => e[1]),
+        backgroundColor: ["#0d9488", "#0f172a", "#64748b", "#f59e0b"] }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } },
     });
   }
-
-  function updateStatus(){
-    var countries = new Set();
-    filtered.forEach(function(f){ countries.add(f._country); });
-    document.getElementById('reg-status').innerHTML =
-      '<strong>' + filtered.length.toLocaleString() + '</strong> facilities matched across <strong>' +
-      countries.size + '</strong> covered countries. Click a country on the map for details.';
-  }
-
-  function updateSummary(){
-    var countries={}, types={}, public_count=0, operating=0;
-    filtered.forEach(function(f){
-      countries[f._countryLabel]=(countries[f._countryLabel]||0)+1;
-      types[f.facility_type]=(types[f.facility_type]||0)+1;
-      var ow = (f._ownership || '').toLowerCase();
-      if(ow && (ow.indexOf('public')>-1 || ow.indexOf('gov')>-1 || ow==='moh')) public_count++;
-      if(f.status && (f.status==='Operating'||f.status==='Functional'||f.status==='OPERATIONAL')) operating++;
-    });
-    var html = '<div class="reg-scard"><div class="val">'+filtered.length.toLocaleString()+'</div><div class="lbl">Total Facilities</div></div>';
-    html += '<div class="reg-scard"><div class="val">'+Object.keys(countries).length+'</div><div class="lbl">Countries</div></div>';
-    html += '<div class="reg-scard"><div class="val">'+Object.keys(types).length+'</div><div class="lbl">Facility Types</div></div>';
-    html += '<div class="reg-scard"><div class="val">'+(filtered.length>0?Math.round(public_count/filtered.length*100):0)+'%</div><div class="lbl">Public Ownership</div></div>';
-    html += '<div class="reg-scard"><div class="val">'+(filtered.length>0?Math.round(operating/filtered.length*100):0)+'%</div><div class="lbl">Operational</div></div>';
-    document.getElementById('reg-summary').innerHTML = html;
-  }
-
-  function updateMap(){
-    // Country-coverage view: refresh popup counts to reflect the
-    // current filter; the polygons themselves never change.
-    refreshCoveragePopups();
-  }
-
-  window.downloadFiltered = function(){
-    var csv = 'facility_name,facility_code,facility_type,facility_ownership,latitude,longitude,admin1,status,country\n';
-    filtered.forEach(function(f){
-      csv += '"'+(f.facility_name||'').replace(/"/g,'""')+'",'+
-        '"'+(f.facility_code||'')+'",'+
-        '"'+(f.facility_type||'')+'",'+
-        '"'+(f._ownership||'')+'",'+
-        (f.latitude||'')+','+(f.longitude||'')+','+
-        '"'+(f.admin1||f.admin2||'')+'",'+
-        '"'+(f.status||'')+'",'+
-        '"'+f._countryLabel+'"\n';
-    });
-    var blob = new Blob([csv],{type:'text/csv'});
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'healthscope_facilities_export.csv';
-    a.click();
-  };
-
-  // Wire up filters
-  ['f-country','f-type','f-ownership'].forEach(function(id){
-    document.getElementById(id).addEventListener('change', applyFilters);
-  });
-  var searchTimeout;
-  document.getElementById('f-search').addEventListener('input',function(){
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(applyFilters, 300);
-  });
 })();
 </script>
 ```

@@ -1,205 +1,60 @@
 ---
 title: ""
 page-layout: full
-toc: false
+toc: true
+toc-depth: 2
 ---
 
 ```{=html}
-<style>
-  .ds-hero { padding: 3rem 2rem; color: white; }
-  .ds-hero h1 { font-size: 2.5rem; margin: 0 0 0.5rem 0; }
-  .ds-hero p  { font-size: 1.1rem; opacity: 0.9; margin: 0; }
-
-  .ds-wrap { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
-  .ds-wrap h2 { text-align: center; margin-bottom: 0.5rem; }
-  .ds-lede    { text-align: center; color: #666; margin-bottom: 2rem; }
-
-  .ds-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-  .ds-card {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    border: 1px solid var(--map-border, #e2e8f0);
-    border-top: 4px solid var(--map-red, #c9a227);
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    transition: box-shadow 0.15s, transform 0.15s;
-  }
-  .ds-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
-  .ds-card h3 { margin: 0 0 0.5rem; color: var(--map-red, #c9a227); font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; gap: 0.6rem; }
-  .ds-flag { width: 28px; height: 20px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); object-fit: cover; }
-  .ds-count { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1rem; }
-  .ds-count .num { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--map-navy, #3d3d3d); }
-  .ds-count .lbl { color: #666; font-size: 0.85rem; }
-  .ds-source { color: #333; margin: 0 0 1rem; font-size: 0.92rem; line-height: 1.5; flex: 1; }
-  .ds-source strong { color: var(--map-navy, #3d3d3d); }
-  .ds-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
-  .ds-badge {
-    background: rgba(201, 162, 39, 0.1);
-    color: var(--map-red, #c9a227);
-    padding: 0.25rem 0.55rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  .ds-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .ds-links a {
-    flex: 1;
-    min-width: 100px;
-    padding: 0.55rem 0.75rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .ds-links .primary   { background: var(--map-red, #c9a227); color: #fff; }
-  .ds-links .primary:hover   { background: #a8871e; }
-  .ds-links .secondary { background: rgba(201, 162, 39, 0.08); color: var(--map-red, #c9a227); border: 1px solid rgba(201, 162, 39, 0.3); }
-  .ds-links .secondary:hover { background: rgba(201, 162, 39, 0.15); }
-
-  .ds-summary {
-    max-width: 1200px; margin: 3rem auto; padding: 2rem;
-    background: linear-gradient(135deg, rgba(201,162,39,0.05) 0%, rgba(201,162,39,0.02) 100%);
-    border: 1px solid rgba(201,162,39,0.2); border-radius: 10px;
-  }
-  .ds-summary h3 { color: var(--map-navy, #3d3d3d); margin-top: 0; }
-  .ds-summary ul { color: #666; line-height: 1.8; }
-  .ds-summary strong { color: var(--map-navy, #3d3d3d); }
-
-  .ds-method { max-width: 1200px; margin: 3rem auto 4rem; padding: 0 2rem; }
-  .ds-method p { color: #666; line-height: 1.8; }
-</style>
-
-<section class="page-banner ds-hero">
-  <div style="max-width: 1200px; margin: 0 auto;">
+<section class="page-banner">
+  <div style="max-width:1000px;margin:0 auto;">
     <h1>Data Sources</h1>
-    <p>Per-country Ministry of Health registries feeding the HealthScope facility database</p>
+    <p>Where PharmaScope's data comes from &mdash; and how you can trace every record back to source.</p>
   </div>
 </section>
-
-<div class="ds-wrap">
-  <h2>Country-Level Sources</h2>
-  <p class="ds-lede">Every facility in HealthScope traces back to an authoritative Ministry of Health registry. Below, the source powering each country in the portal.</p>
-
-  <div class="ds-grid">
-
-    <!-- Botswana -->
-    <div class="ds-card">
-      <h3><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/bw.svg" alt=""> Botswana</h3>
-      <div class="ds-count"><span class="num">1,076</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>MoH Master Facility List (MFL)</strong> — Ministry of Health &amp; Wellness master facility register, supplemented with published services and infrastructure data.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">Services</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://healthfacilities.gov.bw" target="_blank" rel="noopener">MFL portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Ethiopia -->
-    <div class="ds-card">
-      <h3><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/et.svg" alt=""> Ethiopia</h3>
-      <div class="ds-count"><span class="num">40,035</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Master Facility Registry (MFR v2)</strong> — Ethiopian Ministry of Health's national facility registry. Geocoded via a per-woreda process (see Ethiopia country page).</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">API</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://mfrv2.moh.gov.et" target="_blank" rel="noopener">MFR v2 portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Kenya -->
-    <div class="ds-card">
-      <h3><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/ke.svg" alt=""> Kenya</h3>
-      <div class="ds-count"><span class="num">17,353</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Kenya Master Health Facility Registry (KMHFR)</strong> — MoH's authoritative facility register, published by the Health Sector Monitoring &amp; Evaluation Unit.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">Licensed</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://kmhfr.health.go.ke" target="_blank" rel="noopener">KMHFR portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Malawi -->
-    <div class="ds-card">
-      <h3><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/mw.svg" alt=""> Malawi</h3>
-      <div class="ds-count"><span class="num">1,929</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Master Health Facility Registry (MHFR / Zipatala)</strong> — MoH &amp; Population's national online facility database, replacing the older CMED spreadsheet-based list.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://zipatala.health.gov.mw" target="_blank" rel="noopener">MHFR (Zipatala) ↗</a>
-      </div>
-    </div>
-
-    <!-- Nigeria -->
-    <div class="ds-card">
-      <h3><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/ng.svg" alt=""> Nigeria</h3>
-      <div class="ds-count"><span class="num">51,023</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Nigeria Health Facility Registry (HFR)</strong> — Federal Ministry of Health's dynamic Master Facility List, integrated with NHMIS on DHIS2 for data flow.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">DHIS2</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://hfr.health.gov.ng" target="_blank" rel="noopener">Nigeria HFR ↗</a>
-      </div>
-    </div>
-
-    <!-- Tanzania -->
-    <div class="ds-card">
-      <h3><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/tz.svg" alt=""> Tanzania</h3>
-      <div class="ds-count"><span class="num">13,075</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>MoH Health Facility Registry (HFR) Portal</strong> — Ministry of Health, Community Development, Gender, Elderly &amp; Children — national facility registry with services and infrastructure data.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">Services</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://hfrportal.moh.go.tz" target="_blank" rel="noopener">HFR portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Uganda -->
-    <div class="ds-card">
-      <h3><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/ug.svg" alt=""> Uganda</h3>
-      <div class="ds-count"><span class="num">8,512</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>National Health Facility Registry (NHFR)</strong> — Ministry of Health's authoritative facility database, complemented by the eHMIS reporting platform (DHIS2).</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span><span class="ds-badge">DHIS2</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://nhfr.health.go.ug" target="_blank" rel="noopener">NHFR portal ↗</a>
-      </div>
-    </div>
-
-    <!-- Zambia -->
-    <div class="ds-card">
-      <h3><img class="ds-flag" src="https://flagicons.lipis.dev/flags/4x3/zm.svg" alt=""> Zambia</h3>
-      <div class="ds-count"><span class="num">3,731</span><span class="lbl">facilities</span></div>
-      <p class="ds-source"><strong>Master Facility List (MFL)</strong> — Zambia Ministry of Health's national online facility directory, maintained alongside HMIS/HRIS platforms.</p>
-      <div class="ds-badges"><span class="ds-badge">Official</span><span class="ds-badge">Point Data</span></div>
-      <div class="ds-links">
-        <a class="primary" href="https://mfl.moh.gov.zm/facility/index" target="_blank" rel="noopener">Zambia MFL ↗</a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<div class="ds-summary">
-  <h3>How the sources fit together</h3>
-  <ul>
-    <li><strong>Primary:</strong> Ministry of Health master facility registries — one per country, above.</li>
-    <li><strong>Cross-reference:</strong> OpenStreetMap facility tags, used only to validate coordinates and flag likely coverage gaps. Never overrides the MoH record.</li>
-    <li><strong>Not used:</strong> commercial listings, aggregators, or crowdsourced portals that don't disclose their upstream source.</li>
-  </ul>
-  <p style="color: #666; margin: 1rem 0 0;">All eight sources are refreshed on a rolling basis; see the <a href="about.html">About page</a> for the ETL cadence.</p>
-</div>
-
-<div class="ds-method">
-  <h2>Data Harmonization Methodology</h2>
-  <p>
-    All source datasets are harmonised to a common schema: unique facility ID, official name,
-    administrative hierarchy (country / region / district), facility type (hospital / clinic /
-    health centre), ownership (public / private / faith-based / NGO), GPS coordinates,
-    operational status, last-verification date, and service availability indicators.
-    Quality assessment includes duplicate detection, coordinate validation against the
-    country bounding box, admin-hierarchy consistency checks, and temporal completeness.
-  </p>
-</div>
 ```
+
+## Principle: regulator-sourced, never aggregated
+
+PharmaScope ingests **only authoritative, official records** from Tanzania's medicines regulators. We do not scrape third-party pharmacy directories or purchase compiled outlet lists. Every row in the registry can be traced back to a specific accreditation record issued by the Pharmacy Council of Tanzania (PCT) or the Tanzania Food and Drug Authority (TFDA).
+
+## Current source
+
+**Pharmacy Council of Tanzania &mdash; CPP Inventory Form Results (2014)**
+
+This is the underlying dataset that powers the current release of the [CPP Registry](registry.html).
+
+| Item | Detail |
+|------|--------|
+| Publisher | Pharmacy Council of Tanzania |
+| Instrument | CPP Inventory Form |
+| Coverage | Nationwide (Tanzania Mainland) |
+| Outlets | 4,944 records; ~88% geocoded |
+| Regions | 26 canonical Tanzanian regions (post-cleaning) |
+| Accrediting bodies | Pharmacy Council (PC), TFDA |
+| Business types | Retail A (RA), Retail Wholesale (RW) |
+| Reference date | 2014 (inventory snapshot) |
+| Format received | Two-header Excel (`.xls`) |
+| Landed as | `data-raw/ADDO_Inventory_Form_results-Edited.xls` |
+
+The full ETL that ingests this file into the site's canonical schema lives at [`scripts/addo_etl.R`](https://github.com/map-data-engineering/pharmascope/blob/main/scripts/addo_etl.R). It is deterministic, versioned, and re-runnable from source.
+
+## What we harmonise
+
+The raw inventory arrives with regionally-inconsistent free-text fields and two parallel coordinate columns (tablet GPS and hand-held GPS). The ETL applies the following normalisations before publishing:
+
+- **Region canonicalisation.** 70+ raw region strings (case variants, misspellings, embedded municipality suffixes) are collapsed to the 26 canonical Tanzanian regions via fuzzy matching. Unmatched values are recorded as `NA` and preserved in `region_raw_clean` for audit.
+- **Business type and accreditation source.** Short codes (`RA`, `RW`, `PC`, `TFDA`) are expanded to their full labels.
+- **Coordinate coalescing.** For each outlet we prefer the tablet-GPS coordinate when it falls inside Tanzania's bounding box; otherwise we fall back to the hand-GPS coordinate; otherwise `has_coords = FALSE`.
+- **Stable identifiers.** Each outlet is assigned a `TZ-ADDO-#####` UID so downstream layers (Service Intelligence, Population and Access) can key against a stable primary key.
+
+## Data we are actively looking for
+
+The current release covers <em>where</em> accredited outlets exist. To power the [Service Intelligence](services.html) and [Population and Access](population-access.html) layers we are actively seeking:
+
+- CPP stock-availability surveys (malaria commodities, antimicrobials).
+- LMIS records or supervisory-visit exports covering CPPs.
+- Refreshed accreditation lists more recent than 2014.
+- Roads and settlement layers for isochrone modelling.
+
+If you have or know of such datasets, please reach out via the [Help](help.html) page.

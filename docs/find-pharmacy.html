@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>find-pharmacy – PharmaScope</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0075513c2176209f5a3e8bb3f0baabc0.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-b6c58e8a992ea039af537537450ff9ba.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">PharmaScope</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./registry.html"> 
+<span class="menu-text">CPP Registry</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./find-pharmacy.html" aria-current="page"> 
+<span class="menu-text">Find Pharmacy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./find-facility.html"> 
+<span class="menu-text">Site Check</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./data-quality.html"> 
+<span class="menu-text">Data Quality</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./help.html"> 
+<span class="menu-text">Help</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Find the nearest pharmacy</h1></header>
+
+
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+  .fp-wrap{ max-width:1400px; margin:0 auto; padding:1.5rem 1.5rem 3rem; }
+
+  /* Search bar row */
+  .fp-search{
+    display:grid;
+    grid-template-columns:1fr auto auto 130px;
+    gap:.6rem;
+    padding:1.1rem 1.25rem;
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    margin-bottom:1.25rem;
+    align-items:center;
+  }
+  @media (max-width: 780px){
+    .fp-search{ grid-template-columns:1fr; }
+  }
+  .fp-search input[type=search]{
+    padding:.65rem .85rem;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    font-size:.95rem;
+    font-family:'IBM Plex Sans',sans-serif;
+    color:var(--map-text,#0f172a);
+    background:#fff;
+  }
+  .fp-search input:focus{ outline:none; border-color:var(--map-red,#0d9488); box-shadow:0 0 0 2px rgba(13,148,136,.1); }
+  .fp-search button{
+    padding:.65rem 1rem;
+    border-radius:4px;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:500;
+    font-size:.9rem;
+    cursor:pointer;
+    transition:background .15s;
+    white-space:nowrap;
+  }
+  .fp-search button.primary{
+    background:var(--map-red,#0d9488);
+    color:#fff;
+    border:1px solid var(--map-red,#0d9488);
+  }
+  .fp-search button.primary:hover{ background:#0f766e; }
+  .fp-search button.ghost{
+    background:#fff;
+    color:var(--map-text,#0f172a);
+    border:1px solid var(--map-border,#e2e8f0);
+  }
+  .fp-search button.ghost:hover{ border-color:var(--map-red,#0d9488); color:var(--map-red,#0d9488); }
+  .fp-search select{
+    padding:.65rem .85rem;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    font-size:.9rem;
+    font-family:'IBM Plex Sans',sans-serif;
+    background:#fff;
+    color:var(--map-text,#0f172a);
+    cursor:pointer;
+  }
+
+  /* Main split — map left, results right */
+  .fp-split{
+    display:grid;
+    grid-template-columns:1fr 420px;
+    gap:1.25rem;
+    align-items:stretch;
+  }
+  @media (max-width: 960px){ .fp-split{ grid-template-columns:1fr; } }
+
+  #fp-map{
+    height:640px;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    z-index:1;
+  }
+  @media (max-width: 960px){ #fp-map{ height:400px; } }
+
+  /* Results list */
+  .fp-results{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    display:flex;
+    flex-direction:column;
+    max-height:640px;
+    overflow:hidden;
+  }
+  .fp-results-head{
+    padding:.9rem 1.1rem;
+    background:var(--map-navy,#0f172a);
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:1rem;
+  }
+  .fp-results-head h4{
+    margin:0;
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1rem;
+  }
+  .fp-results-head .meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.75rem;
+    opacity:.75;
+  }
+  .fp-results-body{ overflow-y:auto; padding:.5rem; }
+
+  .fp-empty{
+    padding:2rem 1.25rem;
+    text-align:center;
+    color:var(--map-text-muted,#64748b);
+    font-size:.9rem;
+    line-height:1.5;
+  }
+  .fp-empty svg{ opacity:.35; margin-bottom:.5rem; }
+
+  .fp-card{
+    display:grid;
+    grid-template-columns:36px 1fr auto;
+    gap:.75rem;
+    padding:.85rem .9rem;
+    border-bottom:1px solid #f1f5f9;
+    align-items:start;
+    cursor:pointer;
+    transition:background .12s;
+  }
+  .fp-card:last-child{ border-bottom:0; }
+  .fp-card:hover{ background:#f8fafc; }
+  .fp-card.active{ background:#f0fdfa; }
+
+  .fp-num{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:var(--map-red,#0d9488);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:500;
+    font-size:.85rem;
+  }
+
+  .fp-name{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:.98rem;
+    color:var(--map-text,#0f172a);
+    line-height:1.25;
+    margin:0 0 .15rem;
+  }
+  .fp-meta{
+    font-size:.78rem;
+    color:var(--map-text-muted,#64748b);
+    line-height:1.35;
+    margin:0 0 .35rem;
+  }
+  .fp-meta .type{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--map-text,#0f172a);
+    font-size:.7rem;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-right:.35rem;
+  }
+  .fp-actions{
+    display:flex;
+    gap:.4rem;
+    margin-top:.2rem;
+    flex-wrap:wrap;
+  }
+  .fp-actions a{
+    display:inline-flex;
+    align-items:center;
+    gap:.25rem;
+    padding:.28rem .55rem;
+    font-size:.75rem;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:500;
+    border-radius:3px;
+    text-decoration:none;
+    border:1px solid var(--map-border,#e2e8f0);
+    color:var(--map-text,#0f172a);
+    background:#fff;
+    transition:all .12s;
+  }
+  .fp-actions a:hover{ border-color:var(--map-red,#0d9488); color:var(--map-red,#0d9488); }
+  .fp-actions a.directions{ background:var(--map-red,#0d9488); color:#fff; border-color:var(--map-red,#0d9488); }
+  .fp-actions a.directions:hover{ background:#0f766e; color:#fff; }
+
+  .fp-dist{
+    text-align:right;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:500;
+    color:var(--map-red,#0d9488);
+    font-size:.95rem;
+    white-space:nowrap;
+  }
+  .fp-dist .sub{
+    display:block;
+    font-size:.65rem;
+    color:var(--map-text-muted,#64748b);
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    font-weight:400;
+    margin-top:.15rem;
+  }
+
+  .fp-status{
+    padding:.7rem 1rem;
+    font-size:.85rem;
+    background:rgba(13,148,136,.05);
+    border-left:3px solid var(--map-red,#0d9488);
+    border-radius:0 4px 4px 0;
+    margin-bottom:1rem;
+    color:var(--map-text-muted,#64748b);
+  }
+  .fp-status.error{ background:#fef2f2; border-left-color:#dc2626; color:#991b1b; }
+</style>
+
+<section class="page-banner">
+  <div style="max-width:1400px;margin:0 auto;">
+    
+    <p>Enter your address, share your location, or drop a pin on the map — PharmaScope returns the closest accredited CPPs with contact details and one-tap directions.</p>
+  </div>
+</section>
+
+<div class="fp-wrap">
+
+  <div class="fp-status" id="fp-status">Loading pharmacy registry…</div>
+
+  <div class="fp-search">
+    <input type="search" id="fp-addr" placeholder="Ward, town or landmark — e.g. Ifakara, Kariakoo, Ubungo" autocomplete="off">
+    <button class="ghost" id="fp-locate" title="Use my current location">
+      <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:.3rem;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>
+      My location
+    </button>
+    <select id="fp-type" title="Filter by business type">
+      <option value="">All types</option>
+      <option value="Retail A">Retail A</option>
+      <option value="Retail Wholesale">Retail Wholesale</option>
+    </select>
+    <select id="fp-count" title="Number of results">
+      <option value="5">Top 5</option>
+      <option value="10" selected="">Top 10</option>
+      <option value="20">Top 20</option>
+    </select>
+  </div>
+
+  <div class="fp-split">
+
+    <div id="fp-map"></div>
+
+    <div class="fp-results">
+      <div class="fp-results-head">
+        <h4 id="fp-results-title" class="anchored">Nearest pharmacies</h4>
+        <span class="meta" id="fp-results-meta">—</span>
+      </div>
+      <div class="fp-results-body" id="fp-results-body">
+        <div class="fp-empty" id="fp-empty">
+          <svg width="42" height="42" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <div>Search an address, use your location, or click anywhere on the map to see the nearest pharmacies.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+(function () {
+  const CSV_URL = "data/tanzania/addo_standardized.csv";
+
+  // ── Map + basemaps ───────────────────────────────────────────────
+  // Users need to identify streets, wards, and landmarks when finding a
+  // pharmacy, so we default to a labeled OSM/Voyager basemap rather than
+  // a stripped-down light layer.
+  const map = L.map("fp-map", { preferCanvas: true }).setView([-6.4, 35.0], 6);
+
+  const baseVoyager = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png",
+    { attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19 });
+  const baseOSM = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 });
+  const baseSat = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { attribution: "&copy; Esri, Maxar, Earthstar Geographics", maxZoom: 19 });
+
+  baseVoyager.addTo(map);
+  L.control.layers({ "Voyager (labels)": baseVoyager, "OpenStreetMap": baseOSM, "Satellite": baseSat },
+    null, { position: "topleft", collapsed: true }).addTo(map);
+
+  const backdropLayer = L.layerGroup().addTo(map);   // faint markers of all outlets — nation-wide overview
+  const resultsLayer  = L.layerGroup().addTo(map);   // numbered result markers
+  let userMarker = null;
+  let hasLocation = false;                            // controls backdrop visibility
+
+  // Hide the faint backdrop of all outlets once the user picks a location:
+  // the numbered result pins are what matters at that point, and the extra
+  // dots at high zoom obscure the labeled street map.
+  function updateBackdropVisibility() {
+    const shouldShow = !hasLocation && map.getZoom() < 10;
+    if (shouldShow && !map.hasLayer(backdropLayer)) map.addLayer(backdropLayer);
+    else if (!shouldShow && map.hasLayer(backdropLayer)) map.removeLayer(backdropLayer);
+  }
+  map.on("zoomend", updateBackdropVisibility);
+
+  // ── State ────────────────────────────────────────────────────────
+  let all = [];
+  let currentLoc = null;
+
+  const els = {
+    status:    document.getElementById("fp-status"),
+    addr:      document.getElementById("fp-addr"),
+    locate:    document.getElementById("fp-locate"),
+    typeFilt:  document.getElementById("fp-type"),
+    countSel:  document.getElementById("fp-count"),
+    resultsBody: document.getElementById("fp-results-body"),
+    resultsMeta: document.getElementById("fp-results-meta"),
+    empty:     document.getElementById("fp-empty"),
+  };
+
+  // ── Load CPP data ───────────────────────────────────────────────
+  Papa.parse(CSV_URL, {
+    download: true, header: true, skipEmptyLines: true, dynamicTyping: false,
+    complete: (res) => {
+      all = res.data
+        .filter(r => r.has_coords === "True" || r.has_coords === "true")
+        .map(r => ({
+          name: r.addo_name,
+          business_type: r.business_type,
+          accreditation_source: r.accreditation_source,
+          region: r.region,
+          district: r.district,
+          ward: r.ward,
+          village_street: r.village_street,
+          phone: r.phone,
+          lat: parseFloat(r.latitude),
+          lon: parseFloat(r.longitude),
+        }))
+        .filter(r => Number.isFinite(r.lat) && Number.isFinite(r.lon));
+      for (const r of all) {
+        L.circleMarker([r.lat, r.lon], {
+          radius: 1.5, color: "#94a3b8", weight: 0, fillColor: "#94a3b8", fillOpacity: 0.35,
+          interactive: false,
+        }).addTo(backdropLayer);
+      }
+      els.status.innerHTML = `<strong>${all.length.toLocaleString()}</strong> accredited outlets loaded. Search an address, use your location, or click the map.`;
+    },
+    error: (err) => {
+      els.status.className = "fp-status error";
+      els.status.textContent = "Failed to load pharmacy registry: " + err.message;
+    },
+  });
+
+  // ── Wire interactions ────────────────────────────────────────────
+  map.on("click", (e) => setLocation(e.latlng.lat, e.latlng.lng, "Dropped pin"));
+
+  els.addr.addEventListener("keydown", async (e) => {
+    if (e.key !== "Enter") return;
+    const q = els.addr.value.trim();
+    if (!q) return;
+    els.addr.disabled = true;
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&countrycodes=tz&limit=1&q=${encodeURIComponent(q)}`;
+      const res = await fetch(url, { headers: { "Accept-Language": "en" } });
+      const data = await res.json();
+      if (data.length) setLocation(parseFloat(data[0].lat), parseFloat(data[0].lon), data[0].display_name);
+      else alert("Address not found in Tanzania. Try a nearby town or drop a pin on the map.");
+    } catch (err) {
+      alert("Geocoding failed: " + err.message);
+    } finally { els.addr.disabled = false; }
+  });
+
+  els.locate.addEventListener("click", () => {
+    if (!navigator.geolocation) { alert("Geolocation is not supported by this browser."); return; }
+    els.locate.disabled = true;
+    els.locate.textContent = "Locating…";
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        els.locate.disabled = false;
+        els.locate.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:.3rem;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg> My location`;
+        setLocation(pos.coords.latitude, pos.coords.longitude, "My location");
+      },
+      (err) => {
+        els.locate.disabled = false;
+        els.locate.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:.3rem;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg> My location`;
+        alert("Could not get your location: " + err.message);
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  });
+
+  els.typeFilt.addEventListener("change", () => currentLoc && recompute());
+  els.countSel.addEventListener("change", () => currentLoc && recompute());
+
+  // ── Core: set user location + recompute nearest ──────────────────
+  function setLocation(lat, lon, label) {
+    currentLoc = { lat, lon, label };
+    hasLocation = true;
+    updateBackdropVisibility();
+
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.marker([lat, lon], {
+      icon: L.divIcon({
+        className: "fp-user",
+        html: `<div style="width:26px;height:26px;background:#0f172a;border:4px solid #fff;border-radius:50%;box-shadow:0 3px 10px rgba(0,0,0,.4),0 0 0 1px rgba(15,23,42,.15);"></div>`,
+        iconSize: [26, 26], iconAnchor: [13, 13],
+      }),
+      title: label || "Your location",
+    }).addTo(map);
+
+    recompute();
+  }
+
+  function recompute() {
+    if (!currentLoc) return;
+    const { lat, lon } = currentLoc;
+    const typeFilter = els.typeFilt.value;
+    const N = parseInt(els.countSel.value, 10);
+
+    // Filter, distance, sort, take top N
+    const withDist = all
+      .filter(r => !typeFilter || r.business_type === typeFilter)
+      .map(r => ({ ...r, dist_km: haversineKm(lat, lon, r.lat, r.lon) }))
+      .sort((a, b) => a.dist_km - b.dist_km)
+      .slice(0, N);
+
+    // Draw numbered markers
+    resultsLayer.clearLayers();
+    withDist.forEach((r, i) => {
+      const n = i + 1;
+      const marker = L.marker([r.lat, r.lon], {
+        icon: L.divIcon({
+          className: "fp-result-pin",
+          html: `<div style="width:34px;height:34px;background:#0d9488;color:#fff;border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.92rem;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,.35),0 0 0 1px rgba(15,23,42,.15);">${n}</div>`,
+          iconSize: [34, 34], iconAnchor: [17, 17],
+        }),
+      }).bindPopup(popupHtml(r, n)).addTo(resultsLayer);
+      marker.on("click", () => highlightResult(n));
+    });
+
+    // Fit map to user + all results
+    if (withDist.length) {
+      const bounds = L.latLngBounds([[lat, lon], ...withDist.map(r => [r.lat, r.lon])]);
+      map.fitBounds(bounds.pad(0.2), { maxZoom: 14 });
+    } else {
+      map.setView([lat, lon], 12);
+    }
+
+    renderList(withDist);
+  }
+
+  function highlightResult(n) {
+    document.querySelectorAll(".fp-card").forEach(el => {
+      el.classList.toggle("active", parseInt(el.dataset.n, 10) === n);
+      if (parseInt(el.dataset.n, 10) === n) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    });
+  }
+
+  function haversineKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  function renderList(rows) {
+    if (!rows.length) {
+      els.resultsBody.innerHTML = `<div class="fp-empty">No accredited outlets match this filter within Tanzania. Try changing the business-type filter.</div>`;
+      els.resultsMeta.textContent = "0 results";
+      return;
+    }
+    els.resultsMeta.textContent = `${rows.length} nearest`;
+    els.resultsBody.innerHTML = rows.map((r, i) => {
+      const n = i + 1;
+      const loc = [r.ward, r.district, r.region].filter(Boolean).join(", ");
+      const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lon}&travelmode=driving`;
+      const phone = cleanPhone(r.phone);
+      return `
+        <div class="fp-card" data-n="${n}" data-lat="${r.lat}" data-lon="${r.lon}">
+          <div class="fp-num">${n}</div>
+          <div>
+            <div class="fp-name">${escapeHtml(r.name || "—")}</div>
+            <div class="fp-meta"><span class="type">${escapeHtml(r.business_type || "")}</span>${escapeHtml(loc || "—")}</div>
+            <div class="fp-actions">
+              <a href="${gmapsUrl}" target="_blank" rel="noopener" class="directions">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Directions
+              </a>
+              ${phone ? `<a href="tel:${phone}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>${escapeHtml(phone)}</a>` : ""}
+            </div>
+          </div>
+          <div class="fp-dist">
+            ${r.dist_km.toFixed(2)}<span class="sub">km</span>
+          </div>
+        </div>`;
+    }).join("");
+
+    // Clicking a card zooms/highlights its marker
+    document.querySelectorAll(".fp-card").forEach(el => {
+      el.addEventListener("click", (e) => {
+        // Don't hijack link clicks
+        if (e.target.closest("a")) return;
+        const n = parseInt(el.dataset.n, 10);
+        const lat = parseFloat(el.dataset.lat);
+        const lon = parseFloat(el.dataset.lon);
+        highlightResult(n);
+        map.setView([lat, lon], 15);
+        resultsLayer.getLayers().forEach((layer, i) => {
+          if (i + 1 === n) layer.openPopup();
+        });
+      });
+    });
+  }
+
+  function popupHtml(r, n) {
+    const loc = [r.ward, r.district, r.region].filter(Boolean).join(", ");
+    const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lon}&travelmode=driving`;
+    const phone = cleanPhone(r.phone);
+    return `
+      <div style="min-width:200px;">
+        <strong style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1rem;">${n}. ${escapeHtml(r.name || "—")}</strong><br/>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;color:#64748b;">${escapeHtml(r.business_type || "")}</span><br/>
+        <span style="font-size:.85rem;">${escapeHtml(loc || "—")}</span><br/>
+        <div style="margin-top:.4rem;color:#0d9488;font-weight:600;">${r.dist_km.toFixed(2)} km away</div>
+        <div style="margin-top:.4rem;display:flex;gap:.35rem;">
+          <a href="${gmapsUrl}" target="_blank" rel="noopener" style="background:#0d9488;color:#fff;padding:.25rem .55rem;border-radius:3px;text-decoration:none;font-size:.75rem;font-weight:500;">Directions</a>
+          ${phone ? `<a href="tel:${phone}" style="border:1px solid #e2e8f0;color:#0f172a;padding:.25rem .55rem;border-radius:3px;text-decoration:none;font-size:.75rem;">${escapeHtml(phone)}</a>` : ""}
+        </div>
+      </div>`;
+  }
+
+  function cleanPhone(p) {
+    if (!p) return null;
+    const s = String(p).trim();
+    // Strip anything non-digit / non-plus, then rebuild
+    const digits = s.replace(/[^\d+]/g, "");
+    return digits || null;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  }
+})();
+</script>
+
+
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/pharmascope");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 PharmaScope — Malaria Atlas Project, Ifakara Health Institute</p>
+<p>Open pharmacy access intelligence for Tanzania</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

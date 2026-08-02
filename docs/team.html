@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>team – HealthScope</title>
+<title>team – PharmaScope</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -38,14 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0075513c2176209f5a3e8bb3f0baabc0.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-18ef0ae2d05c2c0f106b7e08af913c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7db3b6536d23c89720eeee45feb166fa.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-18ef0ae2d05c2c0f106b7e08af913c93.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-b6c58e8a992ea039af537537450ff9ba.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -248,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">HealthScope</span>
+    <span class="navbar-title">PharmaScope</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -267,19 +267,19 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./registry.html"> 
-<span class="menu-text">Registry Explorer</span></a>
+<span class="menu-text">CPP Registry</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./population-access.html"> 
-<span class="menu-text">Population and Access</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./services.html"> 
-<span class="menu-text">Service Intelligence</span></a>
+    <a class="nav-link" href="./find-pharmacy.html"> 
+<span class="menu-text">Find Pharmacy</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./find-facility.html"> 
-<span class="menu-text">Find Facility</span></a>
+<span class="menu-text">Site Check</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./data-quality.html"> 
+<span class="menu-text">Data Quality</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./help.html"> 
@@ -308,54 +308,231 @@ ul.task-list li input[type="checkbox"] {
 <section class="page-banner">
   <div style="max-width:1400px;margin:0 auto;">
     
-    <p>The people behind HealthScope</p>
+    <p>The people behind PharmaScope — the Data Engineering Team (DET) at the Ifakara Health Institute.</p>
   </div>
 </section>
 
-<section style="max-width:900px;margin:3rem auto;padding:0 2rem 3rem;">
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem;">
+<style>
+  .team-wrap{ max-width:1100px; margin:2.5rem auto 0; padding:0 2rem; }
 
-    <div class="card-modern" style="text-align:center;padding:2.5rem 2rem;">
-      <div style="width:80px;height:80px;border-radius:50%;background:var(--map-red,#c9a227);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;">CM</div>
-      <h3 style="margin:0 0 0.25rem;color:var(--map-navy,#3d3d3d);" class="anchored">Christina Mallya</h3>
-      <p style="color:var(--map-red,#c9a227);font-weight:600;margin:0 0 1rem;font-size:0.95rem;">Data Scientist</p>
-      <p style="color:var(--map-text-muted,#6b6b6b);font-size:0.9rem;line-height:1.7;margin:0;">
-        Leads the research design, data extraction pipeline, and analytical framework for HealthScope. Specializes in health facility data harmonization, geospatial analysis, and malaria epidemiology across Sub-Saharan Africa.
-      </p>
+  /* Department definition strip */
+  .team-def{
+    display:grid;
+    grid-template-columns: 4rem 1fr;
+    gap:1.25rem;
+    padding:1.5rem 1.75rem;
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-left:3px solid var(--map-red,#0d9488);
+    border-radius:4px;
+    margin-bottom:2.5rem;
+  }
+  .team-def .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:1.05rem;
+    color:var(--map-red,#0d9488);
+    letter-spacing:.02em;
+    line-height:1.1;
+  }
+  .team-def .tag .sub{
+    display:block;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:400;
+    font-size:.65rem;
+    color:var(--map-text-muted,#64748b);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-top:.3rem;
+  }
+  .team-def h2{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1.2rem;
+    color:var(--map-text,#0f172a);
+    margin:0 0 .6rem;
+    letter-spacing:-0.005em;
+  }
+  .team-def p{
+    color:var(--map-text-muted,#64748b);
+    font-size:.92rem;
+    line-height:1.6;
+    margin:0 0 .5rem;
+  }
+  .team-def p:last-child{ margin-bottom:0; }
+  .team-def strong{ color:var(--map-text,#0f172a); font-weight:600; }
+  @media (max-width: 700px){ .team-def{ grid-template-columns:1fr; } }
+
+  /* Member grid */
+  .team-members{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:1.25rem;
+    margin-bottom:2.5rem;
+  }
+  .team-member{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    padding:1.75rem 1.6rem;
+    display:grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap:1rem;
+    align-items:start;
+    transition:border-color .15s;
+  }
+  .team-member:hover{ border-color:var(--map-red,#0d9488); }
+  .team-member .avatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:var(--map-red,#0d9488);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:500;
+    font-size:1rem;
+    letter-spacing:0.02em;
+  }
+  .team-member.dark .avatar{ background:var(--map-navy,#0f172a); }
+  .team-member h3{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1.15rem;
+    color:var(--map-text,#0f172a);
+    margin:0 0 .1rem;
+    letter-spacing:-0.005em;
+  }
+  .team-member .role{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;
+    color:var(--map-red,#0d9488);
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    margin:0 0 .65rem;
+    font-weight:500;
+  }
+  .team-member p{
+    font-size:.88rem;
+    line-height:1.6;
+    color:var(--map-text-muted,#64748b);
+    margin:0;
+  }
+
+  /* IHI institutional strip */
+  .team-inst{
+    background:var(--map-bg-section,#f1f5f9);
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    padding:2rem;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2rem;
+    margin-bottom:2rem;
+  }
+  @media (max-width:780px){ .team-inst{ grid-template-columns:1fr; } }
+  .team-inst h3{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1.05rem;
+    color:var(--map-text,#0f172a);
+    margin:0 0 .5rem;
+    letter-spacing:-0.005em;
+  }
+  .team-inst p{
+    font-size:.9rem;
+    line-height:1.65;
+    color:var(--map-text-muted,#64748b);
+    margin:0 0 .6rem;
+  }
+  .team-inst ul{ margin:0; padding-left:1.1rem; font-size:.87rem; color:var(--map-text-muted,#64748b); line-height:1.7; }
+  .team-inst ul li strong{ color:var(--map-text,#0f172a); font-weight:600; }
+
+  /* CTA */
+  .team-cta{
+    padding:1.75rem 2rem;
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-left:3px solid var(--map-red,#0d9488);
+    border-radius:4px;
+    margin-bottom:3rem;
+  }
+  .team-cta h3{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    margin:0 0 .35rem;
+    color:var(--map-text,#0f172a);
+    font-size:1.15rem;
+  }
+  .team-cta p{ margin:0 0 1rem; color:var(--map-text-muted,#64748b); font-size:.9rem; }
+</style>
+
+<div class="team-wrap">
+
+  <!-- What is DET -->
+  <div class="team-def">
+    <div class="tag">DET<span class="sub">Data Engineering Team</span></div>
+    <div>
+      <h2 class="anchored">Data Engineering Team — Ifakara Health Institute</h2>
+      <p>The <strong>Data Engineering Team (DET)</strong> is the unit at the Ifakara Health Institute that designs, builds and maintains the data infrastructure powering IHI's public-health portals — ingestion pipelines, ETL workflows, quality-control frameworks, and the open web tools that make the resulting datasets discoverable.</p>
+      <p>PharmaScope is one of several DET-maintained data platforms in the Malaria Atlas Project family, alongside HealthScope and other in-house intelligence tools. DET works at the intersection of health-facility research, geospatial analysis, and reproducible open data.</p>
+    </div>
+  </div>
+
+  <!-- Members -->
+  <div class="team-members">
+
+    <div class="team-member">
+      <div class="avatar">CM</div>
+      <div>
+        <h3 class="anchored">Christina Mallya</h3>
+        <p class="role">Data Scientist · DET</p>
+        <p>Leads the research design, data extraction pipeline, and analytical framework for PharmaScope. Specialises in pharmacy-sector data harmonisation, geospatial analysis of medicines access, and malaria epidemiology across Tanzania.</p>
+      </div>
     </div>
 
-    <div class="card-modern" style="text-align:center;padding:2.5rem 2rem;">
-      <div style="width:80px;height:80px;border-radius:50%;background:var(--map-navy,#3d3d3d);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;">KC</div>
-      <h3 style="margin:0 0 0.25rem;color:var(--map-navy,#3d3d3d);" class="anchored">Kasim Chambulilo</h3>
-      <p style="color:var(--map-red,#c9a227);font-weight:600;margin:0 0 1rem;font-size:0.95rem;">Data Scientist</p>
-      <p style="color:var(--map-text-muted,#6b6b6b);font-size:0.9rem;line-height:1.7;margin:0;">
-        Builds and maintains the HealthScope portal, ETL pipelines, and interactive data visualizations. Develops the open-source infrastructure for data processing, quality assessment, and web-based facility mapping.
-      </p>
+    <div class="team-member dark">
+      <div class="avatar">KC</div>
+      <div>
+        <h3 class="anchored">Kasim Chambulilo</h3>
+        <p class="role">Data Scientist · DET</p>
+        <p>Builds and maintains the PharmaScope portal, ETL pipelines, and interactive data visualisations. Develops the open-source infrastructure for data processing, quality assessment, and web-based mapping of accredited pharmaceutical premises.</p>
+      </div>
     </div>
 
   </div>
-</section>
 
-<section style="max-width:900px;margin:0 auto 3rem;padding:0 2rem;">
-  <div style="padding:2rem;background:linear-gradient(135deg,rgba(201,162,39,0.05) 0%,rgba(61,61,61,0.03) 100%);border:1px solid var(--map-border,#e0ddd6);border-radius:12px;text-align:center;">
-    <h3 style="margin-top:0;color:var(--map-navy,#3d3d3d);" class="anchored">Want to Connect?</h3>
-    <p style="color:var(--map-text-muted,#6b6b6b);margin-bottom:1.25rem;">Get in touch for collaborations, data partnerships, or general inquiries.</p>
-    <a href="help.html" class="btn-hf-primary">Contact Us</a>
+  <!-- IHI institutional context -->
+  <div class="team-inst">
+    <div>
+      <h3 class="anchored">Ifakara Health Institute</h3>
+      <p>The Ifakara Health Institute (IHI) is one of Africa's leading not-for-profit research organisations, headquartered in Dar es Salaam with a long-standing research campus in Ifakara. Founded in 1956, IHI conducts research to improve the health and well-being of populations across Sub-Saharan Africa — with core strengths in malaria, HIV, TB, health-systems research, and demographic surveillance.</p>
+      <p>The Data Engineering Team sits within IHI's broader data-science and epidemiological modelling capability.</p>
+    </div>
+    <div>
+      <h3 class="anchored">What DET produces</h3>
+      <ul>
+        <li><strong>Ingestion pipelines</strong> — regulator, LMIS, HFR and survey feeds harmonised into shared canonical schemas.</li>
+        <li><strong>Open datasets</strong> — standardised, versioned, and downloadable under permissive licences.</li>
+        <li><strong>Data portals</strong> — HealthScope for health facilities, PharmaScope for community pharmaceutical premises, and other MAP-node intelligence tools.</li>
+        <li><strong>Quality frameworks</strong> — completeness, coordinate validation, cross-source deduplication.</li>
+      </ul>
+    </div>
   </div>
-</section>
+
+  <!-- CTA -->
+  <div class="team-cta">
+    <h3 class="anchored">Want to work with DET?</h3>
+    <p>Get in touch for collaborations, data partnerships, or to contribute a new source dataset.</p>
+    <a href="help.html" class="btn-primary">Contact us</a>
+  </div>
+
+</div>
 
 
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
-<!--
-  Botpress chat-bubble embed for HealthScope Assistant.
-  Registered via _quarto.yml -> format.html.include-after-body so it appears
-  on every page. The second <script> is the bot-specific config generated
-  by Botpress when the webchat channel was published; regenerate that URL
-  (and swap it here) if the bot is republished.
--->
-<script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
-<script src="https://files.bpcontent.cloud/2026/07/16/10/20260716103402-5A4FNBPV.js" defer=""></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -442,7 +619,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/healthscope-portal");
+        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/pharmascope");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -780,8 +957,8 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>© 2026 HealthScope — Malaria Atlas Project, Dar es Salaam Node</p>
-<p>Open health facility intelligence for Sub-Saharan Africa</p>
+<p>© 2026 PharmaScope — Malaria Atlas Project, Ifakara Health Institute</p>
+<p>Open pharmacy access intelligence for Tanzania</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

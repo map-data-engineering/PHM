@@ -1,0 +1,578 @@
+---
+title: ""
+page-layout: full
+toc: false
+---
+
+```{=html}
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+  .dq-wrap{ max-width:1400px; margin:0 auto; padding:1.5rem 1.5rem 3rem; }
+
+  .dq-status{
+    padding:.75rem 1rem;
+    font-size:.88rem;
+    background:rgba(13,148,136,.05);
+    border-left:3px solid var(--map-red,#0d9488);
+    border-radius:0 4px 4px 0;
+    margin-bottom:1.5rem;
+    color:var(--map-text-muted,#64748b);
+  }
+
+  .dq-section{
+    margin-bottom:2.5rem;
+  }
+  .dq-section-head{
+    display:flex;
+    align-items:baseline;
+    gap:1rem;
+    margin-bottom:1rem;
+    padding-bottom:.65rem;
+    border-bottom:1px solid var(--map-border,#e2e8f0);
+  }
+  .dq-section-head h2{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1.35rem;
+    color:var(--map-text,#0f172a);
+    margin:0;
+    letter-spacing:-0.005em;
+  }
+  .dq-section-head .num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.75rem;
+    color:var(--map-red,#0d9488);
+    letter-spacing:.06em;
+  }
+  .dq-section-head .lede{
+    margin-left:auto;
+    color:var(--map-text-muted,#64748b);
+    font-size:.85rem;
+    max-width:520px;
+    text-align:right;
+  }
+
+  /* Top-line metric row */
+  .dq-toprow{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:.75rem;
+    margin-bottom:2rem;
+  }
+  .dq-metric{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    padding:1rem 1.15rem;
+    position:relative;
+  }
+  .dq-metric::before{
+    content:'';
+    position:absolute; top:0; left:0;
+    width:2rem; height:3px;
+    background:var(--map-red,#0d9488);
+  }
+  .dq-metric.warn::before{ background:#d97706; }
+  .dq-metric.bad::before{ background:#dc2626; }
+  .dq-metric .lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.65rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--map-text-muted,#64748b);
+    margin-bottom:.3rem;
+  }
+  .dq-metric .val{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:1.85rem;
+    font-weight:500;
+    color:var(--map-text,#0f172a);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+  }
+  .dq-metric .sub{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;
+    color:var(--map-text-muted,#64748b);
+    margin-top:.4rem;
+  }
+
+  /* Two-col charts + table layouts */
+  .dq-grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.25rem;
+  }
+  @media (max-width:900px){ .dq-grid-2{ grid-template-columns:1fr; } }
+
+  .dq-card{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    padding:1.15rem 1.25rem;
+  }
+  .dq-card h3{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    color:var(--map-text,#0f172a);
+    margin:0 0 .75rem;
+  }
+  .dq-card canvas{ max-height:360px !important; }
+
+  /* Tables */
+  .dq-table{ width:100%; border-collapse:collapse; font-size:.85rem; margin-top:.4rem; }
+  .dq-table th{
+    background:var(--map-navy,#0f172a);
+    color:#fff;
+    padding:.55rem .75rem;
+    text-align:left;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:500;
+    font-size:.7rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    position:sticky; top:0;
+  }
+  .dq-table td{
+    padding:.5rem .75rem;
+    border-bottom:1px solid #f1f5f9;
+  }
+  .dq-table td.num{
+    font-family:'IBM Plex Mono',monospace;
+    text-align:right;
+    white-space:nowrap;
+  }
+  .dq-table td.pct{
+    font-family:'IBM Plex Mono',monospace;
+    text-align:right;
+    color:var(--map-text-muted,#64748b);
+    width:70px;
+  }
+  .dq-table tr:hover td{ background:#f8fafc; }
+  .dq-bar{
+    display:inline-block;
+    height:8px;
+    background:var(--map-red,#0d9488);
+    border-radius:2px;
+    vertical-align:middle;
+    margin-right:.4rem;
+    max-width:80px;
+  }
+  .dq-scroll{ max-height:400px; overflow:auto; border:1px solid var(--map-border,#e2e8f0); border-radius:4px; }
+
+  /* Issue callouts */
+  .dq-issue{
+    padding:.85rem 1.1rem;
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-left:3px solid #d97706;
+    border-radius:0 4px 4px 0;
+    margin-bottom:.75rem;
+  }
+  .dq-issue .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.65rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:#d97706;
+    font-weight:600;
+    margin-bottom:.2rem;
+  }
+  .dq-issue.crit{ border-left-color:#dc2626; }
+  .dq-issue.crit .tag{ color:#dc2626; }
+  .dq-issue h4{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:.98rem;
+    color:var(--map-text,#0f172a);
+    margin:0 0 .3rem;
+  }
+  .dq-issue p{ margin:0; font-size:.85rem; color:var(--map-text-muted,#64748b); line-height:1.55; }
+</style>
+
+<section class="page-banner">
+  <div style="max-width:1400px;margin:0 auto;">
+    <h1>Data Quality</h1>
+    <p>Every field in the CPP registry inspected for completeness and provenance &mdash; how many outlets are geocoded, which regions are under-reported, and where the source <code>.xls</code> lost information.</p>
+  </div>
+</section>
+
+<div class="dq-wrap">
+
+  <div class="dq-status" id="dq-status">Loading CPP registry&hellip;</div>
+
+  <!-- Top-line metrics -->
+  <div class="dq-toprow" id="dq-toprow"></div>
+
+  <!-- Section 1: Field completeness -->
+  <div class="dq-section">
+    <div class="dq-section-head">
+      <span class="num">01</span>
+      <h2>Field completeness</h2>
+      <span class="lede">What fraction of records carry a non-blank value in each of the 17 standardised columns.</span>
+    </div>
+    <div class="dq-grid-2">
+      <div class="dq-card">
+        <h3>Completeness by column</h3>
+        <canvas id="chart-completeness"></canvas>
+      </div>
+      <div class="dq-card">
+        <h3>Field-level detail</h3>
+        <div class="dq-scroll">
+          <table class="dq-table" id="table-completeness">
+            <thead><tr><th>Field</th><th style="text-align:right;">Filled</th><th style="text-align:right;">Missing</th><th style="text-align:right;">%</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Geocoding -->
+  <div class="dq-section">
+    <div class="dq-section-head">
+      <span class="num">02</span>
+      <h2>Geocoding coverage</h2>
+      <span class="lede">Distribution of GPS sources across the registry, and the regions where geocoding fell short.</span>
+    </div>
+    <div class="dq-grid-2">
+      <div class="dq-card">
+        <h3>GPS source</h3>
+        <canvas id="chart-gps-source"></canvas>
+      </div>
+      <div class="dq-card">
+        <h3>Geocoding rate by region (bottom 15)</h3>
+        <canvas id="chart-geocode-region"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Admin matching -->
+  <div class="dq-section">
+    <div class="dq-section-head">
+      <span class="num">03</span>
+      <h2>Admin polygon matching</h2>
+      <span class="lede">Whether each CPP's free-text region/district/ward could be resolved to an NBS-derived polygon in the choropleth.</span>
+    </div>
+    <div class="dq-grid-2">
+      <div class="dq-card">
+        <h3>Match rate by admin level</h3>
+        <canvas id="chart-match-rate"></canvas>
+      </div>
+      <div class="dq-card">
+        <h3>Regions with lowest district match</h3>
+        <div class="dq-scroll">
+          <table class="dq-table" id="table-region-district-match">
+            <thead><tr><th>Region</th><th style="text-align:right;">CPPs</th><th style="text-align:right;">District matched</th><th style="text-align:right;">%</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Known issues -->
+  <div class="dq-section">
+    <div class="dq-section-head">
+      <span class="num">04</span>
+      <h2>Known data-quality issues</h2>
+      <span class="lede">Flags surfaced by the ETL that a human reviewer should look at before the next release.</span>
+    </div>
+    <div id="dq-issues"></div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  const CSV_URL = "data/tanzania/addo_standardized.csv";
+  const els = {
+    status: document.getElementById("dq-status"),
+    toprow: document.getElementById("dq-toprow"),
+    tbodyCompleteness: document.querySelector("#table-completeness tbody"),
+    tbodyRegionMatch: document.querySelector("#table-region-district-match tbody"),
+    issues: document.getElementById("dq-issues"),
+  };
+
+  Papa.parse(CSV_URL, {
+    download: true, header: true, skipEmptyLines: true, dynamicTyping: false,
+    complete: (res) => {
+      const rows = res.data;
+      renderTopRow(rows);
+      renderCompleteness(rows);
+      renderGeocoding(rows);
+      renderAdminMatching(rows);
+      renderIssues(rows);
+      els.status.innerHTML = `Inspected <strong>${rows.length.toLocaleString()}</strong> records across all standardised fields. Numbers below recompute from the CSV each time the page loads.`;
+    },
+    error: (err) => { els.status.textContent = "Failed to load: " + err.message; },
+  });
+
+  // ── Helpers ──────────────────────────────────────────────────────
+  const isBlank = (v) => v === null || v === undefined || String(v).trim() === "";
+  const asBool  = (v) => v === "True" || v === "true" || v === true;
+  const pct = (n, d) => d ? Math.round(1000 * n / d) / 10 : 0;
+  function tally(rows, key) {
+    const t = {};
+    for (const r of rows) {
+      const v = isBlank(r[key]) ? "(blank)" : String(r[key]);
+      t[v] = (t[v] || 0) + 1;
+    }
+    return t;
+  }
+
+  // ── Top-line metrics ─────────────────────────────────────────────
+  function renderTopRow(rows) {
+    const n = rows.length;
+    const geo = rows.filter(r => asBool(r.has_coords)).length;
+    const regionMatched = rows.filter(r => !isBlank(r.gid_region)).length;
+    const districtMatched = rows.filter(r => !isBlank(r.gid_district)).length;
+    const wardMatched = rows.filter(r => !isBlank(r.gid_ward)).length;
+    const withPhone = rows.filter(r => !isBlank(r.phone)).length;
+
+    const items = [
+      { lbl: "Records total", val: n.toLocaleString(), sub: "post-ETL, pre-QA" },
+      { lbl: "Geocoded", val: pct(geo, n) + "%", sub: `${geo.toLocaleString()} of ${n.toLocaleString()}`, kind: geo/n >= 0.85 ? "" : "warn" },
+      { lbl: "Region matched", val: pct(regionMatched, n) + "%", sub: `${regionMatched.toLocaleString()} of ${n.toLocaleString()}` },
+      { lbl: "District matched", val: pct(districtMatched, n) + "%", sub: `${districtMatched.toLocaleString()} of ${n.toLocaleString()}`, kind: districtMatched/n >= 0.75 ? "" : "warn" },
+      { lbl: "Ward matched", val: pct(wardMatched, n) + "%", sub: `${wardMatched.toLocaleString()} of ${n.toLocaleString()}`, kind: wardMatched/n >= 0.75 ? "" : "warn" },
+      { lbl: "With phone", val: pct(withPhone, n) + "%", sub: `${withPhone.toLocaleString()} of ${n.toLocaleString()}`, kind: withPhone/n >= 0.5 ? "" : "bad" },
+    ];
+    els.toprow.innerHTML = items.map(m => `
+      <div class="dq-metric ${m.kind || ''}">
+        <div class="lbl">${m.lbl}</div>
+        <div class="val">${m.val}</div>
+        <div class="sub">${m.sub}</div>
+      </div>`).join("");
+  }
+
+  // ── Field completeness ───────────────────────────────────────────
+  function renderCompleteness(rows) {
+    const n = rows.length;
+    const fields = [
+      ["addo_uid", "UID"],
+      ["addo_name", "Outlet name"],
+      ["business_type", "Business type"],
+      ["accreditation_source", "Accreditation"],
+      ["po_box", "P.O. Box"],
+      ["region", "Region (canonical)"],
+      ["region_raw_clean", "Region (raw)"],
+      ["district", "District"],
+      ["ward", "Ward"],
+      ["village_street", "Village / street"],
+      ["phone", "Phone"],
+      ["training_center", "Training centre"],
+      ["latitude", "Latitude"],
+      ["longitude", "Longitude"],
+      ["altitude", "Altitude"],
+      ["gps_source", "GPS source"],
+      ["gps_accuracy", "GPS accuracy"],
+    ];
+    const filledCounts = fields.map(([k, lbl]) => {
+      const filled = rows.filter(r => !isBlank(r[k])).length;
+      return { key: k, label: lbl, filled, missing: n - filled, pct: pct(filled, n) };
+    }).sort((a, b) => a.pct - b.pct);   // worst first
+
+    // Table
+    els.tbodyCompleteness.innerHTML = filledCounts.map(f => `
+      <tr>
+        <td><strong>${f.label}</strong> <span style="font-family:'IBM Plex Mono',monospace;color:#94a3b8;font-size:.72rem;">${f.key}</span></td>
+        <td class="num">${f.filled.toLocaleString()}</td>
+        <td class="num" style="color:${f.missing ? '#d97706' : '#94a3b8'};">${f.missing.toLocaleString()}</td>
+        <td class="pct">${f.pct.toFixed(1)}%</td>
+      </tr>`).join("");
+
+    // Chart
+    new Chart(document.getElementById("chart-completeness"), {
+      type: "bar",
+      data: {
+        labels: filledCounts.map(f => f.label),
+        datasets: [{ data: filledCounts.map(f => f.pct), backgroundColor: filledCounts.map(f =>
+          f.pct >= 95 ? "#0d9488" : f.pct >= 80 ? "#0891b2" : f.pct >= 50 ? "#d97706" : "#dc2626"
+        ) }],
+      },
+      options: {
+        indexAxis: "y", responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x.toFixed(1)}% filled` } },
+        },
+        scales: { x: { beginAtZero: true, max: 100, ticks: { callback: (v) => v + "%" } } },
+      },
+    });
+  }
+
+  // ── Geocoding ────────────────────────────────────────────────────
+  function renderGeocoding(rows) {
+    // GPS source doughnut
+    const t = tally(rows, "gps_source");
+    // Merge blank into "none"
+    if (t["(blank)"]) { t["none"] = (t["none"] || 0) + t["(blank)"]; delete t["(blank)"]; }
+    const gsLabels = Object.keys(t);
+    const gsData   = gsLabels.map(k => t[k]);
+    new Chart(document.getElementById("chart-gps-source"), {
+      type: "doughnut",
+      data: {
+        labels: gsLabels.map(l => l === "tablet" ? "Tablet GPS" : l === "hand" ? "Hand-held GPS" : "No coordinates"),
+        datasets: [{ data: gsData, backgroundColor: ["#0d9488", "#0891b2", "#dc2626"] }],
+      },
+      options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: "bottom" } } },
+    });
+
+    // Geocoding rate by region (bottom 15)
+    const byRegion = {};
+    for (const r of rows) {
+      const reg = isBlank(r.region) ? "(no region)" : r.region;
+      if (!byRegion[reg]) byRegion[reg] = { total: 0, geo: 0 };
+      byRegion[reg].total += 1;
+      if (asBool(r.has_coords)) byRegion[reg].geo += 1;
+    }
+    const arr = Object.entries(byRegion)
+      .map(([reg, v]) => ({ region: reg, total: v.total, geo: v.geo, pct: pct(v.geo, v.total) }))
+      .filter(x => x.total >= 5)   // ignore tiny regions
+      .sort((a, b) => a.pct - b.pct)
+      .slice(0, 15);
+    new Chart(document.getElementById("chart-geocode-region"), {
+      type: "bar",
+      data: {
+        labels: arr.map(x => `${x.region} (${x.total})`),
+        datasets: [{ data: arr.map(x => x.pct), backgroundColor: arr.map(x =>
+          x.pct >= 90 ? "#0d9488" : x.pct >= 70 ? "#d97706" : "#dc2626") }],
+      },
+      options: {
+        indexAxis: "y", responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x.toFixed(1)}% geocoded (n=${arr[ctx.dataIndex].total})` } } },
+        scales: { x: { beginAtZero: true, max: 100, ticks: { callback: (v) => v + "%" } } },
+      },
+    });
+  }
+
+  // ── Admin matching ──────────────────────────────────────────────
+  function renderAdminMatching(rows) {
+    const n = rows.length;
+    const rMatched = rows.filter(r => !isBlank(r.gid_region)).length;
+    const dMatched = rows.filter(r => !isBlank(r.gid_district)).length;
+    const wMatched = rows.filter(r => !isBlank(r.gid_ward)).length;
+
+    new Chart(document.getElementById("chart-match-rate"), {
+      type: "bar",
+      data: {
+        labels: ["Region", "District", "Ward"],
+        datasets: [
+          { label: "Matched",   data: [rMatched, dMatched, wMatched], backgroundColor: "#0d9488" },
+          { label: "Unmatched", data: [n - rMatched, n - dMatched, n - wMatched], backgroundColor: "#e2e8f0" },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: "bottom" } },
+        scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } },
+      },
+    });
+
+    // Regions with lowest district match
+    const byRegion = {};
+    for (const r of rows) {
+      if (isBlank(r.region)) continue;
+      if (!byRegion[r.region]) byRegion[r.region] = { total: 0, dMatched: 0 };
+      byRegion[r.region].total += 1;
+      if (!isBlank(r.gid_district)) byRegion[r.region].dMatched += 1;
+    }
+    const arr = Object.entries(byRegion)
+      .map(([reg, v]) => ({ region: reg, total: v.total, dMatched: v.dMatched, pct: pct(v.dMatched, v.total) }))
+      .filter(x => x.total >= 20)
+      .sort((a, b) => a.pct - b.pct);
+    els.tbodyRegionMatch.innerHTML = arr.map(x => `
+      <tr>
+        <td><strong>${x.region}</strong></td>
+        <td class="num">${x.total.toLocaleString()}</td>
+        <td class="num">${x.dMatched.toLocaleString()}</td>
+        <td class="pct">
+          <span class="dq-bar" style="width:${Math.max(2, x.pct * 0.8)}px;"></span>
+          ${x.pct.toFixed(1)}%
+        </td>
+      </tr>`).join("");
+  }
+
+  // ── Known issues ─────────────────────────────────────────────────
+  function renderIssues(rows) {
+    const n = rows.length;
+    const noRegion = rows.filter(r => isBlank(r.region)).length;
+    const noPhone = rows.filter(r => isBlank(r.phone)).length;
+    const noWard = rows.filter(r => isBlank(r.ward)).length;
+
+    // Outlets whose declared region doesn't sit anywhere near the reported
+    // coordinates. This is the "Njombe outlet with a Dar es Salaam GPS" class
+    // of problem — the bounding-box check accepts them but the region/GPS
+    // don't match.
+    const regionCentroids = {
+      // rough Tanzania region centroids for a coarse sanity check (deg)
+      "Arusha": [-3.4, 36.7], "Dar es Salaam": [-6.8, 39.2], "Dodoma": [-6.2, 35.7],
+      "Geita": [-2.9, 32.2], "Iringa": [-8.0, 35.5], "Kagera": [-1.7, 31.4],
+      "Katavi": [-6.4, 31.3], "Kigoma": [-4.9, 30.3], "Kilimanjaro": [-3.5, 37.3],
+      "Lindi": [-9.7, 38.5], "Manyara": [-4.3, 36.2], "Mara": [-1.9, 34.3],
+      "Mbeya": [-8.9, 33.5], "Morogoro": [-8.0, 37.4], "Mtwara": [-10.3, 40.0],
+      "Mwanza": [-2.5, 32.9], "Njombe": [-9.3, 34.8], "Pwani": [-7.3, 38.9],
+      "Rukwa": [-8.0, 31.6], "Ruvuma": [-10.7, 35.6], "Shinyanga": [-3.6, 33.4],
+      "Simiyu": [-2.8, 34.0], "Singida": [-6.5, 34.6], "Songwe": [-8.7, 32.9],
+      "Tabora": [-5.0, 32.8], "Tanga": [-5.1, 38.5],
+    };
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+    let regionCoordMismatch = 0;
+    for (const r of rows) {
+      if (!asBool(r.has_coords) || isBlank(r.region)) continue;
+      const c = regionCentroids[r.region];
+      if (!c) continue;
+      const d = haversineKm(c[0], c[1], parseFloat(r.latitude), parseFloat(r.longitude));
+      // If the outlet's GPS is more than 300 km from its declared region's
+      // centroid, that's very likely a data-entry error.
+      if (d > 300) regionCoordMismatch += 1;
+    }
+
+    const issues = [
+      {
+        crit: false,
+        tag: `${pct(noPhone, n)}% of records`,
+        title: "Missing phone number",
+        body: `${noPhone.toLocaleString()} outlets have no phone recorded. Public users of the Find Pharmacy tool will see a "no phone" state for these, which limits the tool's usefulness. Priority: prompt the Pharmacy Council to backfill phone numbers on the next inventory sweep.`,
+      },
+      {
+        crit: false,
+        tag: `${noRegion} records`,
+        title: "No region assigned",
+        body: `${noRegion} outlets have no region on record after ETL canonicalisation. These do not appear on the choropleth or the Site Check density verdict. Likely cause: the raw <code>.xls</code> region cell was blank or unmatchable to the 26 canonical regions.`,
+      },
+      {
+        crit: false,
+        tag: `${noWard.toLocaleString()} records`,
+        title: "No ward assigned",
+        body: `${noWard.toLocaleString()} outlets carry no ward name. This is the biggest driver of the low ward-matching rate — the raw inventory did not always collect ward-level detail.`,
+      },
+      {
+        crit: regionCoordMismatch > 50,
+        tag: `${regionCoordMismatch} records`,
+        title: "Region ↔ coordinate inconsistency",
+        body: `${regionCoordMismatch} outlets have GPS coordinates that sit more than 300 km from the centroid of their declared region &mdash; e.g. an outlet declared in Njombe with a Dar es Salaam GPS. The ETL currently accepts these because they fall inside Tanzania's bounding box. Adding a region-polygon-in-point validation would flag them for review.`,
+      },
+    ];
+    els.issues.innerHTML = issues.map(i => `
+      <div class="dq-issue ${i.crit ? 'crit' : ''}">
+        <div class="tag">${i.tag}</div>
+        <h4>${i.title}</h4>
+        <p>${i.body}</p>
+      </div>`).join("");
+  }
+})();
+</script>
+```

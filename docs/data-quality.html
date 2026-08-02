@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>data-quality – PharmaScope</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0075513c2176209f5a3e8bb3f0baabc0.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-b6c58e8a992ea039af537537450ff9ba.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">PharmaScope</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./registry.html"> 
+<span class="menu-text">CPP Registry</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./find-pharmacy.html"> 
+<span class="menu-text">Find Pharmacy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./find-facility.html"> 
+<span class="menu-text">Site Check</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./data-quality.html" aria-current="page"> 
+<span class="menu-text">Data Quality</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./help.html"> 
+<span class="menu-text">Help</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Data Quality</h1></header>
+
+
+
+
+
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+  .dq-wrap{ max-width:1400px; margin:0 auto; padding:1.5rem 1.5rem 3rem; }
+
+  .dq-status{
+    padding:.75rem 1rem;
+    font-size:.88rem;
+    background:rgba(13,148,136,.05);
+    border-left:3px solid var(--map-red,#0d9488);
+    border-radius:0 4px 4px 0;
+    margin-bottom:1.5rem;
+    color:var(--map-text-muted,#64748b);
+  }
+
+  .dq-section{
+    margin-bottom:2.5rem;
+  }
+  .dq-section-head{
+    display:flex;
+    align-items:baseline;
+    gap:1rem;
+    margin-bottom:1rem;
+    padding-bottom:.65rem;
+    border-bottom:1px solid var(--map-border,#e2e8f0);
+  }
+  .dq-section-head h2{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1.35rem;
+    color:var(--map-text,#0f172a);
+    margin:0;
+    letter-spacing:-0.005em;
+  }
+  .dq-section-head .num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.75rem;
+    color:var(--map-red,#0d9488);
+    letter-spacing:.06em;
+  }
+  .dq-section-head .lede{
+    margin-left:auto;
+    color:var(--map-text-muted,#64748b);
+    font-size:.85rem;
+    max-width:520px;
+    text-align:right;
+  }
+
+  /* Top-line metric row */
+  .dq-toprow{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:.75rem;
+    margin-bottom:2rem;
+  }
+  .dq-metric{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    padding:1rem 1.15rem;
+    position:relative;
+  }
+  .dq-metric::before{
+    content:'';
+    position:absolute; top:0; left:0;
+    width:2rem; height:3px;
+    background:var(--map-red,#0d9488);
+  }
+  .dq-metric.warn::before{ background:#d97706; }
+  .dq-metric.bad::before{ background:#dc2626; }
+  .dq-metric .lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.65rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--map-text-muted,#64748b);
+    margin-bottom:.3rem;
+  }
+  .dq-metric .val{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:1.85rem;
+    font-weight:500;
+    color:var(--map-text,#0f172a);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+  }
+  .dq-metric .sub{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;
+    color:var(--map-text-muted,#64748b);
+    margin-top:.4rem;
+  }
+
+  /* Two-col charts + table layouts */
+  .dq-grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.25rem;
+  }
+  @media (max-width:900px){ .dq-grid-2{ grid-template-columns:1fr; } }
+
+  .dq-card{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    padding:1.15rem 1.25rem;
+  }
+  .dq-card h3{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    color:var(--map-text,#0f172a);
+    margin:0 0 .75rem;
+  }
+  .dq-card canvas{ max-height:360px !important; }
+
+  /* Tables */
+  .dq-table{ width:100%; border-collapse:collapse; font-size:.85rem; margin-top:.4rem; }
+  .dq-table th{
+    background:var(--map-navy,#0f172a);
+    color:#fff;
+    padding:.55rem .75rem;
+    text-align:left;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:500;
+    font-size:.7rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    position:sticky; top:0;
+  }
+  .dq-table td{
+    padding:.5rem .75rem;
+    border-bottom:1px solid #f1f5f9;
+  }
+  .dq-table td.num{
+    font-family:'IBM Plex Mono',monospace;
+    text-align:right;
+    white-space:nowrap;
+  }
+  .dq-table td.pct{
+    font-family:'IBM Plex Mono',monospace;
+    text-align:right;
+    color:var(--map-text-muted,#64748b);
+    width:70px;
+  }
+  .dq-table tr:hover td{ background:#f8fafc; }
+  .dq-bar{
+    display:inline-block;
+    height:8px;
+    background:var(--map-red,#0d9488);
+    border-radius:2px;
+    vertical-align:middle;
+    margin-right:.4rem;
+    max-width:80px;
+  }
+  .dq-scroll{ max-height:400px; overflow:auto; border:1px solid var(--map-border,#e2e8f0); border-radius:4px; }
+
+  /* Issue callouts */
+  .dq-issue{
+    padding:.85rem 1.1rem;
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-left:3px solid #d97706;
+    border-radius:0 4px 4px 0;
+    margin-bottom:.75rem;
+  }
+  .dq-issue .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.65rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:#d97706;
+    font-weight:600;
+    margin-bottom:.2rem;
+  }
+  .dq-issue.crit{ border-left-color:#dc2626; }
+  .dq-issue.crit .tag{ color:#dc2626; }
+  .dq-issue h4{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:.98rem;
+    color:var(--map-text,#0f172a);
+    margin:0 0 .3rem;
+  }
+  .dq-issue p{ margin:0; font-size:.85rem; color:var(--map-text-muted,#64748b); line-height:1.55; }
+</style>
+
+<section class="page-banner">
+  <div style="max-width:1400px;margin:0 auto;">
+    
+    <p>Every field in the CPP registry inspected for completeness and provenance — how many outlets are geocoded, which regions are under-reported, and where the source <code>.xls</code> lost information.</p>
+  </div>
+</section>
+
+<div class="dq-wrap">
+
+  <div class="dq-status" id="dq-status">Loading CPP registry…</div>
+
+  <!-- Top-line metrics -->
+  <div class="dq-toprow" id="dq-toprow"></div>
+
+  <!-- Section 1: Field completeness -->
+  <div class="dq-section">
+    <div class="dq-section-head">
+      <span class="num">01</span>
+      <h2 class="anchored">Field completeness</h2>
+      <span class="lede">What fraction of records carry a non-blank value in each of the 17 standardised columns.</span>
+    </div>
+    <div class="dq-grid-2">
+      <div class="dq-card">
+        <h3 class="anchored">Completeness by column</h3>
+        <canvas id="chart-completeness"></canvas>
+      </div>
+      <div class="dq-card">
+        <h3 class="anchored">Field-level detail</h3>
+        <div class="dq-scroll">
+          
+<table id="table-completeness" class="dq-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Field</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Filled</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Missing</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Geocoding -->
+  <div class="dq-section">
+    <div class="dq-section-head">
+      <span class="num">02</span>
+      <h2 class="anchored">Geocoding coverage</h2>
+      <span class="lede">Distribution of GPS sources across the registry, and the regions where geocoding fell short.</span>
+    </div>
+    <div class="dq-grid-2">
+      <div class="dq-card">
+        <h3 class="anchored">GPS source</h3>
+        <canvas id="chart-gps-source"></canvas>
+      </div>
+      <div class="dq-card">
+        <h3 class="anchored">Geocoding rate by region (bottom 15)</h3>
+        <canvas id="chart-geocode-region"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Admin matching -->
+  <div class="dq-section">
+    <div class="dq-section-head">
+      <span class="num">03</span>
+      <h2 class="anchored">Admin polygon matching</h2>
+      <span class="lede">Whether each CPP's free-text region/district/ward could be resolved to an NBS-derived polygon in the choropleth.</span>
+    </div>
+    <div class="dq-grid-2">
+      <div class="dq-card">
+        <h3 class="anchored">Match rate by admin level</h3>
+        <canvas id="chart-match-rate"></canvas>
+      </div>
+      <div class="dq-card">
+        <h3 class="anchored">Regions with lowest district match</h3>
+        <div class="dq-scroll">
+          
+<table id="table-region-district-match" class="dq-table caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Region</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">CPPs</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">District matched</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Known issues -->
+  <div class="dq-section">
+    <div class="dq-section-head">
+      <span class="num">04</span>
+      <h2 class="anchored">Known data-quality issues</h2>
+      <span class="lede">Flags surfaced by the ETL that a human reviewer should look at before the next release.</span>
+    </div>
+    <div id="dq-issues"></div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  const CSV_URL = "data/tanzania/addo_standardized.csv";
+  const els = {
+    status: document.getElementById("dq-status"),
+    toprow: document.getElementById("dq-toprow"),
+    tbodyCompleteness: document.querySelector("#table-completeness tbody"),
+    tbodyRegionMatch: document.querySelector("#table-region-district-match tbody"),
+    issues: document.getElementById("dq-issues"),
+  };
+
+  Papa.parse(CSV_URL, {
+    download: true, header: true, skipEmptyLines: true, dynamicTyping: false,
+    complete: (res) => {
+      const rows = res.data;
+      renderTopRow(rows);
+      renderCompleteness(rows);
+      renderGeocoding(rows);
+      renderAdminMatching(rows);
+      renderIssues(rows);
+      els.status.innerHTML = `Inspected <strong>${rows.length.toLocaleString()}</strong> records across all standardised fields. Numbers below recompute from the CSV each time the page loads.`;
+    },
+    error: (err) => { els.status.textContent = "Failed to load: " + err.message; },
+  });
+
+  // ── Helpers ──────────────────────────────────────────────────────
+  const isBlank = (v) => v === null || v === undefined || String(v).trim() === "";
+  const asBool  = (v) => v === "True" || v === "true" || v === true;
+  const pct = (n, d) => d ? Math.round(1000 * n / d) / 10 : 0;
+  function tally(rows, key) {
+    const t = {};
+    for (const r of rows) {
+      const v = isBlank(r[key]) ? "(blank)" : String(r[key]);
+      t[v] = (t[v] || 0) + 1;
+    }
+    return t;
+  }
+
+  // ── Top-line metrics ─────────────────────────────────────────────
+  function renderTopRow(rows) {
+    const n = rows.length;
+    const geo = rows.filter(r => asBool(r.has_coords)).length;
+    const regionMatched = rows.filter(r => !isBlank(r.gid_region)).length;
+    const districtMatched = rows.filter(r => !isBlank(r.gid_district)).length;
+    const wardMatched = rows.filter(r => !isBlank(r.gid_ward)).length;
+    const withPhone = rows.filter(r => !isBlank(r.phone)).length;
+
+    const items = [
+      { lbl: "Records total", val: n.toLocaleString(), sub: "post-ETL, pre-QA" },
+      { lbl: "Geocoded", val: pct(geo, n) + "%", sub: `${geo.toLocaleString()} of ${n.toLocaleString()}`, kind: geo/n >= 0.85 ? "" : "warn" },
+      { lbl: "Region matched", val: pct(regionMatched, n) + "%", sub: `${regionMatched.toLocaleString()} of ${n.toLocaleString()}` },
+      { lbl: "District matched", val: pct(districtMatched, n) + "%", sub: `${districtMatched.toLocaleString()} of ${n.toLocaleString()}`, kind: districtMatched/n >= 0.75 ? "" : "warn" },
+      { lbl: "Ward matched", val: pct(wardMatched, n) + "%", sub: `${wardMatched.toLocaleString()} of ${n.toLocaleString()}`, kind: wardMatched/n >= 0.75 ? "" : "warn" },
+      { lbl: "With phone", val: pct(withPhone, n) + "%", sub: `${withPhone.toLocaleString()} of ${n.toLocaleString()}`, kind: withPhone/n >= 0.5 ? "" : "bad" },
+    ];
+    els.toprow.innerHTML = items.map(m => `
+      <div class="dq-metric ${m.kind || ''}">
+        <div class="lbl">${m.lbl}</div>
+        <div class="val">${m.val}</div>
+        <div class="sub">${m.sub}</div>
+      </div>`).join("");
+  }
+
+  // ── Field completeness ───────────────────────────────────────────
+  function renderCompleteness(rows) {
+    const n = rows.length;
+    const fields = [
+      ["addo_uid", "UID"],
+      ["addo_name", "Outlet name"],
+      ["business_type", "Business type"],
+      ["accreditation_source", "Accreditation"],
+      ["po_box", "P.O. Box"],
+      ["region", "Region (canonical)"],
+      ["region_raw_clean", "Region (raw)"],
+      ["district", "District"],
+      ["ward", "Ward"],
+      ["village_street", "Village / street"],
+      ["phone", "Phone"],
+      ["training_center", "Training centre"],
+      ["latitude", "Latitude"],
+      ["longitude", "Longitude"],
+      ["altitude", "Altitude"],
+      ["gps_source", "GPS source"],
+      ["gps_accuracy", "GPS accuracy"],
+    ];
+    const filledCounts = fields.map(([k, lbl]) => {
+      const filled = rows.filter(r => !isBlank(r[k])).length;
+      return { key: k, label: lbl, filled, missing: n - filled, pct: pct(filled, n) };
+    }).sort((a, b) => a.pct - b.pct);   // worst first
+
+    // Table
+    els.tbodyCompleteness.innerHTML = filledCounts.map(f => `
+      <tr>
+        <td><strong>${f.label}</strong> <span style="font-family:'IBM Plex Mono',monospace;color:#94a3b8;font-size:.72rem;">${f.key}</span></td>
+        <td class="num">${f.filled.toLocaleString()}</td>
+        <td class="num" style="color:${f.missing ? '#d97706' : '#94a3b8'};">${f.missing.toLocaleString()}</td>
+        <td class="pct">${f.pct.toFixed(1)}%</td>
+      </tr>`).join("");
+
+    // Chart
+    new Chart(document.getElementById("chart-completeness"), {
+      type: "bar",
+      data: {
+        labels: filledCounts.map(f => f.label),
+        datasets: [{ data: filledCounts.map(f => f.pct), backgroundColor: filledCounts.map(f =>
+          f.pct >= 95 ? "#0d9488" : f.pct >= 80 ? "#0891b2" : f.pct >= 50 ? "#d97706" : "#dc2626"
+        ) }],
+      },
+      options: {
+        indexAxis: "y", responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x.toFixed(1)}% filled` } },
+        },
+        scales: { x: { beginAtZero: true, max: 100, ticks: { callback: (v) => v + "%" } } },
+      },
+    });
+  }
+
+  // ── Geocoding ────────────────────────────────────────────────────
+  function renderGeocoding(rows) {
+    // GPS source doughnut
+    const t = tally(rows, "gps_source");
+    // Merge blank into "none"
+    if (t["(blank)"]) { t["none"] = (t["none"] || 0) + t["(blank)"]; delete t["(blank)"]; }
+    const gsLabels = Object.keys(t);
+    const gsData   = gsLabels.map(k => t[k]);
+    new Chart(document.getElementById("chart-gps-source"), {
+      type: "doughnut",
+      data: {
+        labels: gsLabels.map(l => l === "tablet" ? "Tablet GPS" : l === "hand" ? "Hand-held GPS" : "No coordinates"),
+        datasets: [{ data: gsData, backgroundColor: ["#0d9488", "#0891b2", "#dc2626"] }],
+      },
+      options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: "bottom" } } },
+    });
+
+    // Geocoding rate by region (bottom 15)
+    const byRegion = {};
+    for (const r of rows) {
+      const reg = isBlank(r.region) ? "(no region)" : r.region;
+      if (!byRegion[reg]) byRegion[reg] = { total: 0, geo: 0 };
+      byRegion[reg].total += 1;
+      if (asBool(r.has_coords)) byRegion[reg].geo += 1;
+    }
+    const arr = Object.entries(byRegion)
+      .map(([reg, v]) => ({ region: reg, total: v.total, geo: v.geo, pct: pct(v.geo, v.total) }))
+      .filter(x => x.total >= 5)   // ignore tiny regions
+      .sort((a, b) => a.pct - b.pct)
+      .slice(0, 15);
+    new Chart(document.getElementById("chart-geocode-region"), {
+      type: "bar",
+      data: {
+        labels: arr.map(x => `${x.region} (${x.total})`),
+        datasets: [{ data: arr.map(x => x.pct), backgroundColor: arr.map(x =>
+          x.pct >= 90 ? "#0d9488" : x.pct >= 70 ? "#d97706" : "#dc2626") }],
+      },
+      options: {
+        indexAxis: "y", responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x.toFixed(1)}% geocoded (n=${arr[ctx.dataIndex].total})` } } },
+        scales: { x: { beginAtZero: true, max: 100, ticks: { callback: (v) => v + "%" } } },
+      },
+    });
+  }
+
+  // ── Admin matching ──────────────────────────────────────────────
+  function renderAdminMatching(rows) {
+    const n = rows.length;
+    const rMatched = rows.filter(r => !isBlank(r.gid_region)).length;
+    const dMatched = rows.filter(r => !isBlank(r.gid_district)).length;
+    const wMatched = rows.filter(r => !isBlank(r.gid_ward)).length;
+
+    new Chart(document.getElementById("chart-match-rate"), {
+      type: "bar",
+      data: {
+        labels: ["Region", "District", "Ward"],
+        datasets: [
+          { label: "Matched",   data: [rMatched, dMatched, wMatched], backgroundColor: "#0d9488" },
+          { label: "Unmatched", data: [n - rMatched, n - dMatched, n - wMatched], backgroundColor: "#e2e8f0" },
+        ],
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: "bottom" } },
+        scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } },
+      },
+    });
+
+    // Regions with lowest district match
+    const byRegion = {};
+    for (const r of rows) {
+      if (isBlank(r.region)) continue;
+      if (!byRegion[r.region]) byRegion[r.region] = { total: 0, dMatched: 0 };
+      byRegion[r.region].total += 1;
+      if (!isBlank(r.gid_district)) byRegion[r.region].dMatched += 1;
+    }
+    const arr = Object.entries(byRegion)
+      .map(([reg, v]) => ({ region: reg, total: v.total, dMatched: v.dMatched, pct: pct(v.dMatched, v.total) }))
+      .filter(x => x.total >= 20)
+      .sort((a, b) => a.pct - b.pct);
+    els.tbodyRegionMatch.innerHTML = arr.map(x => `
+      <tr>
+        <td><strong>${x.region}</strong></td>
+        <td class="num">${x.total.toLocaleString()}</td>
+        <td class="num">${x.dMatched.toLocaleString()}</td>
+        <td class="pct">
+          <span class="dq-bar" style="width:${Math.max(2, x.pct * 0.8)}px;"></span>
+          ${x.pct.toFixed(1)}%
+        </td>
+      </tr>`).join("");
+  }
+
+  // ── Known issues ─────────────────────────────────────────────────
+  function renderIssues(rows) {
+    const n = rows.length;
+    const noRegion = rows.filter(r => isBlank(r.region)).length;
+    const noPhone = rows.filter(r => isBlank(r.phone)).length;
+    const noWard = rows.filter(r => isBlank(r.ward)).length;
+
+    // Outlets whose declared region doesn't sit anywhere near the reported
+    // coordinates. This is the "Njombe outlet with a Dar es Salaam GPS" class
+    // of problem — the bounding-box check accepts them but the region/GPS
+    // don't match.
+    const regionCentroids = {
+      // rough Tanzania region centroids for a coarse sanity check (deg)
+      "Arusha": [-3.4, 36.7], "Dar es Salaam": [-6.8, 39.2], "Dodoma": [-6.2, 35.7],
+      "Geita": [-2.9, 32.2], "Iringa": [-8.0, 35.5], "Kagera": [-1.7, 31.4],
+      "Katavi": [-6.4, 31.3], "Kigoma": [-4.9, 30.3], "Kilimanjaro": [-3.5, 37.3],
+      "Lindi": [-9.7, 38.5], "Manyara": [-4.3, 36.2], "Mara": [-1.9, 34.3],
+      "Mbeya": [-8.9, 33.5], "Morogoro": [-8.0, 37.4], "Mtwara": [-10.3, 40.0],
+      "Mwanza": [-2.5, 32.9], "Njombe": [-9.3, 34.8], "Pwani": [-7.3, 38.9],
+      "Rukwa": [-8.0, 31.6], "Ruvuma": [-10.7, 35.6], "Shinyanga": [-3.6, 33.4],
+      "Simiyu": [-2.8, 34.0], "Singida": [-6.5, 34.6], "Songwe": [-8.7, 32.9],
+      "Tabora": [-5.0, 32.8], "Tanga": [-5.1, 38.5],
+    };
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+    let regionCoordMismatch = 0;
+    for (const r of rows) {
+      if (!asBool(r.has_coords) || isBlank(r.region)) continue;
+      const c = regionCentroids[r.region];
+      if (!c) continue;
+      const d = haversineKm(c[0], c[1], parseFloat(r.latitude), parseFloat(r.longitude));
+      // If the outlet's GPS is more than 300 km from its declared region's
+      // centroid, that's very likely a data-entry error.
+      if (d > 300) regionCoordMismatch += 1;
+    }
+
+    const issues = [
+      {
+        crit: false,
+        tag: `${pct(noPhone, n)}% of records`,
+        title: "Missing phone number",
+        body: `${noPhone.toLocaleString()} outlets have no phone recorded. Public users of the Find Pharmacy tool will see a "no phone" state for these, which limits the tool's usefulness. Priority: prompt the Pharmacy Council to backfill phone numbers on the next inventory sweep.`,
+      },
+      {
+        crit: false,
+        tag: `${noRegion} records`,
+        title: "No region assigned",
+        body: `${noRegion} outlets have no region on record after ETL canonicalisation. These do not appear on the choropleth or the Site Check density verdict. Likely cause: the raw <code>.xls</code> region cell was blank or unmatchable to the 26 canonical regions.`,
+      },
+      {
+        crit: false,
+        tag: `${noWard.toLocaleString()} records`,
+        title: "No ward assigned",
+        body: `${noWard.toLocaleString()} outlets carry no ward name. This is the biggest driver of the low ward-matching rate — the raw inventory did not always collect ward-level detail.`,
+      },
+      {
+        crit: regionCoordMismatch > 50,
+        tag: `${regionCoordMismatch} records`,
+        title: "Region ↔ coordinate inconsistency",
+        body: `${regionCoordMismatch} outlets have GPS coordinates that sit more than 300 km from the centroid of their declared region &mdash; e.g. an outlet declared in Njombe with a Dar es Salaam GPS. The ETL currently accepts these because they fall inside Tanzania's bounding box. Adding a region-polygon-in-point validation would flag them for review.`,
+      },
+    ];
+    els.issues.innerHTML = issues.map(i => `
+      <div class="dq-issue ${i.crit ? 'crit' : ''}">
+        <div class="tag">${i.tag}</div>
+        <h4>${i.title}</h4>
+        <p>${i.body}</p>
+      </div>`).join("");
+  }
+})();
+</script>
+
+
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/pharmascope");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 PharmaScope — Malaria Atlas Project, Ifakara Health Institute</p>
+<p>Open pharmacy access intelligence for Tanzania</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

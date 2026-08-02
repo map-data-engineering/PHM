@@ -2,1141 +2,591 @@
 title: ""
 page-layout: full
 toc: false
-execute:
-  echo: false
-  warning: false
-  message: false
 ---
 
 ```{=html}
-<!-- Leaflet CSS & JS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<!-- PapaParse for CSV -->
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
-<!-- OpenRouteService key (gitignored; absent from this repo's history) -->
-<script src="ors-key.js"></script>
 
 <style>
-  .finder-hero {
-    background: var(--map-navy, #1a2332);
-    color: white;
-    padding: 3rem 2rem;
-    margin-bottom: 2rem;
+  .sc-wrap { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1.5rem 3rem; }
+
+  .sc-explain{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-left:3px solid var(--map-red,#0d9488);
+    padding:1rem 1.25rem;
+    margin-bottom:1.25rem;
+    font-size:.9rem;
+    color:var(--map-text-muted,#64748b);
+    line-height:1.6;
   }
-  .finder-hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.5rem;
-    margin: 0 0 0.5rem 0;
+  .sc-explain strong{color:var(--map-text,#0f172a);}
+
+  .sc-grid{
+    display:grid;
+    grid-template-columns: 380px 1fr;
+    gap:1.25rem;
+    align-items:stretch;
   }
-  .finder-hero p {
-    font-size: 1.1rem;
-    opacity: 0.75;
-    margin: 0;
+  @media (max-width: 960px){ .sc-grid{ grid-template-columns:1fr; } }
+
+  .sc-panel{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    padding:1.25rem;
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    min-height:600px;
   }
-  .finder-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem 3rem;
+  .sc-field{ display:flex; flex-direction:column; gap:.35rem; }
+  .sc-field label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--map-text-muted,#64748b);
   }
-  .finder-controls {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr auto;
-    gap: 1rem;
-    align-items: end;
-    padding: 1.5rem;
-    background: white;
-    border-radius: 12px;
-    border-top: 4px solid var(--map-red, #c9a227);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-bottom: 1.5rem;
+  .sc-field input[type=text],
+  .sc-field input[type=search]{
+    padding:.55rem .7rem;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    font-size:.9rem;
+    font-family:'IBM Plex Sans',sans-serif;
+    background:#fff;
+    color:var(--map-text,#0f172a);
   }
-  .finder-controls label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+  .sc-field input:focus{ outline:none; border-color:var(--map-red,#0d9488); box-shadow:0 0 0 2px rgba(13,148,136,.1); }
+
+  .sc-row{ display:flex; gap:.5rem; align-items:center; }
+  .sc-row button{
+    padding:.55rem 1rem;
+    background:var(--map-navy,#0f172a);
+    color:#fff;
+    border:1px solid var(--map-navy,#0f172a);
+    border-radius:4px;
+    font-size:.85rem;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:500;
+    cursor:pointer;
+    transition:background .15s;
   }
-  .finder-controls select, .finder-controls input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 1rem;
-    background: white;
+  .sc-row button:hover{ background:#1e293b; }
+  .sc-row button.primary{ background:var(--map-red,#0d9488); border-color:var(--map-red,#0d9488); }
+  .sc-row button.primary:hover{ background:#0f766e; }
+  .sc-row button:disabled{ opacity:.5; cursor:not-allowed; }
+
+  .sc-radius{ display:flex; flex-direction:column; gap:.4rem; }
+  .sc-radius input[type=range]{ width:100%; accent-color:var(--map-red,#0d9488); }
+  .sc-radius .val{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:1.15rem;
+    font-weight:500;
+    color:var(--map-text,#0f172a);
   }
-  .finder-controls select:focus, .finder-controls input:focus {
-    outline: none;
-    border-color: var(--map-red, #c9a227);
-    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.12);
+
+  .sc-verdict{
+    padding:1.1rem 1.1rem;
+    border-radius:4px;
+    background:#f8fafc;
+    border:1px solid var(--map-border,#e2e8f0);
+    display:flex;
+    flex-direction:column;
+    gap:.5rem;
   }
-  .finder-btn {
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #c9a227, #a8871e);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.3s ease;
+  .sc-verdict.saturated  { background:#fef2f2; border-left:3px solid #dc2626; }
+  .sc-verdict.well-served{ background:#fffbeb; border-left:3px solid #d97706; }
+  .sc-verdict.adequate   { background:#f0fdfa; border-left:3px solid #14b8a6; }
+  .sc-verdict.underserved{ background:#f0fdf4; border-left:3px solid #16a34a; }
+  .sc-verdict.empty      { color:var(--map-text-muted,#64748b); font-style:italic; text-align:center; }
+
+  .sc-verdict .badge{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:.2rem .55rem;
+    border-radius:2px;
+    font-weight:500;
+    align-self:flex-start;
   }
-  .finder-btn:hover {
-    background: linear-gradient(135deg, #a8871e, #8a7518);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3);
+  .sc-verdict.saturated  .badge{ background:#dc2626; color:#fff; }
+  .sc-verdict.well-served .badge{ background:#d97706; color:#fff; }
+  .sc-verdict.adequate    .badge{ background:#14b8a6; color:#fff; }
+  .sc-verdict.underserved .badge{ background:#16a34a; color:#fff; }
+
+  .sc-verdict h3{
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-size:1.25rem;
+    font-weight:600;
+    margin:0;
+    color:var(--map-text,#0f172a);
   }
-  .finder-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
+  .sc-verdict p{ margin:0; font-size:.85rem; line-height:1.5; color:var(--map-text-muted,#64748b); }
+
+  .sc-metrics{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.75rem;
+    margin-top:.35rem;
   }
-  .finder-status {
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-    display: none;
+  .sc-metric{
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:3px;
+    padding:.6rem .7rem;
   }
-  .finder-status.info {
-    display: block;
-    background: rgba(201, 162, 39, 0.05);
-    border-left: 4px solid var(--map-red, #c9a227);
-    color: #0a1628;
+  .sc-metric .lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.65rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--map-text-muted,#64748b);
   }
-  .finder-status.error {
-    display: block;
-    background: rgba(220, 53, 69, 0.08);
-    border-left: 4px solid #dc3545;
-    color: #721c24;
+  .sc-metric .val{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:1.25rem;
+    font-weight:500;
+    color:var(--map-text,#0f172a);
+    letter-spacing:-0.01em;
   }
-  .finder-status.success {
-    display: block;
-    background: rgba(40, 167, 69, 0.08);
-    border-left: 4px solid #28a745;
-    color: #155724;
+
+  #sc-map{
+    height:600px;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    z-index:1;
   }
-  /* Use flexbox to defeat Quarto's auto-injected `.page-columns`
-     grid (it places children into named grid-columns that ignore
-     my custom `grid-template-columns`). Flex resets the layout
-     mode entirely and lays the two children out in a row.
-     The `grid-column: body-content` keeps this wrapper aligned
-     with the rest of the page's content column (controls, status
-     banner, results list) instead of escaping to the full page
-     width that Quarto's `.page-full` class would otherwise force. */
-  .finder-map-wrap,
-  .finder-map-wrap.page-columns,
-  .finder-map-wrap.page-full {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    gap: 1.25rem !important;
-    margin: 1.5rem auto !important;
-    align-items: stretch !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    grid-column: body-content !important;   /* stay in the body column */
+  @media (max-width: 960px){ #sc-map{ height:400px; } }
+
+  .sc-nearby{
+    margin-top:1.25rem;
+    background:#fff;
+    border:1px solid var(--map-border,#e2e8f0);
+    border-radius:4px;
+    overflow:hidden;
   }
-  .finder-map-wrap > #finder-map {
-    flex: 0 0 620px !important;
-    grid-column: auto !important;       /* override Quarto's named col */
+  .sc-nearby-head{
+    padding:.85rem 1rem;
+    background:var(--map-navy,#0f172a);
+    color:#fff;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:1rem;
   }
-  .finder-map-wrap > .finder-detail-panel {
-    flex: 1 1 360px !important;
-    min-width: 360px !important;
-    grid-column: auto !important;
+  .sc-nearby-head h4{
+    margin:0;
+    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-weight:600;
+    font-size:1rem;
   }
-  #finder-map {
-    width: 100% !important;
-    max-width: 620px !important;
-    height: 520px;
-    border-radius: 12px;
-    border: 1px solid #e8ecf1;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 1;
-    cursor: crosshair;     /* hint that the map is clickable */
+  .sc-nearby-head .meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.75rem;
+    opacity:.75;
   }
-  .finder-detail-panel {
-    background: #fff;
-    border: 1px solid #e8ecf1;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    padding: 1.5rem;
-    height: 520px;
-    overflow-y: auto;
-    font-size: 0.95rem;
+  .sc-nearby table{ width:100%; border-collapse:collapse; font-size:.85rem; }
+  .sc-nearby th{
+    background:#f1f5f9;
+    padding:.55rem .8rem;
+    text-align:left;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:500;
+    font-size:.72rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--map-text-muted,#64748b);
+    border-bottom:1px solid var(--map-border,#e2e8f0);
   }
-  .finder-detail-empty {
-    color: #6b7280;
-    padding-top: 1rem;
+  .sc-nearby td{ padding:.55rem .8rem; border-bottom:1px solid #f1f5f9; }
+  .sc-nearby td.dist{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--map-red,#0d9488);
+    font-weight:500;
+    text-align:right;
+    white-space:nowrap;
   }
-  .finder-detail-empty strong {
-    display: block;
-    color: #0a1628;
-    font-size: 1.05rem;
-    margin-bottom: 0.5rem;
-  }
-  .finder-detail-empty p { margin: 0; line-height: 1.55; }
-  .finder-detail-header {
-    border-bottom: 1px solid #eef2f7;
-    padding-bottom: 0.8rem;
-    margin-bottom: 0.85rem;
-  }
-  .finder-detail-header h4 {
-    margin: 0 0 0.25rem;
-    color: #0a1628;
-    font-size: 1.1rem;
-    line-height: 1.3;
-  }
-  .finder-detail-header .meta {
-    color: #6b7280;
-    font-size: 0.85rem;
-    line-height: 1.5;
-  }
-  .finder-detail-distance {
-    display: inline-block;
-    background: rgba(201,162,39,0.12);
-    color: #a8871e;
-    padding: 0.25rem 0.6rem;
-    border-radius: 100px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    margin-top: 0.45rem;
-  }
-  .finder-detail-section {
-    margin-top: 1rem;
-  }
-  .finder-detail-section h5 {
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.72rem;
-    color: var(--map-red, #c9a227);
-    margin: 0 0 0.4rem;
-    font-weight: 700;
-  }
-  .finder-detail-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 0.3rem;
-  }
-  .finder-detail-list li {
-    padding: 0.4rem 0.6rem;
-    background: #f8fafc;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    color: #0a1628;
-    line-height: 1.3;
-  }
-  @media (max-width: 992px) {
-    .finder-map-wrap,
-    .finder-map-wrap.page-columns,
-    .finder-map-wrap.page-full {
-      flex-direction: column !important;
-    }
-    .finder-map-wrap > #finder-map {
-      flex: 0 0 auto !important;
-      max-width: 100% !important;
-    }
-    .finder-detail-panel { height: auto; max-height: 380px; }
-  }
-  .results-section {
-    margin-top: 1.5rem;
-  }
-  .results-section h3 {
-    margin: 0 0 1rem 0;
-    color: #0a1628;
-    font-size: 1.3rem;
-  }
-  .result-card {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 1rem;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    background: white;
-    border-radius: 8px;
-    border-left: 4px solid var(--map-red, #c9a227);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    margin-bottom: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .result-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    transform: translateX(4px);
-  }
-  .result-rank {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #c9a227, #a8871e);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-  }
-  .result-info h4 {
-    margin: 0 0 0.25rem 0;
-    font-size: 1rem;
-    color: #0a1628;
-  }
-  .result-meta {
-    font-size: 0.85rem;
-    color: #666;
-    margin: 0;
-  }
-  .result-meta span {
-    margin-right: 1rem;
-  }
-  .result-distance {
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .result-distance .dist-value {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--map-red, #c9a227);
-  }
-  .result-distance .dist-unit {
-    font-size: 0.8rem;
-    color: #999;
-  }
-  .result-distance .dist-time {
-    font-size: 0.78rem;
-    color: #666;
-    margin-top: 0.25rem;
-    white-space: nowrap;
-  }
-  .result-distance .dist-note {
-    font-size: 0.7rem;
-    color: #b3651e;
-    margin-top: 0.2rem;
-    font-style: italic;
-  }
-  .services-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.35rem;
-  }
-  .service-tag {
-    padding: 2px 8px;
-    background: rgba(201, 162, 39, 0.08);
-    color: #a8871e;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-  .locate-btn {
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #28a745, #20c997);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .locate-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-  }
-  .locate-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-  .how-it-works {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  .step-card {
-    text-align: center;
-    padding: 1.5rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  }
-  .step-number {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #c9a227, #a8871e);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    margin: 0 auto 0.75rem;
-  }
-  .step-card h4 {
-    margin: 0 0 0.5rem 0;
-    color: #0a1628;
-  }
-  .step-card p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #666;
-  }
-  .max-results-control {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .max-results-control select {
-    width: auto;
-    padding: 0.75rem;
-  }
-  @media (max-width: 768px) {
-    .finder-controls {
-      grid-template-columns: 1fr;
-    }
-    .how-it-works {
-      grid-template-columns: 1fr;
-    }
-    .result-card {
-      grid-template-columns: auto 1fr;
-    }
-    .result-distance {
-      grid-column: 1 / -1;
-      text-align: left;
-    }
-    #finder-map {
-      height: 350px;
-    }
+  .sc-nearby tbody tr:hover{ background:#f8fafc; }
+
+  .sc-note{
+    padding:.6rem .85rem;
+    font-size:.78rem;
+    color:var(--map-text-muted,#64748b);
+    background:#f8fafc;
+    border-left:2px solid var(--map-border,#e2e8f0);
+    border-radius:0 3px 3px 0;
   }
 </style>
 
-<!-- HERO SECTION -->
-<section class="finder-hero">
-  <div style="max-width: 1200px; margin: 0 auto;">
-    <h1>Find Nearby Health Facility</h1>
-    <p>Select a service you need and get the closest facilities that provide it</p>
+<section class="page-banner">
+  <div style="max-width:1400px;margin:0 auto;">
+    <h1>Site Check</h1>
+    <p>Before accrediting a new outlet, check how many existing CPPs already sit within walking distance of the proposed location.</p>
   </div>
 </section>
 
-<div class="finder-container">
+<div class="sc-wrap">
 
-  <!-- HOW IT WORKS -->
-  <div class="how-it-works">
-    <div class="step-card">
-      <div class="step-number">1</div>
-      <h4>Share Your Location</h4>
-      <p>Allow your browser to detect your current location or enter coordinates manually</p>
-    </div>
-    <div class="step-card">
-      <div class="step-number">2</div>
-      <h4>Select a Service</h4>
-      <p>Choose the type of health service you are looking for from the dropdown</p>
-    </div>
-    <div class="step-card">
-      <div class="step-number">3</div>
-      <h4>View Results</h4>
-      <p>See the nearest facilities on the map with distance and service details</p>
-    </div>
+  <div class="sc-explain">
+    <strong>How to use it.</strong> Drop a pin on the map at the proposed pharmacy location (or paste GPS coordinates / search an address). PharmaScope returns the number of accredited outlets within your chosen radius, the distance to the nearest one, the density per km<sup>2</sup>, and a suggested verdict &mdash; <em>saturated</em>, <em>well-served</em>, <em>adequate</em>, or <em>under-served</em>. Use it as evidence, not a decision.
   </div>
 
-  <!-- CONTROLS -->
-  <div class="finder-controls">
-    <div>
-      <label for="country-select">Country</label>
-      <select id="country-select">
-        <option value="botswana" selected>Botswana</option>
-        <option value="ethiopia">Ethiopia</option>
-        <option value="kenya">Kenya</option>
-        <option value="malawi">Malawi</option>
-        <option value="tanzania">Tanzania</option>
-        <option value="zambia">Zambia</option>
-      </select>
-    </div>
-    <div>
-      <label for="service-select">Service Type</label>
-      <select id="service-select">
-        <option value="">-- Loading services... --</option>
-      </select>
-    </div>
-    <div>
-      <label for="travel-mode">Travel Mode</label>
-      <select id="travel-mode">
-        <option value="driving-car" selected>Drive</option>
-        <option value="foot-walking">Walk</option>
-        <option value="cycling-regular">Cycle</option>
-      </select>
-    </div>
-    <div class="max-results-control">
-      <div style="width:100%">
-        <label for="max-results">Show nearest</label>
-        <select id="max-results">
-          <option value="5">5 facilities</option>
-          <option value="10" selected>10 facilities</option>
-          <option value="20">20 facilities</option>
-          <option value="50">50 facilities</option>
-        </select>
+  <div class="sc-grid">
+
+    <!-- Left panel: inputs + verdict -->
+    <div class="sc-panel">
+
+      <div class="sc-field">
+        <label for="sc-coords">Coordinates &mdash; lat, lon</label>
+        <input type="text" id="sc-coords" placeholder="e.g. -6.798, 39.207" autocomplete="off"/>
       </div>
-    </div>
-    <div style="display:flex; gap:0.5rem; align-items:end;">
-      <button class="locate-btn" id="locate-btn" onclick="getLocation()">Detect My Location</button>
-      <button class="finder-btn" id="search-btn" onclick="searchFacilities()" disabled>Search</button>
-    </div>
-  </div>
 
-  <!-- MANUAL COORDS (fallback if browser geolocation isn't available) -->
-  <div id="manual-coords" style="margin-bottom:1rem; display:none;">
-    <div class="finder-controls" style="grid-template-columns: 1fr 1fr auto;">
-      <div>
-        <label for="manual-lat">Latitude</label>
-        <input type="number" id="manual-lat" placeholder="e.g. -6.7924" step="any" />
+      <div class="sc-field">
+        <label for="sc-addr">Or search an address</label>
+        <input type="search" id="sc-addr" placeholder="e.g. Kariakoo, Dar es Salaam" autocomplete="off"/>
       </div>
-      <div>
-        <label for="manual-lon">Longitude</label>
-        <input type="number" id="manual-lon" placeholder="e.g. 39.2083" step="any" />
+
+      <div class="sc-row">
+        <button id="sc-locate">Use my location</button>
+        <button id="sc-clear">Clear</button>
       </div>
-      <button class="finder-btn" onclick="useManualCoords()">Use These Coordinates</button>
+
+      <div class="sc-radius">
+        <label style="font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--map-text-muted,#64748b);">
+          Search radius <span class="val" id="sc-rval">2.0</span> km
+        </label>
+        <input type="range" id="sc-radius" min="0.5" max="10" step="0.5" value="2"/>
+      </div>
+
+      <div class="sc-verdict empty" id="sc-verdict">
+        Drop a pin on the map to check this location.
+      </div>
+
+      <div class="sc-note">
+        Verdict thresholds are density-based (accredited outlets per km<sup>2</sup> inside the search radius). They are guidance only &mdash; the Pharmacy Council retains full discretion on new applications.
+      </div>
+
     </div>
+
+    <!-- Right: map -->
+    <div id="sc-map"></div>
   </div>
 
-  <!-- STATUS MESSAGE -->
-  <div id="status-msg" class="finder-status info"
-       style="display:block;">
-    Tip: click anywhere on the map to set your location, or use the
-    <strong>Detect My Location</strong> button.
-  </div>
-
-  <!-- MAP + DETAIL PANEL -->
-  <div class="finder-map-wrap">
-    <div id="finder-map"></div>
-    <aside id="finder-detail-panel" class="finder-detail-panel">
-      <div id="finder-detail-empty" class="finder-detail-empty">
-        <strong>Facility details</strong>
-        <p>Click any facility marker on the map to view its full information and complete service list here.</p>
-      </div>
-      <div id="finder-detail-content" style="display:none;"></div>
-    </aside>
-  </div>
-
-  <!-- RESULTS LIST -->
-  <div class="results-section" id="results-section" style="display:none;">
-    <h3 id="results-title">Nearest Facilities</h3>
-    <div id="results-list"></div>
+  <!-- Nearby outlets table -->
+  <div class="sc-nearby" id="sc-nearby-block" style="display:none;">
+    <div class="sc-nearby-head">
+      <h4>Nearby accredited outlets</h4>
+      <span class="meta" id="sc-nearby-meta">&mdash;</span>
+    </div>
+    <div style="max-height:360px;overflow:auto;">
+      <table id="sc-nearby-tbl">
+        <thead>
+          <tr>
+            <th>Outlet</th>
+            <th>Type</th>
+            <th>Region / District</th>
+            <th style="text-align:right;">Distance</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
 </div>
 
 <script>
-(function() {
-  // ─── Country configs ───
-  var COUNTRIES = {
-    tanzania: {
-      facFile: 'data/tanzania/tanzania_standardized.csv',
-      svcFile: 'data/tanzania/hf_services.csv',
-      bounds: [-11.8, -1.0, 29.2, 40.6],
-      label: 'Tanzania',
-      statusFilter: 'Operating'
-    },
-    kenya: {
-      facFile: 'etl/data/processed/country_standardized/kenya_standardized.csv',
-      svcFile: 'etl/data/processed/country_standardized/kenya_services_standardized.csv',
-      bounds: [-4.7, 5.5, 33.9, 41.9],
-      label: 'Kenya',
-      statusFilter: 'Operating'
-    },
-    zambia: {
-      facFile: 'data/Zambia/zambia_standardized.csv',
-      svcFile: 'data/Zambia/zambia_services.csv',
-      bounds: [-18.1, -8.2, 21.9, 33.7],
-      label: 'Zambia',
-      statusFilter: 'Functional'
-    },
-    malawi: {
-      facFile: 'data/Malawi/malawi_standardized.csv',
-      svcFile: 'data/Malawi/malawi_services.csv',
-      bounds: [-17.2, -9.3, 32.6, 36.0],
-      label: 'Malawi',
-      statusFilter: 'Functional'
-    },
-    botswana: {
-      facFile: 'etl/data/processed/country_standardized/botswana_standardized.csv',
-      svcFile: 'etl/data/processed/country_standardized/botswana_services_standardized.csv',
-      bounds: [-26.9, -17.7, 20.0, 29.4],
-      label: 'Botswana',
-      statusFilter: 'OPERATIONAL'
-    },
-    ethiopia: {
-      facFile: 'etl/data/processed/country_standardized/ethiopia_standardized.csv',
-      svcFile: 'etl/data/processed/country_standardized/ethiopia_services_standardized.csv',
-      bounds: [3.0, 15.0, 33.0, 48.0],
-      label: 'Ethiopia',
-      statusFilter: 'Operational'
-    }
+(function () {
+  const CSV_URL = "data/tanzania/addo_standardized.csv";
+
+  // ── Map ──────────────────────────────────────────────────────────
+  const map = L.map("sc-map", { preferCanvas: true }).setView([-6.4, 35.0], 6);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    { attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19 }).addTo(map);
+
+  const nearbyLayer = L.layerGroup().addTo(map);
+  const backdropLayer = L.layerGroup().addTo(map);   // faint markers outside radius
+  let pinMarker = null;
+  let radiusCircle = null;
+
+  // ── State ────────────────────────────────────────────────────────
+  let all = [];               // CPP rows (geocoded only)
+  let currentPin = null;      // { lat, lon }
+  let currentRadius = 2.0;    // km
+
+  const els = {
+    coords: document.getElementById("sc-coords"),
+    addr:   document.getElementById("sc-addr"),
+    locate: document.getElementById("sc-locate"),
+    clear:  document.getElementById("sc-clear"),
+    radius: document.getElementById("sc-radius"),
+    rval:   document.getElementById("sc-rval"),
+    verdict: document.getElementById("sc-verdict"),
+    nearbyBlock: document.getElementById("sc-nearby-block"),
+    nearbyMeta:  document.getElementById("sc-nearby-meta"),
+    nearbyTbody: document.querySelector("#sc-nearby-tbl tbody"),
   };
 
-  var currentCountry = 'tanzania';
-  var userLat = null;
-  var userLon = null;
-  var facilities = [];
-  var svcByCode = {};
-  var map = null;
-  var userMarker = null;
-  var facilityMarkers = [];
-  var routeLines = [];
-  var dataLoaded = false;
-  var cache = {};
-
-  map = L.map('finder-map').setView([-2, 36], 5);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-    maxZoom: 19
-  }).addTo(map);
-
-  // ── Click on the map background to set the user's location ──
-  // Marker clicks have their own handler (no propagation needed —
-  // Leaflet's marker click does not bubble to the map by default).
-  map.on('click', function(e) {
-    userLat = e.latlng.lat;
-    userLon = e.latlng.lng;
-    var btn = document.getElementById('locate-btn');
-    btn.textContent = 'Location Set';
-    btn.style.background = 'linear-gradient(135deg, #20c997, #28a745)';
-    placeUserMarker();
-    showStatus('Location set from map click: <strong>' +
-      userLat.toFixed(4) + ', ' + userLon.toFixed(4) +
-      '</strong>. Now select a service and click Search.', 'success');
-    checkReady();
+  // ── Load CPP data ───────────────────────────────────────────────
+  Papa.parse(CSV_URL, {
+    download: true, header: true, skipEmptyLines: true, dynamicTyping: false,
+    complete: (res) => {
+      all = res.data
+        .filter(r => r.has_coords === "True" || r.has_coords === "true")
+        .map(r => ({
+          name: r.addo_name,
+          business_type: r.business_type,
+          accreditation_source: r.accreditation_source,
+          region: r.region,
+          district: r.district,
+          ward: r.ward,
+          lat: parseFloat(r.latitude),
+          lon: parseFloat(r.longitude),
+        }))
+        .filter(r => Number.isFinite(r.lat) && Number.isFinite(r.lon));
+      // Faint backdrop so users see the country's outlet distribution
+      // before dropping a pin — all 4,370 geocoded outlets as tiny grey dots.
+      for (const r of all) {
+        L.circleMarker([r.lat, r.lon], {
+          radius: 1.5, color: "#94a3b8", weight: 0, fillColor: "#94a3b8", fillOpacity: 0.35,
+          interactive: false,
+        }).addTo(backdropLayer);
+      }
+    },
   });
 
-  function showStatus(msg, type) {
-    var el = document.getElementById('status-msg');
-    el.className = 'finder-status ' + type;
-    el.innerHTML = msg;
-  }
+  // ── Map click drops a pin ────────────────────────────────────────
+  map.on("click", (e) => setPin(e.latlng.lat, e.latlng.lng));
 
-  function loadCountry(key) {
-    currentCountry = key;
-    dataLoaded = false;
-    document.getElementById('search-btn').disabled = true;
-
-    // Clear previous results
-    facilityMarkers.forEach(function(m) { map.removeLayer(m); });
-    routeLines.forEach(function(l) { map.removeLayer(l); });
-    facilityMarkers = [];
-    routeLines = [];
-    document.getElementById('results-section').style.display = 'none';
-
-    if (cache[key]) {
-      facilities = cache[key].facilities;
-      svcByCode = cache[key].svcByCode;
-      onDataReady();
-      return;
-    }
-
-    var cfg = COUNTRIES[key];
-    facilities = [];
-    svcByCode = {};
-    var loaded = {fac: false, svc: false};
-
-    showStatus('Loading ' + cfg.label + ' facilities...', 'info');
-
-    Papa.parse(cfg.facFile, {
-      download: true, header: true, skipEmptyLines: true,
-      complete: function(results) {
-        var b = cfg.bounds;
-        facilities = results.data.filter(function(r) {
-          if (!r.facility_name || r.facility_name === 'facility_name') return false;
-          if (!r.latitude || !r.longitude) return false;
-          if (r.status && r.status !== cfg.statusFilter && r.status !== 'Operational') return false;
-          var la = parseFloat(r.latitude), lo = parseFloat(r.longitude);
-          if (isNaN(la) || isNaN(lo) || la < b[0] || la > b[1] || lo < b[2] || lo > b[3]) return false;
-          return true;
-        });
-        loaded.fac = true;
-        showStatus(cfg.label + ': ' + facilities.length + ' facilities loaded. Loading services...', 'info');
-        if (loaded.svc) finishLoad(key);
-      },
-      error: function() { showStatus('Failed to load facility data.', 'error'); }
-    });
-
-    Papa.parse(cfg.svcFile, {
-      download: true, header: true, skipEmptyLines: true,
-      complete: function(results) {
-        results.data.forEach(function(row) {
-          if (!row.facility_code || row.facility_code === 'facility_code') return;
-          var cat = row.service_category || row.service_group || '';
-          if (!cat) return;
-          // Drop unwanted categories (e.g. Botswana's infrastructure/staff rows)
-          if (cfg.categoryFilter && cfg.categoryFilter.indexOf(cat) < 0) return;
-          // For countries with a coarse category, expose each specific
-          // service_detail as its own searchable category instead.
-          if (cfg.detailAsCategory && cfg.detailAsCategory.indexOf(cat) >= 0) {
-            cat = row.service_detail || cat;
-          }
-          if (!svcByCode[row.facility_code]) svcByCode[row.facility_code] = {};
-          if (!svcByCode[row.facility_code][cat]) svcByCode[row.facility_code][cat] = [];
-          svcByCode[row.facility_code][cat].push(row.service_detail || row.service_group || '');
-        });
-        loaded.svc = true;
-        if (loaded.fac) finishLoad(key);
-      },
-      error: function() { showStatus('Failed to load service data.', 'error'); }
-    });
-  }
-
-  function finishLoad(key) {
-    cache[key] = {facilities: facilities, svcByCode: svcByCode};
-    onDataReady();
-  }
-
-  function onDataReady() {
-    dataLoaded = true;
-    var svcCount = Object.keys(svcByCode).length;
-
-    // Discover service categories and populate dropdown
-    var catSet = new Set();
-    Object.values(svcByCode).forEach(function(cats) {
-      Object.keys(cats).forEach(function(c) { catSet.add(c); });
-    });
-    var allCats = Array.from(catSet).sort();
-
-    var sel = document.getElementById('service-select');
-    sel.innerHTML = '<option value="">-- Select a Service (' + allCats.length + ' available) --</option>';
-    allCats.forEach(function(cat) {
-      var opt = document.createElement('option');
-      opt.value = cat;
-      opt.textContent = cat.length > 50 ? cat.substring(0, 50) + '...' : cat;
-      sel.appendChild(opt);
-    });
-
-    showStatus('<strong>' + COUNTRIES[currentCountry].label + ':</strong> ' +
-      facilities.length.toLocaleString() + ' facilities with coordinates, ' +
-      svcCount.toLocaleString() + ' with service data (' + allCats.length + ' categories). ' +
-      'Detect your location and select a service.', 'success');
-    checkReady();
-  }
-
-  // Country change handler
-  document.getElementById('country-select').addEventListener('change', function() {
-    loadCountry(this.value);
+  els.radius.addEventListener("input", () => {
+    currentRadius = parseFloat(els.radius.value);
+    els.rval.textContent = currentRadius.toFixed(1);
+    if (currentPin) recompute();
   });
 
-  // ─── Geolocation ───
-  window.getLocation = function() {
-    var btn = document.getElementById('locate-btn');
-    btn.disabled = true;
-    btn.textContent = 'Detecting...';
+  els.coords.addEventListener("change", () => {
+    const m = els.coords.value.match(/^\s*(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)\s*$/);
+    if (!m) return;
+    setPin(parseFloat(m[1]), parseFloat(m[2]));
+  });
 
-    if (!navigator.geolocation) {
-      showStatus('Geolocation is not supported by your browser. Please enter coordinates manually.', 'error');
-      document.getElementById('manual-coords').style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'Detect My Location';
-      return;
-    }
+  els.addr.addEventListener("keydown", async (e) => {
+    if (e.key !== "Enter") return;
+    const q = els.addr.value.trim();
+    if (!q) return;
+    els.addr.disabled = true;
+    try {
+      // Nominatim geocoder, biased to Tanzania. OSM rate-limits to 1/sec —
+      // single-user interactive use is fine.
+      const url = `https://nominatim.openstreetmap.org/search?format=json&countrycodes=tz&limit=1&q=${encodeURIComponent(q)}`;
+      const res = await fetch(url, { headers: { "Accept-Language": "en" } });
+      const data = await res.json();
+      if (data.length) setPin(parseFloat(data[0].lat), parseFloat(data[0].lon));
+      else alert("Address not found in Tanzania. Try a nearby town, or drop the pin on the map.");
+    } catch (err) {
+      alert("Geocoding failed: " + err.message);
+    } finally { els.addr.disabled = false; }
+  });
 
+  els.locate.addEventListener("click", () => {
+    if (!navigator.geolocation) { alert("Geolocation is not supported by this browser."); return; }
+    els.locate.disabled = true;
+    els.locate.textContent = "Locating…";
     navigator.geolocation.getCurrentPosition(
-      function(pos) {
-        userLat = pos.coords.latitude;
-        userLon = pos.coords.longitude;
-        btn.textContent = 'Location Set';
-        btn.style.background = 'linear-gradient(135deg, #20c997, #28a745)';
-        placeUserMarker();
-        showStatus('Location detected: <strong>' + userLat.toFixed(4) + ', ' + userLon.toFixed(4) + '</strong>. Now select a service and click Search.', 'success');
-        checkReady();
+      (pos) => {
+        els.locate.disabled = false;
+        els.locate.textContent = "Use my location";
+        setPin(pos.coords.latitude, pos.coords.longitude);
       },
-      function(err) {
-        btn.disabled = false;
-        btn.textContent = 'Detect My Location';
-        document.getElementById('manual-coords').style.display = 'block';
-        var msg = 'Could not detect your location. ';
-        if (err.code === 1) msg += 'Permission denied. ';
-        else if (err.code === 2) msg += 'Position unavailable. ';
-        else msg += 'Request timed out. ';
-        msg += 'You can enter your coordinates manually below.';
-        showStatus(msg, 'error');
+      (err) => {
+        els.locate.disabled = false;
+        els.locate.textContent = "Use my location";
+        alert("Could not get your location: " + err.message);
       },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      { enableHighAccuracy: true, timeout: 10000 },
     );
-  };
+  });
 
-  window.useManualCoords = function() {
-    var lat = parseFloat(document.getElementById('manual-lat').value);
-    var lon = parseFloat(document.getElementById('manual-lon').value);
-    if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-      showStatus('Please enter valid coordinates (Latitude: -90 to 90, Longitude: -180 to 180).', 'error');
-      return;
+  els.clear.addEventListener("click", () => {
+    currentPin = null;
+    if (pinMarker) { map.removeLayer(pinMarker); pinMarker = null; }
+    if (radiusCircle) { map.removeLayer(radiusCircle); radiusCircle = null; }
+    nearbyLayer.clearLayers();
+    els.coords.value = "";
+    els.addr.value = "";
+    els.verdict.className = "sc-verdict empty";
+    els.verdict.textContent = "Drop a pin on the map to check this location.";
+    els.nearbyBlock.style.display = "none";
+    map.setView([-6.4, 35.0], 6);
+  });
+
+  // ── Core: drop pin + recompute ───────────────────────────────────
+  function setPin(lat, lon) {
+    currentPin = { lat, lon };
+    els.coords.value = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+
+    if (pinMarker) map.removeLayer(pinMarker);
+    pinMarker = L.marker([lat, lon], {
+      icon: L.divIcon({
+        className: "sc-pin",
+        html: `<div style="width:22px;height:22px;background:#0f172a;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.3);"></div>`,
+        iconSize: [22, 22], iconAnchor: [11, 11],
+      }),
+    }).addTo(map);
+
+    recompute();
+  }
+
+  function recompute() {
+    if (!currentPin) return;
+    const { lat, lon } = currentPin;
+    const R = currentRadius;
+
+    // Update radius circle
+    if (radiusCircle) map.removeLayer(radiusCircle);
+    radiusCircle = L.circle([lat, lon], {
+      radius: R * 1000, color: "#0d9488", weight: 1.5, opacity: 0.6,
+      fillColor: "#0d9488", fillOpacity: 0.08,
+    }).addTo(map);
+
+    // Fit view so both pin and circle are visible
+    map.fitBounds(radiusCircle.getBounds().pad(0.25));
+
+    // Compute distances
+    const withDist = all.map(r => ({ ...r, dist_km: haversineKm(lat, lon, r.lat, r.lon) }));
+    const inRadius = withDist.filter(r => r.dist_km <= R).sort((a, b) => a.dist_km - b.dist_km);
+    const nearest = withDist.reduce((min, r) => r.dist_km < min.dist_km ? r : min, { dist_km: Infinity });
+
+    // Draw nearby markers
+    nearbyLayer.clearLayers();
+    for (const r of inRadius) {
+      L.circleMarker([r.lat, r.lon], {
+        radius: 6, color: "#0d9488", fillColor: "#14b8a6", fillOpacity: 0.85, weight: 1.5,
+      }).bindPopup(popupHtml(r)).addTo(nearbyLayer);
     }
-    userLat = lat;
-    userLon = lon;
-    var btn = document.getElementById('locate-btn');
-    btn.textContent = 'Location Set';
-    btn.style.background = 'linear-gradient(135deg, #20c997, #28a745)';
-    placeUserMarker();
-    showStatus('Location set: <strong>' + userLat.toFixed(4) + ', ' + userLon.toFixed(4) + '</strong>. Now select a service and click Search.', 'success');
-    checkReady();
-  };
+    // Also highlight the single nearest outlet even if outside radius
+    if (nearest.dist_km !== Infinity && nearest.dist_km > R) {
+      L.circleMarker([nearest.lat, nearest.lon], {
+        radius: 5, color: "#64748b", fillColor: "#94a3b8", fillOpacity: 0.7, weight: 1,
+      }).bindPopup(popupHtml(nearest) + `<br/><em>Nearest overall &mdash; ${nearest.dist_km.toFixed(2)} km</em>`).addTo(nearbyLayer);
+    }
 
-  function placeUserMarker() {
-    if (userMarker) map.removeLayer(userMarker);
-    var userIcon = L.divIcon({
-      html: '<div style="width:18px;height:18px;background:#dc3545;border:3px solid white;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>',
-      className: '',
-      iconSize: [18, 18],
-      iconAnchor: [9, 9]
-    });
-    userMarker = L.marker([userLat, userLon], { icon: userIcon, zIndexOffset: 1000 })
-      .addTo(map)
-      .bindPopup('<strong>Your Location</strong><br/>' + userLat.toFixed(4) + ', ' + userLon.toFixed(4));
-    map.setView([userLat, userLon], 10);
+    // Verdict
+    const areaKm2 = Math.PI * R * R;
+    const density = inRadius.length / areaKm2;
+    const verdict = classify(density, inRadius.length, nearest.dist_km);
+    renderVerdict(verdict, inRadius.length, density, nearest.dist_km, R);
+    renderNearby(inRadius, R);
   }
 
-  function checkReady() {
-    var serviceVal = document.getElementById('service-select').value;
-    document.getElementById('search-btn').disabled = !(dataLoaded && userLat !== null && serviceVal);
+  function haversineKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
-  document.getElementById('service-select').addEventListener('change', checkReady);
-
-  // ─── Haversine distance (km) — used for pre-filter and ORS fallback ───
-  function haversine(lat1, lon1, lat2, lon2) {
-    var R = 6371;
-    var dLat = (lat2 - lat1) * Math.PI / 180;
-    var dLon = (lon2 - lon1) * Math.PI / 180;
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  }
-
-  // ─── OpenRouteService config ───
-  // Key is loaded from gitignored `ors-key.js` (see <script> tag at top of page).
-  // Free key signup: https://openrouteservice.org/dev/#/signup (2,000 req/day, 40/min).
-  var ORS_API_KEY     = (typeof window.ORS_API_KEY === 'string') ? window.ORS_API_KEY : '';
-  var ORS_PREFILTER_N = 30;              // top-N nearest-by-haversine to road-route per search
-
-  // Travel-mode metadata: ORS profile id → labels/verbs used in status + result text.
-  // `routedText` is the "actual route" flag (contrasts with "straight-line" fallback).
-  var TRAVEL_MODES = {
-    'driving-car':     { label: 'Drive', verb: 'drive', routedText: 'by road',  status: 'road' },
-    'foot-walking':    { label: 'Walk',  verb: 'walk',  routedText: 'on foot',  status: 'walking' },
-    'cycling-regular': { label: 'Cycle', verb: 'cycle', routedText: 'by bike',  status: 'cycling' }
-  };
-  function currentMode() {
-    var el = document.getElementById('travel-mode');
-    return (el && TRAVEL_MODES[el.value]) ? TRAVEL_MODES[el.value] : TRAVEL_MODES['driving-car'];
-  }
-  function currentProfile() {
-    var el = document.getElementById('travel-mode');
-    return (el && TRAVEL_MODES[el.value]) ? el.value : 'driving-car';
-  }
-
-  // One matrix request: 1 origin → many destinations.
-  // Returns { distances: [km], durations: [sec] } aligned with `destinations`.
-  // Entries may be null when ORS can't snap a point to the road network.
-  async function orsMatrix(origin, destinations) {
-    if (!ORS_API_KEY) throw new Error('ORS_API_KEY not set');
-    var locations = [[origin[1], origin[0]]].concat(
-      destinations.map(function(d){ return [d[1], d[0]]; }) // ORS wants [lon, lat]
-    );
-    var destIdx = destinations.map(function(_, i){ return i + 1; });
-    var resp = await fetch('https://api.openrouteservice.org/v2/matrix/' + currentProfile(), {
-      method: 'POST',
-      headers: {
-        'Authorization': ORS_API_KEY,
-        'Content-Type': 'application/json; charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        locations: locations,
-        sources: [0],
-        destinations: destIdx,
-        metrics: ['distance', 'duration'],
-        units: 'km'
-      })
-    });
-    if (!resp.ok) throw new Error('ORS HTTP ' + resp.status);
-    var data = await resp.json();
+  // Verdict thresholds — density (outlets/km²) inside the search radius.
+  // Calibration reflects the national gradient: Kariakoo/Dar CBD scores
+  // "saturated" (>3/km²); typical urban wards land in "well-served"; most
+  // rural wards register as "under-served" or "adequate".
+  function classify(density, count, nearestKm) {
+    if (count === 0) {
+      return {
+        key: "underserved",
+        label: "Under-served",
+        headline: "No accredited outlet in this radius.",
+        body: `The nearest existing CPP is ${nearestKm === Infinity ? "not on record" : nearestKm.toFixed(2) + " km"} away. This location is a strong candidate for a new accredited outlet.`,
+      };
+    }
+    if (density < 0.5) {
+      return {
+        key: "underserved",
+        label: "Under-served",
+        headline: "Sparse coverage nearby.",
+        body: "Density is below 0.5 outlets/km². Approving a new outlet here would improve local access.",
+      };
+    }
+    if (density < 1.5) {
+      return {
+        key: "adequate",
+        label: "Adequate",
+        headline: "Coverage is adequate.",
+        body: "Density sits in the 0.5&ndash;1.5 outlets/km² band. A new outlet would neither create a gap nor a saturation; assess case-by-case.",
+      };
+    }
+    if (density < 3.0) {
+      return {
+        key: "well-served",
+        label: "Well-served",
+        headline: "This area is already well-served.",
+        body: "Density is 1.5&ndash;3 outlets/km². Consider whether the applicant can justify additional local demand or should be redirected to an under-served ward.",
+      };
+    }
     return {
-      distances: (data.distances && data.distances[0]) || [],
-      durations: (data.durations && data.durations[0]) || []
+      key: "saturated",
+      label: "Saturated",
+      headline: "This locality is saturated.",
+      body: "Density exceeds 3 outlets/km². Recommend redirecting the applicant to an under-served ward &mdash; use the Regions view on the CPP Registry to identify gaps.",
     };
   }
 
-  function formatDuration(sec) {
-    if (sec == null || !isFinite(sec)) return '';
-    var m = Math.round(sec / 60);
-    if (m < 1) return '<1 min';
-    if (m < 60) return m + ' min';
-    var h = Math.floor(m / 60);
-    var r = m % 60;
-    return h + 'h ' + (r ? r + 'm' : '');
+  function renderVerdict(v, count, density, nearestKm, radius) {
+    els.verdict.className = `sc-verdict ${v.key}`;
+    els.verdict.innerHTML = `
+      <span class="badge">${escapeHtml(v.label)}</span>
+      <h3>${escapeHtml(v.headline)}</h3>
+      <p>${v.body}</p>
+      <div class="sc-metrics">
+        <div class="sc-metric"><div class="lbl">Outlets within ${radius.toFixed(1)} km</div><div class="val">${count.toLocaleString()}</div></div>
+        <div class="sc-metric"><div class="lbl">Density (per km²)</div><div class="val">${density.toFixed(2)}</div></div>
+        <div class="sc-metric"><div class="lbl">Nearest outlet</div><div class="val">${nearestKm === Infinity ? "&mdash;" : nearestKm.toFixed(2) + " km"}</div></div>
+        <div class="sc-metric"><div class="lbl">Circle area</div><div class="val">${(Math.PI * radius * radius).toFixed(1)} km²</div></div>
+      </div>`;
   }
 
-  // ─── Service label helper (just returns the key as label) ───
-  function svcLabel(key) {
-    return key.length > 40 ? key.substring(0, 40) + '...' : key;
-  }
-
-  // ─── Search ───
-  window.searchFacilities = async function() {
-    var serviceKey = document.getElementById('service-select').value;
-    var maxResults = parseInt(document.getElementById('max-results').value);
-    // Capture the travel mode at search time so results don't drift if the user
-    // changes the dropdown before clicking a marker for the side-panel detail.
-    var searchMode = currentMode();
-
-    if (!serviceKey || userLat === null) return;
-
-    // Clear previous
-    facilityMarkers.forEach(function(m) { map.removeLayer(m); });
-    routeLines.forEach(function(l) { map.removeLayer(l); });
-    facilityMarkers = [];
-    routeLines = [];
-    // Reset the side detail panel
-    var dEmpty = document.getElementById('finder-detail-empty');
-    var dContent = document.getElementById('finder-detail-content');
-    if (dEmpty && dContent) {
-      dEmpty.style.display = 'block';
-      dContent.style.display = 'none';
-      dContent.innerHTML = '';
-    }
-
-    // Filter: facility must have the selected service category in long-format data.
-    // `distance` starts as straight-line (haversine) and is upgraded to road distance below.
-    var matched = [];
-    facilities.forEach(function(f) {
-      var svc = svcByCode[f.facility_code];
-      if (svc && svc[serviceKey] && svc[serviceKey].length > 0) {
-        var lat = parseFloat(f.latitude);
-        var lon = parseFloat(f.longitude);
-        if (!isNaN(lat) && !isNaN(lon)) {
-          var dist = haversine(userLat, userLon, lat, lon);
-          matched.push({
-            name: f.facility_name,
-            code: f.facility_code,
-            type: f.facility_type,
-            ownership: f.facility_ownership,
-            region: f.admin1,
-            lat: lat,
-            lon: lon,
-            distance: dist,
-            duration: null,   // seconds, filled in by ORS when available
-            routed: false,    // true once road-network distance is in `distance`
-            serviceDetails: svc[serviceKey],
-            allCategories: svc
-          });
-        }
-      }
-    });
-
-    matched.sort(function(a, b) { return a.distance - b.distance; });
-
-    if (matched.length === 0) {
-      showStatus('No facilities found offering <strong>' + svcLabel(serviceKey) + '</strong>. Try a different service.', 'error');
-      document.getElementById('results-section').style.display = 'none';
+  function renderNearby(rows, radius) {
+    els.nearbyBlock.style.display = "block";
+    els.nearbyMeta.textContent = `${rows.length.toLocaleString()} within ${radius.toFixed(1)} km`;
+    if (!rows.length) {
+      els.nearbyTbody.innerHTML = "";
+      els.nearbyMeta.textContent = `0 within ${radius.toFixed(1)} km — nearest overall is highlighted on the map`;
       return;
     }
-
-    // ─── Road-network pass: one ORS Matrix call for the top-N nearest by straight-line. ───
-    // Pre-filter keeps quota usage at 1 request/search even when thousands match.
-    var candidates = matched.slice(0, Math.max(maxResults, ORS_PREFILTER_N));
-    if (ORS_API_KEY && candidates.length > 0) {
-      showStatus('Calculating ' + searchMode.status + ' distances for the ' + candidates.length + ' nearest candidates…', 'info');
-      try {
-        var dests = candidates.map(function(c){ return [c.lat, c.lon]; });
-        var mx = await orsMatrix([userLat, userLon], dests);
-        candidates.forEach(function(c, i) {
-          var d = mx.distances[i];
-          var t = mx.durations[i];
-          if (d != null && isFinite(d)) {
-            c.distance = d;
-            c.duration = (t != null && isFinite(t)) ? t : null;
-            c.routed = true;
-          }
-          // else: leave haversine distance in place; the card will flag it
-        });
-        candidates.sort(function(a, b) { return a.distance - b.distance; });
-        // Splice the re-sorted candidates back to the head of `matched`.
-        matched = candidates.concat(matched.slice(candidates.length));
-      } catch (err) {
-        console.warn('OpenRouteService matrix failed, falling back to straight-line distance:', err);
-        showStatus('Road-route lookup unavailable — showing straight-line distance instead.', 'info');
-      }
+    const show = rows.slice(0, 50);
+    els.nearbyTbody.innerHTML = show.map(r => `
+      <tr>
+        <td><strong>${escapeHtml(r.name || "—")}</strong></td>
+        <td>${escapeHtml(r.business_type || "—")}</td>
+        <td>${escapeHtml([r.district, r.region].filter(Boolean).join(", ") || "—")}</td>
+        <td class="dist">${r.dist_km.toFixed(2)} km</td>
+      </tr>
+    `).join("");
+    if (rows.length > 50) {
+      els.nearbyTbody.insertAdjacentHTML("beforeend",
+        `<tr><td colspan="4" style="text-align:center;font-style:italic;color:#64748b;padding:.75rem;">Showing 50 of ${rows.length.toLocaleString()} — narrow the radius for the full list.</td></tr>`);
     }
-
-    var nearest = matched.slice(0, maxResults);
-    var anyRouted = nearest.some(function(f){ return f.routed; });
-    var distLabel = anyRouted ? searchMode.routedText : 'straight-line';
-    showStatus('Found <strong>' + matched.length.toLocaleString() + '</strong> facilities offering <strong>' + svcLabel(serviceKey) + '</strong>. Showing the nearest <strong>' + nearest.length + '</strong> (' + distLabel + ').', 'success');
-
-    var bounds = L.latLngBounds([[userLat, userLon]]);
-
-    nearest.forEach(function(f, i) {
-      bounds.extend([f.lat, f.lon]);
-
-      var line = L.polyline([[userLat, userLon], [f.lat, f.lon]], {
-        color: '#c9a227', weight: 1.5, opacity: 0.4, dashArray: '6 4'
-      }).addTo(map);
-      routeLines.push(line);
-
-      // Count available categories
-      var catCount = Object.keys(f.allCategories).length;
-
-      // Build service detail list for popup
-      var detailList = f.serviceDetails.slice(0,5).map(function(d){return '&bull; '+d;}).join('<br/>');
-      if(f.serviceDetails.length > 5) detailList += '<br/><em>+' + (f.serviceDetails.length-5) + ' more</em>';
-
-      var distText = f.distance.toFixed(1) + ' km' + (f.routed ? ' ' + searchMode.routedText : ' (straight-line)');
-      var durText  = f.routed && f.duration != null ? ' &middot; ' + formatDuration(f.duration) + ' ' + searchMode.verb : '';
-      var popupHtml = '<div style="min-width:220px;">' +
-        '<strong style="font-size:1.05rem;">' + f.name + '</strong><br/>' +
-        '<span style="color:#666;">Type: </span>' + f.type + '<br/>' +
-        '<span style="color:#666;">Ownership: </span>' + f.ownership + '<br/>' +
-        '<span style="color:#666;">Region: </span>' + f.region + '<br/>' +
-        '<span style="color:#666;">Distance: </span><strong style="color:#c9a227;">' + distText + '</strong>' + durText + '<br/>' +
-        '<hr style="margin:0.5rem 0;border-color:#eee;"/>' +
-        '<span style="color:#666;font-size:0.82rem;"><strong>' + svcLabel(serviceKey) + ':</strong></span><br/>' +
-        '<span style="font-size:0.82rem;">' + detailList + '</span><br/>' +
-        '<span style="color:#999;font-size:0.78rem;margin-top:4px;display:block;">' + catCount + ' service categories available</span>' +
-        '</div>';
-
-      var marker = L.circleMarker([f.lat, f.lon], {
-        radius: 8, color: '#a8871e', weight: 2, opacity: 0.9,
-        fillColor: '#c9a227', fillOpacity: 0.7
-      }).addTo(map).bindPopup(popupHtml);
-      // Clicking the marker also fills the side panel with the full
-      // service profile (not just the first 5 entries).
-      marker.on('click', function() { showFacilityDetail(f, serviceKey, searchMode); });
-
-      var rankIcon = L.divIcon({
-        html: '<div style="width:22px;height:22px;background:#c9a227;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3);">' + (i+1) + '</div>',
-        className: '', iconSize: [22, 22], iconAnchor: [11, 11]
-      });
-      var rankMarker = L.marker([f.lat, f.lon], { icon: rankIcon, interactive: false }).addTo(map);
-
-      facilityMarkers.push(marker);
-      facilityMarkers.push(rankMarker);
-    });
-
-    map.fitBounds(bounds, { padding: [40, 40] });
-
-    // Render results list
-    var resultsHtml = '';
-    nearest.forEach(function(f, i) {
-      // Service category tags
-      var tags = [];
-      Object.keys(f.allCategories).forEach(function(cat) {
-        tags.push(svcLabel(cat));
-      });
-      var tagsHtml = tags.slice(0, 5).map(function(t) { return '<span class="service-tag">' + t + '</span>'; }).join('');
-      if (tags.length > 5) tagsHtml += '<span class="service-tag">+' + (tags.length - 5) + ' more</span>';
-
-      var distStr = f.distance < 1 ? (f.distance * 1000).toFixed(0) : f.distance.toFixed(1);
-      var distUnit = f.distance < 1 ? 'm' : 'km';
-      var timeHtml = (f.routed && f.duration != null)
-        ? '<div class="dist-time">' + formatDuration(f.duration) + ' ' + searchMode.verb + '</div>'
-        : '';
-      var noteHtml = f.routed ? '' : '<div class="dist-note">straight-line</div>';
-
-      resultsHtml += '<div class="result-card" onclick="panTo(' + f.lat + ',' + f.lon + ')">' +
-        '<div class="result-rank">' + (i+1) + '</div>' +
-        '<div class="result-info">' +
-          '<h4>' + f.name + '</h4>' +
-          '<p class="result-meta"><span>' + f.type + '</span><span>' + f.ownership + '</span><span>' + f.region + '</span></p>' +
-          '<div class="services-tags">' + tagsHtml + '</div>' +
-        '</div>' +
-        '<div class="result-distance">' +
-          '<div class="dist-value">' + distStr + '</div>' +
-          '<div class="dist-unit">' + distUnit + '</div>' +
-          timeHtml +
-          noteHtml +
-        '</div>' +
-      '</div>';
-    });
-
-    document.getElementById('results-title').textContent = 'Nearest ' + nearest.length + ' Facilities for ' + svcLabel(serviceKey);
-    document.getElementById('results-list').innerHTML = resultsHtml;
-    document.getElementById('results-section').style.display = 'block';
-  };
-
-  // ── Side-panel: full facility detail (every service, not capped) ──
-  // `mode` is the TRAVEL_MODES entry captured at the time of the search
-  // whose results this facility belongs to. Defaults to driving-car when
-  // called without it (e.g. panTo → click before any search).
-  function showFacilityDetail(f, selectedKey, mode) {
-    mode = mode || TRAVEL_MODES['driving-car'];
-    var content = document.getElementById('finder-detail-content');
-    var empty   = document.getElementById('finder-detail-empty');
-    if (!content) return;
-
-    // Build a section per service category, showing every service in full.
-    var sectionsHtml = '';
-    var catKeys = Object.keys(f.allCategories).sort();
-    catKeys.forEach(function(cat) {
-      var items = f.allCategories[cat] || [];
-      if (!items.length) return;
-      // Dedupe + sort the items for clean display
-      var seen = {};
-      var uniq = items.filter(function(d){
-        var k = (d||'').toLowerCase();
-        if (!k || seen[k]) return false;
-        seen[k] = true;
-        return true;
-      }).sort();
-      var isSelected = (cat === selectedKey);
-      sectionsHtml +=
-        '<div class="finder-detail-section">' +
-          '<h5 style="' + (isSelected ? 'color:#a8871e;' : '') + '">' +
-            cat + ' <span style="color:#9ca3af;font-weight:600;">(' + uniq.length + ')</span>' +
-            (isSelected ? ' <span style="color:#a8871e;font-size:0.7rem;text-transform:none;font-weight:600;">— selected</span>' : '') +
-          '</h5>' +
-          '<ul class="finder-detail-list">' +
-            uniq.map(function(d){return '<li>' + d + '</li>';}).join('') +
-          '</ul>' +
-        '</div>';
-    });
-
-    var distStr = (f.distance < 1) ?
-      (f.distance * 1000).toFixed(0) + ' m' :
-      f.distance.toFixed(1) + ' km';
-    var distSuffix = f.routed
-      ? ' ' + mode.routedText + (f.duration != null ? ' &middot; ' + formatDuration(f.duration) + ' ' + mode.verb : '')
-      : ' (straight-line)';
-
-    content.innerHTML =
-      '<div class="finder-detail-header">' +
-        '<h4>' + f.name + '</h4>' +
-        '<div class="meta">' +
-          (f.type || '') + (f.ownership ? ' &bull; ' + f.ownership : '') + '<br/>' +
-          (f.region ? f.region : '') +
-        '</div>' +
-        '<div class="finder-detail-distance">' + distStr + distSuffix + ' from your location</div>' +
-      '</div>' +
-      sectionsHtml;
-
-    empty.style.display = 'none';
-    content.style.display = 'block';
   }
 
-  window.panTo = function(lat, lon) {
-    map.setView([lat, lon], 14);
-    // Open the popup AND fill the side panel for the clicked facility
-    facilityMarkers.forEach(function(m) {
-      if (m.getLatLng && m.getLatLng().lat === lat && m.getLatLng().lng === lon) {
-        if (m.openPopup) m.openPopup();
-        m.fire('click');
-      }
-    });
-  };
+  function popupHtml(r) {
+    return `<strong>${escapeHtml(r.name || "—")}</strong><br/>` +
+           `${escapeHtml(r.business_type || "—")} · ${escapeHtml(r.accreditation_source || "—")}<br/>` +
+           `${escapeHtml([r.ward, r.district, r.region].filter(Boolean).join(", ") || "—")}<br/>` +
+           `<strong style="color:#0d9488;">${r.dist_km.toFixed(2)} km</strong> from the pin`;
+  }
 
-  // ─── Init ───
-  loadCountry('botswana');
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  }
 })();
 </script>
 ```

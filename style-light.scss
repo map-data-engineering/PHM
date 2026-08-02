@@ -1,11 +1,11 @@
 /*-- scss:defaults --*/
 
-$primary:   #3d3d3d;
-$secondary: #c9a227;
-$success:   #5a8a5a;
-$warning:   #c9a227;
-$body-color: #2d2d2d;
-$link-color: #c9a227;
+$primary:   #0f172a;   // slate-900
+$secondary: #0d9488;   // teal-600
+$success:   #10b981;   // emerald-500
+$warning:   #0891b2;   // cyan-600 (formerly amber)
+$body-color: #0f172a;
+$link-color: #0d9488;
 
 /*-- scss:rules --*/
 // Light mode is the default — all styling lives in style-base.scss
