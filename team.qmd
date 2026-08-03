@@ -28,7 +28,7 @@ toc: false
     margin-bottom:2.5rem;
   }
   .team-def .tag{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:600;
     font-size:1.05rem;
     color:var(--map-red,#0d9488);
@@ -37,7 +37,7 @@ toc: false
   }
   .team-def .tag .sub{
     display:block;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:400;
     font-size:.65rem;
     color:var(--map-text-muted,#64748b);
@@ -46,7 +46,7 @@ toc: false
     margin-top:.3rem;
   }
   .team-def h2{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:1.2rem;
     color:var(--map-text,#0f172a);
@@ -91,14 +91,14 @@ toc: false
     display:flex;
     align-items:center;
     justify-content:center;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:500;
     font-size:1rem;
     letter-spacing:0.02em;
   }
   .team-member.dark .avatar{ background:var(--map-navy,#0f172a); }
   .team-member h3{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:1.15rem;
     color:var(--map-text,#0f172a);
@@ -106,7 +106,7 @@ toc: false
     letter-spacing:-0.005em;
   }
   .team-member .role{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.7rem;
     color:var(--map-red,#0d9488);
     text-transform:uppercase;
@@ -134,7 +134,7 @@ toc: false
   }
   @media (max-width:780px){ .team-inst{ grid-template-columns:1fr; } }
   .team-inst h3{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:1.05rem;
     color:var(--map-text,#0f172a);
@@ -160,7 +160,7 @@ toc: false
     margin-bottom:3rem;
   }
   .team-cta h3{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     margin:0 0 .35rem;
     color:var(--map-text,#0f172a);
     font-size:1.15rem;

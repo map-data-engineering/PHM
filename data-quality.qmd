@@ -33,7 +33,7 @@ toc: false
     border-bottom:1px solid var(--map-border,#e2e8f0);
   }
   .dq-section-head h2{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:1.35rem;
     color:var(--map-text,#0f172a);
@@ -41,7 +41,7 @@ toc: false
     letter-spacing:-0.005em;
   }
   .dq-section-head .num{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.75rem;
     color:var(--map-red,#0d9488);
     letter-spacing:.06em;
@@ -77,7 +77,7 @@ toc: false
   .dq-metric.warn::before{ background:#d97706; }
   .dq-metric.bad::before{ background:#dc2626; }
   .dq-metric .lbl{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.65rem;
     text-transform:uppercase;
     letter-spacing:.06em;
@@ -85,7 +85,7 @@ toc: false
     margin-bottom:.3rem;
   }
   .dq-metric .val{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:1.85rem;
     font-weight:500;
     color:var(--map-text,#0f172a);
@@ -93,7 +93,7 @@ toc: false
     letter-spacing:-0.02em;
   }
   .dq-metric .sub{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.7rem;
     color:var(--map-text-muted,#64748b);
     margin-top:.4rem;
@@ -114,7 +114,7 @@ toc: false
     padding:1.15rem 1.25rem;
   }
   .dq-card h3{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:1rem;
     color:var(--map-text,#0f172a);
@@ -129,7 +129,7 @@ toc: false
     color:#fff;
     padding:.55rem .75rem;
     text-align:left;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:500;
     font-size:.7rem;
     text-transform:uppercase;
@@ -141,12 +141,12 @@ toc: false
     border-bottom:1px solid #f1f5f9;
   }
   .dq-table td.num{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     text-align:right;
     white-space:nowrap;
   }
   .dq-table td.pct{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     text-align:right;
     color:var(--map-text-muted,#64748b);
     width:70px;
@@ -173,7 +173,7 @@ toc: false
     margin-bottom:.75rem;
   }
   .dq-issue .tag{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.65rem;
     text-transform:uppercase;
     letter-spacing:.05em;
@@ -184,7 +184,7 @@ toc: false
   .dq-issue.crit{ border-left-color:#dc2626; }
   .dq-issue.crit .tag{ color:#dc2626; }
   .dq-issue h4{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:.98rem;
     color:var(--map-text,#0f172a);
@@ -379,7 +379,7 @@ toc: false
     // Table
     els.tbodyCompleteness.innerHTML = filledCounts.map(f => `
       <tr>
-        <td><strong>${f.label}</strong> <span style="font-family:'IBM Plex Mono',monospace;color:#94a3b8;font-size:.72rem;">${f.key}</span></td>
+        <td><strong>${f.label}</strong> <span style="font-family:'JetBrains Mono',monospace;color:#94a3b8;font-size:.72rem;">${f.key}</span></td>
         <td class="num">${f.filled.toLocaleString()}</td>
         <td class="num" style="color:${f.missing ? '#d97706' : '#94a3b8'};">${f.missing.toLocaleString()}</td>
         <td class="pct">${f.pct.toFixed(1)}%</td>

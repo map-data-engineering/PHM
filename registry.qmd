@@ -11,8 +11,8 @@ toc: false
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <style>
-  .reg-hero{background:var(--map-navy,#0f172a);color:#fff;padding:2.5rem 2rem;}
-  .reg-hero h1{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
+  .reg-hero{background:#fff;color:var(--map-text,#34495f);border-bottom:1px solid var(--map-border,#eef0f5);padding:2.5rem 2rem;}
+  .reg-hero h1{font-family:'Poppins',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
   .reg-hero p{opacity:.75;margin:0;font-size:1rem;}
   .reg-wrap{max-width:1400px;margin:0 auto;padding:1.5rem 1.5rem 3rem;}
 
@@ -35,7 +35,7 @@ toc: false
   .reg-status{padding:.75rem 1rem;border-radius:4px;font-size:.88rem;margin-bottom:1rem;background:rgba(13,148,136,.05);border-left:4px solid var(--map-red,#0d9488);}
   .reg-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin:1rem 0;}
   .reg-scard{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1rem;text-align:center;box-shadow:var(--map-shadow);}
-  .reg-scard .val{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--map-red,#0d9488);}
+  .reg-scard .val{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:700;color:var(--map-red,#0d9488);}
   .reg-scard .lbl{font-size:.75rem;color:var(--map-text-muted,#64748b);margin-top:.2rem;}
 
   /* Legend */
@@ -46,7 +46,7 @@ toc: false
 
   /* Hover panel */
   .info.hover-panel{background:rgba(255,255,255,.95);padding:.55rem .75rem;border-radius:4px;box-shadow:0 1px 4px rgba(15,23,42,.15);font-size:.82rem;color:#0f172a;border:1px solid #e2e8f0;min-width:180px;}
-  .info.hover-panel .h-name{font-weight:700;font-family:'IBM Plex Sans Condensed',sans-serif;color:#0f172a;}
+  .info.hover-panel .h-name{font-weight:700;font-family:'Poppins',sans-serif;color:#0f172a;}
   .info.hover-panel .h-parent{color:#64748b;font-size:.75rem;margin-top:1px;}
   .info.hover-panel .h-count{margin-top:.35rem;color:var(--map-red,#0d9488);font-weight:700;font-size:1.1rem;}
 
@@ -54,7 +54,7 @@ toc: false
   .reg-table-wrap{margin-top:1.5rem;}
   .reg-table-container{max-height:440px;overflow:auto;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;}
   #reg-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-  #reg-table thead{background:var(--map-navy,#0f172a);color:#fff;position:sticky;top:0;}
+  #reg-table thead{background:#fff;color:var(--map-text,#34495f);border-bottom:1px solid var(--map-border,#eef0f5);position:sticky;top:0;}
   #reg-table th{padding:.65rem .75rem;text-align:left;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap;}
   #reg-table th:hover{background:rgba(255,255,255,.1);}
   #reg-table td{padding:.55rem .75rem;border-bottom:1px solid var(--map-border,#e2e8f0);}
@@ -66,7 +66,7 @@ toc: false
   .gi-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--map-border,#e2e8f0);}
   .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
   .gi-card{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1.25rem;box-shadow:var(--map-shadow);}
-  .gi-card h3{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1rem;margin:0 0 .75rem;color:var(--map-navy,#0f172a);}
+  .gi-card h3{font-family:'Poppins',sans-serif;font-size:1rem;margin:0 0 .75rem;color:var(--map-navy,#0f172a);}
   .gi-card canvas{max-height:300px !important;}
   @media(max-width:768px){#reg-map{height:400px;} .gi-grid{grid-template-columns:1fr;}}
 </style>
@@ -146,7 +146,7 @@ toc: false
   </div>
 
   <div class="gi-section">
-    <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1.5rem;color:var(--map-navy,#0f172a);margin:0 0 1rem;">Coverage snapshot</h2>
+    <h2 style="font-family:'Poppins',sans-serif;font-size:1.5rem;color:var(--map-navy,#0f172a);margin:0 0 1rem;">Coverage snapshot</h2>
     <div class="gi-grid">
       <div class="gi-card">
         <h3>Outlets per region (top 15)</h3>

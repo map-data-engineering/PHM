@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -41,14 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0075513c2176209f5a3e8bb3f0baabc0.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-1a5461d7bfb35b22c64910606425e66e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-fa50acfc23bf207bc495cae7119f221d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-1a5461d7bfb35b22c64910606425e66e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b6c58e8a992ea039af537537450ff9ba.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-296afa6f020eb1b09c3171dcdb3ab5a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-4f2e87dee3de35f6fa3a817fb6f89e5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-296afa6f020eb1b09c3171dcdb3ab5a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,15 +74,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script>
-(function(){
-  var path = window.location.pathname;
-  if (/\/(login|logout)\.html$/.test(path)) return;
-  if (localStorage.getItem('ps_auth') === '1') return;
-  var here = path.split('/').pop() || 'index.html';
-  window.location.replace('login.html?next=' + encodeURIComponent(here));
-})();
-</script>
 
 
 </head>
@@ -329,8 +317,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 <style>
-  .reg-hero{background:var(--map-navy,#0f172a);color:#fff;padding:2.5rem 2rem;}
-  .reg-hero h1{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
+  .reg-hero{background:#fff;color:var(--map-text,#34495f);border-bottom:1px solid var(--map-border,#eef0f5);padding:2.5rem 2rem;}
+  .reg-hero h1{font-family:'Poppins',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
   .reg-hero p{opacity:.75;margin:0;font-size:1rem;}
   .reg-wrap{max-width:1400px;margin:0 auto;padding:1.5rem 1.5rem 3rem;}
 
@@ -353,7 +341,7 @@ ul.task-list li input[type="checkbox"] {
   .reg-status{padding:.75rem 1rem;border-radius:4px;font-size:.88rem;margin-bottom:1rem;background:rgba(13,148,136,.05);border-left:4px solid var(--map-red,#0d9488);}
   .reg-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin:1rem 0;}
   .reg-scard{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1rem;text-align:center;box-shadow:var(--map-shadow);}
-  .reg-scard .val{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--map-red,#0d9488);}
+  .reg-scard .val{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:700;color:var(--map-red,#0d9488);}
   .reg-scard .lbl{font-size:.75rem;color:var(--map-text-muted,#64748b);margin-top:.2rem;}
 
   /* Legend */
@@ -364,7 +352,7 @@ ul.task-list li input[type="checkbox"] {
 
   /* Hover panel */
   .info.hover-panel{background:rgba(255,255,255,.95);padding:.55rem .75rem;border-radius:4px;box-shadow:0 1px 4px rgba(15,23,42,.15);font-size:.82rem;color:#0f172a;border:1px solid #e2e8f0;min-width:180px;}
-  .info.hover-panel .h-name{font-weight:700;font-family:'IBM Plex Sans Condensed',sans-serif;color:#0f172a;}
+  .info.hover-panel .h-name{font-weight:700;font-family:'Poppins',sans-serif;color:#0f172a;}
   .info.hover-panel .h-parent{color:#64748b;font-size:.75rem;margin-top:1px;}
   .info.hover-panel .h-count{margin-top:.35rem;color:var(--map-red,#0d9488);font-weight:700;font-size:1.1rem;}
 
@@ -372,7 +360,7 @@ ul.task-list li input[type="checkbox"] {
   .reg-table-wrap{margin-top:1.5rem;}
   .reg-table-container{max-height:440px;overflow:auto;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;}
   #reg-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-  #reg-table thead{background:var(--map-navy,#0f172a);color:#fff;position:sticky;top:0;}
+  #reg-table thead{background:#fff;color:var(--map-text,#34495f);border-bottom:1px solid var(--map-border,#eef0f5);position:sticky;top:0;}
   #reg-table th{padding:.65rem .75rem;text-align:left;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap;}
   #reg-table th:hover{background:rgba(255,255,255,.1);}
   #reg-table td{padding:.55rem .75rem;border-bottom:1px solid var(--map-border,#e2e8f0);}
@@ -384,7 +372,7 @@ ul.task-list li input[type="checkbox"] {
   .gi-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--map-border,#e2e8f0);}
   .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
   .gi-card{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1.25rem;box-shadow:var(--map-shadow);}
-  .gi-card h3{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1rem;margin:0 0 .75rem;color:var(--map-navy,#0f172a);}
+  .gi-card h3{font-family:'Poppins',sans-serif;font-size:1rem;margin:0 0 .75rem;color:var(--map-navy,#0f172a);}
   .gi-card canvas{max-height:300px !important;}
   @media(max-width:768px){#reg-map{height:400px;} .gi-grid{grid-template-columns:1fr;}}
 </style>
@@ -469,7 +457,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 
   <div class="gi-section">
-    <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1.5rem;color:var(--map-navy,#0f172a);margin:0 0 1rem;" class="anchored">Coverage snapshot</h2>
+    <h2 style="font-family:'Poppins',sans-serif;font-size:1.5rem;color:var(--map-navy,#0f172a);margin:0 0 1rem;" class="anchored">Coverage snapshot</h2>
     <div class="gi-grid">
       <div class="gi-card">
         <h3 class="anchored">Outlets per region (top 15)</h3>

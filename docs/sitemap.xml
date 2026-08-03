@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://map-data-engineering.github.io/pharmascope/logout.html</loc>
+    <lastmod>2026-08-02T07:17:17.044Z</lastmod>
+  </url>
+  <url>
     <loc>https://map-data-engineering.github.io/pharmascope/help.html</loc>
-    <lastmod>2026-08-02T06:54:01.095Z</lastmod>
+    <lastmod>2026-08-02T07:17:17.043Z</lastmod>
   </url>
   <url>
     <loc>https://map-data-engineering.github.io/pharmascope/data-sources.html</loc>
@@ -10,15 +14,15 @@
   </url>
   <url>
     <loc>https://map-data-engineering.github.io/pharmascope/find-facility.html</loc>
-    <lastmod>2026-08-02T06:54:01.088Z</lastmod>
+    <lastmod>2026-08-03T16:03:38.730Z</lastmod>
   </url>
   <url>
     <loc>https://map-data-engineering.github.io/pharmascope/registry.html</loc>
-    <lastmod>2026-08-02T06:54:01.075Z</lastmod>
+    <lastmod>2026-08-03T16:03:38.726Z</lastmod>
   </url>
   <url>
     <loc>https://map-data-engineering.github.io/pharmascope/index.html</loc>
-    <lastmod>2026-08-02T06:54:49.747Z</lastmod>
+    <lastmod>2026-08-03T16:03:38.724Z</lastmod>
   </url>
   <url>
     <loc>https://map-data-engineering.github.io/pharmascope/about.html</loc>
@@ -26,14 +30,18 @@
   </url>
   <url>
     <loc>https://map-data-engineering.github.io/pharmascope/find-pharmacy.html</loc>
-    <lastmod>2026-08-02T06:56:32.111Z</lastmod>
+    <lastmod>2026-08-03T16:03:38.728Z</lastmod>
   </url>
   <url>
     <loc>https://map-data-engineering.github.io/pharmascope/data-quality.html</loc>
-    <lastmod>2026-08-02T07:03:07.271Z</lastmod>
+    <lastmod>2026-08-03T16:03:38.733Z</lastmod>
   </url>
   <url>
     <loc>https://map-data-engineering.github.io/pharmascope/team.html</loc>
-    <lastmod>2026-08-02T06:55:39.198Z</lastmod>
+    <lastmod>2026-08-03T16:03:38.735Z</lastmod>
+  </url>
+  <url>
+    <loc>https://map-data-engineering.github.io/pharmascope/login.html</loc>
+    <lastmod>2026-08-03T16:07:23.470Z</lastmod>
   </url>
 </urlset>

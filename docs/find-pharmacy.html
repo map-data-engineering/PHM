@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -41,14 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0075513c2176209f5a3e8bb3f0baabc0.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-9821edbc49d1ee286908826baad7ebf9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-1a5461d7bfb35b22c64910606425e66e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-fa50acfc23bf207bc495cae7119f221d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-1a5461d7bfb35b22c64910606425e66e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b6c58e8a992ea039af537537450ff9ba.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-47c5b81c335b71e71efbda0bda465b71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-296afa6f020eb1b09c3171dcdb3ab5a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-4f2e87dee3de35f6fa3a817fb6f89e5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-296afa6f020eb1b09c3171dcdb3ab5a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,15 +74,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script>
-(function(){
-  var path = window.location.pathname;
-  if (/\/(login|logout)\.html$/.test(path)) return;
-  if (localStorage.getItem('ps_auth') === '1') return;
-  var here = path.split('/').pop() || 'index.html';
-  window.location.replace('login.html?next=' + encodeURIComponent(here));
-})();
-</script>
 
 
 </head>
@@ -350,7 +338,7 @@ ul.task-list li input[type="checkbox"] {
     border:1px solid var(--map-border,#e2e8f0);
     border-radius:4px;
     font-size:.95rem;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     color:var(--map-text,#0f172a);
     background:#fff;
   }
@@ -358,7 +346,7 @@ ul.task-list li input[type="checkbox"] {
   .fp-search button{
     padding:.65rem 1rem;
     border-radius:4px;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:500;
     font-size:.9rem;
     cursor:pointer;
@@ -382,7 +370,7 @@ ul.task-list li input[type="checkbox"] {
     border:1px solid var(--map-border,#e2e8f0);
     border-radius:4px;
     font-size:.9rem;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     background:#fff;
     color:var(--map-text,#0f172a);
     cursor:pointer;
@@ -426,12 +414,12 @@ ul.task-list li input[type="checkbox"] {
   }
   .fp-results-head h4{
     margin:0;
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:1rem;
   }
   .fp-results-head .meta{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.75rem;
     opacity:.75;
   }
@@ -469,13 +457,13 @@ ul.task-list li input[type="checkbox"] {
     display:flex;
     align-items:center;
     justify-content:center;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:500;
     font-size:.85rem;
   }
 
   .fp-name{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:.98rem;
     color:var(--map-text,#0f172a);
@@ -489,7 +477,7 @@ ul.task-list li input[type="checkbox"] {
     margin:0 0 .35rem;
   }
   .fp-meta .type{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     color:var(--map-text,#0f172a);
     font-size:.7rem;
     text-transform:uppercase;
@@ -508,7 +496,7 @@ ul.task-list li input[type="checkbox"] {
     gap:.25rem;
     padding:.28rem .55rem;
     font-size:.75rem;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:500;
     border-radius:3px;
     text-decoration:none;
@@ -523,7 +511,7 @@ ul.task-list li input[type="checkbox"] {
 
   .fp-dist{
     text-align:right;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:500;
     color:var(--map-red,#0d9488);
     font-size:.95rem;
@@ -768,7 +756,7 @@ ul.task-list li input[type="checkbox"] {
       const marker = L.marker([r.lat, r.lon], {
         icon: L.divIcon({
           className: "fp-result-pin",
-          html: `<div style="width:34px;height:34px;background:#0d9488;color:#fff;border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.92rem;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,.35),0 0 0 1px rgba(15,23,42,.15);">${n}</div>`,
+          html: `<div style="width:34px;height:34px;background:#0d9488;color:#fff;border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.92rem;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,.35),0 0 0 1px rgba(15,23,42,.15);">${n}</div>`,
           iconSize: [34, 34], iconAnchor: [17, 17],
         }),
       }).bindPopup(popupHtml(r, n)).addTo(resultsLayer);
@@ -858,8 +846,8 @@ ul.task-list li input[type="checkbox"] {
     const phone = cleanPhone(r.phone);
     return `
       <div style="min-width:200px;">
-        <strong style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1rem;">${n}. ${escapeHtml(r.name || "—")}</strong><br/>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;color:#64748b;">${escapeHtml(r.business_type || "")}</span><br/>
+        <strong style="font-family:'Poppins',sans-serif;font-size:1rem;">${n}. ${escapeHtml(r.name || "—")}</strong><br/>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;color:#64748b;">${escapeHtml(r.business_type || "")}</span><br/>
         <span style="font-size:.85rem;">${escapeHtml(loc || "—")}</span><br/>
         <div style="margin-top:.4rem;color:#0d9488;font-weight:600;">${r.dist_km.toFixed(2)} km away</div>
         <div style="margin-top:.4rem;display:flex;gap:.35rem;">

@@ -32,7 +32,7 @@ toc: false
     border:1px solid var(--map-border,#e2e8f0);
     border-radius:4px;
     font-size:.95rem;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     color:var(--map-text,#0f172a);
     background:#fff;
   }
@@ -40,7 +40,7 @@ toc: false
   .fp-search button{
     padding:.65rem 1rem;
     border-radius:4px;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:500;
     font-size:.9rem;
     cursor:pointer;
@@ -64,7 +64,7 @@ toc: false
     border:1px solid var(--map-border,#e2e8f0);
     border-radius:4px;
     font-size:.9rem;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     background:#fff;
     color:var(--map-text,#0f172a);
     cursor:pointer;
@@ -108,12 +108,12 @@ toc: false
   }
   .fp-results-head h4{
     margin:0;
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:1rem;
   }
   .fp-results-head .meta{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.75rem;
     opacity:.75;
   }
@@ -151,13 +151,13 @@ toc: false
     display:flex;
     align-items:center;
     justify-content:center;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:500;
     font-size:.85rem;
   }
 
   .fp-name{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:.98rem;
     color:var(--map-text,#0f172a);
@@ -171,7 +171,7 @@ toc: false
     margin:0 0 .35rem;
   }
   .fp-meta .type{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     color:var(--map-text,#0f172a);
     font-size:.7rem;
     text-transform:uppercase;
@@ -190,7 +190,7 @@ toc: false
     gap:.25rem;
     padding:.28rem .55rem;
     font-size:.75rem;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:500;
     border-radius:3px;
     text-decoration:none;
@@ -205,7 +205,7 @@ toc: false
 
   .fp-dist{
     text-align:right;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:500;
     color:var(--map-red,#0d9488);
     font-size:.95rem;
@@ -450,7 +450,7 @@ toc: false
       const marker = L.marker([r.lat, r.lon], {
         icon: L.divIcon({
           className: "fp-result-pin",
-          html: `<div style="width:34px;height:34px;background:#0d9488;color:#fff;border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:.92rem;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,.35),0 0 0 1px rgba(15,23,42,.15);">${n}</div>`,
+          html: `<div style="width:34px;height:34px;background:#0d9488;color:#fff;border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.92rem;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,.35),0 0 0 1px rgba(15,23,42,.15);">${n}</div>`,
           iconSize: [34, 34], iconAnchor: [17, 17],
         }),
       }).bindPopup(popupHtml(r, n)).addTo(resultsLayer);
@@ -540,8 +540,8 @@ toc: false
     const phone = cleanPhone(r.phone);
     return `
       <div style="min-width:200px;">
-        <strong style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:1rem;">${n}. ${escapeHtml(r.name || "—")}</strong><br/>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;color:#64748b;">${escapeHtml(r.business_type || "")}</span><br/>
+        <strong style="font-family:'Poppins',sans-serif;font-size:1rem;">${n}. ${escapeHtml(r.name || "—")}</strong><br/>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;color:#64748b;">${escapeHtml(r.business_type || "")}</span><br/>
         <span style="font-size:.85rem;">${escapeHtml(loc || "—")}</span><br/>
         <div style="margin-top:.4rem;color:#0d9488;font-weight:600;">${r.dist_km.toFixed(2)} km away</div>
         <div style="margin-top:.4rem;display:flex;gap:.35rem;">

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -41,14 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-5b04f34b61a01dc0e7c5060a2e79a386.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-3d91c930332deaa2caca528bdeb0d23c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-5b04f34b61a01dc0e7c5060a2e79a386.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-1a5461d7bfb35b22c64910606425e66e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-fa50acfc23bf207bc495cae7119f221d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-1a5461d7bfb35b22c64910606425e66e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5ffb957567f750bd7ee372548e31c09c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-92eb121b33cb3b86bddd1376c4c60051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-5ffb957567f750bd7ee372548e31c09c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-296afa6f020eb1b09c3171dcdb3ab5a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-4f2e87dee3de35f6fa3a817fb6f89e5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-296afa6f020eb1b09c3171dcdb3ab5a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,15 +74,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script>
-(function(){
-  var path = window.location.pathname;
-  if (/\/(login|logout)\.html$/.test(path)) return;
-  if (localStorage.getItem('ps_auth') === '1') return;
-  var here = path.split('/').pop() || 'index.html';
-  window.location.replace('login.html?next=' + encodeURIComponent(here));
-})();
-</script>
 
 
 </head>
@@ -279,7 +267,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./registry.html"> 
-<span class="menu-text">ADDO Registry</span></a>
+<span class="menu-text">CPP Registry</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./find-pharmacy.html"> 
@@ -290,12 +278,8 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Site Check</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./population-access.html"> 
-<span class="menu-text">Population and Access</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./services.html"> 
-<span class="menu-text">Service Intelligence</span></a>
+    <a class="nav-link" href="./data-quality.html"> 
+<span class="menu-text">Data Quality</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./help.html"> 
@@ -342,7 +326,7 @@ ul.task-list li input[type="checkbox"] {
     padding:2rem 2rem 1.75rem;
   }
   .login-logo{
-    font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:1.5rem;
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:1.5rem;
     color:var(--map-navy,#0f172a);text-align:center;margin-bottom:.25rem;
   }
   .login-logo span{color:var(--map-red,#0d9488);}
@@ -497,7 +481,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/-PH--SC");
+        var filterRegex = new RegExp("https:\/\/map-data-engineering\.github\.io\/pharmascope");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

@@ -1,47 +1,55 @@
 /*-- scss:uses --*/
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+// PharmaScope design language, ported from the AdminCA Bootstrap-4 admin
+// dashboard template (adminca_v2.0.1). AdminCA is a sidebar-first admin
+// template; we keep our top-nav layout but adopt its Poppins typography,
+// 2px radius, subtle shadows, ebony body text, and bluish-grey page bg.
+// AdminCA's indigo primary (#5c6bc0) is swapped for our teal (#0d9488).
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /*-- scss:defaults --*/
 
-// ── PharmaScope brand palette ───────────────────────────────────
-// Teal primary + deep-slate navigation. Distinct from HealthScope's
-// gold-on-charcoal. SCSS variable names kept ($map-red / $map-navy)
-// so the rest of the stylesheet doesn't need to be renamed.
-$map-red:           #0d9488;       // teal-600 (primary accent)
+// ── PharmaScope brand palette (AdminCA-inspired, teal primary) ───
+// SCSS variable names kept ($map-red / $map-navy etc.) so downstream
+// component styles don't need to be renamed. Values are updated to
+// AdminCA's visual language: ebony text on a bluish-grey page, teal
+// (not AdminCA's indigo #5c6bc0) as the primary accent.
+$map-red:           #0d9488;       // teal-600 (primary accent — swaps AdminCA indigo)
 $map-red-light:     #14b8a6;       // teal-500 (lighter)
 $map-red-dark:      #0f766e;       // teal-700 (darker)
-$map-navy:          #0f172a;       // slate-900 (nav / hero)
-$map-navy-light:    #1e293b;       // slate-800
-$map-navy-mid:      #334155;       // slate-700
-$map-slate:         #64748b;       // slate-500
+$map-navy:          #263248;       // dark navy — chrome / hero / headers
+$map-navy-light:    #34495f;       // AdminCA text ebony
+$map-navy-mid:      #4a5568;       // muted navy
+$map-slate:         #71808f;       // AdminCA muted grey
 $map-blue:          #0891b2;       // cyan-600 (secondary accent)
 $map-blue-light:    #06b6d4;       // cyan-500
 $map-cyan:          #0e7490;       // cyan-700
-$map-amber:         #14b8a6;       // teal-500 (was amber, keep alias)
-$map-green:         #10b981;       // emerald-500
+$map-amber:         #F39C12;       // AdminCA warning
+$map-green:         #18C5A9;       // AdminCA success (teal-adjacent)
 $map-bg:            #ffffff;
-$map-bg-warm:       #f8fafc;       // slate-50
-$map-bg-section:    #f1f5f9;       // slate-100 (cool section bg)
-$map-text:          #0f172a;       // slate-900
-$map-text-muted:    #64748b;       // slate-500
-$map-border:        #e2e8f0;       // slate-200
-$map-radius:        4px;
-$map-radius-sm:     3px;
-$map-radius-lg:     6px;
-$map-radius-pill:   0;
-$map-shadow:        0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-$map-shadow-md:     0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-$map-shadow-lg:     0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
-$map-shadow-xl:     0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.06);
-$map-transition:    0.2s cubic-bezier(0.4, 0, 0.2, 1);
+$map-bg-warm:       #f9fafc;       // near-white for hero
+$map-bg-section:    #f2f3fa;       // AdminCA body background (light bluish-grey)
+$map-text:          #34495f;       // AdminCA ebony
+$map-text-muted:    #71808f;       // AdminCA muted
+$map-border:        #eef0f5;       // very light border, matches AdminCA
+// AdminCA aesthetic is deliberately near-flat: 2px radius everywhere.
+$map-radius:        2px;
+$map-radius-sm:     2px;
+$map-radius-lg:     3px;
+$map-radius-pill:   50px;   // used only on explicit pill/rounded variants
+// AdminCA shadow scale — subtle, restrained.
+$map-shadow:        0 2px 4px rgba(0, 0, 0, 0.08);
+$map-shadow-md:     0 5px 20px #d6dee4;
+$map-shadow-lg:     0 5px 20px rgba(53, 73, 95, 0.15);
+$map-shadow-xl:     0 10px 30px rgba(53, 73, 95, 0.18);
+$map-transition:    0.15s ease-in-out;
 
 // Bootstrap overrides
 $primary:              $map-navy;
 $secondary:            $map-red;
-$font-family-sans-serif: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$headings-font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
-$headings-font-weight: 600;
-$font-family-monospace: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+$font-family-sans-serif: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$headings-font-family: 'Poppins', sans-serif;
+$headings-font-weight: 500;   // AdminCA uses 500 for headings, not 700
+$font-family-monospace: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 $body-color:           $map-text;
 $link-color:           $map-red;
 
@@ -84,29 +92,36 @@ $link-color:           $map-red;
   --hf-transition:   #{$map-transition};
 }
 
-// ── Base typography ──────────────────────────────────────────────
+// ── Base typography (AdminCA) ────────────────────────────────────
 body {
-  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
   color: $map-text;
-  background: $map-bg;
+  background: $map-bg-section;   // AdminCA body sits on a light bluish-grey
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 {
-  font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
-  font-weight: 600;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: $map-text;
   letter-spacing: -0.005em;
 }
 
-// Numeric data — always monospaced in the Plex Mono cut
+// Numeric-data spans stay in a mono cut so tables/stat cards align.
 .mono, .stat-number, .stat-value,
 .reg-scard .val, .about-stat-value,
 .data-strip .val, .section-num, .row-num {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-feature-settings: "tnum" 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
+
+// The `.font-strong` utility class is AdminCA's convention for
+// emphasising KPI numbers inside widgets — we replicate it.
+.font-strong { font-weight: 600; }
 
 // Hide Quarto title block
 .quarto-title-block, #title-block-header { display: none !important; }
@@ -197,21 +212,19 @@ h1, h2, h3, h4 {
 // ── Hero section (data-forward, light split) ─────────────────────
 .hero-section {
   position: relative;
-  background: $map-bg-warm;
+  background: #ffffff;
   border-bottom: 1px solid $map-border;
-  padding: 5rem 2rem 4rem;
+  padding: 4.5rem 2rem 3.75rem;
   overflow: hidden;
 
-  // Subtle grid pattern for texture
+  // Very light diagonal accent behind the hero, AdminCA-flavoured
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(15,23,42,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(15,23,42,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 80%);
+    background:
+      radial-gradient(ellipse at 90% 20%, rgba(13,148,136,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 5% 90%, rgba(38,50,72,0.04) 0%, transparent 45%);
     z-index: 0;
   }
 }
@@ -229,7 +242,7 @@ h1, h2, h3, h4 {
 
 // Big wordmark sits at the top of the hero, above the eyebrow.
 .hero-wordmark {
-  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   font-size: 1.9rem;
   color: $map-text;
@@ -244,7 +257,7 @@ h1, h2, h3, h4 {
 
 .hero-eyebrow {
   display: inline-block;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
   color: $map-red;
   text-transform: uppercase;
@@ -266,7 +279,7 @@ h1, h2, h3, h4 {
 }
 
 .hero-title-block {
-  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(2.4rem, 4.5vw, 4rem);
   font-weight: 600;
   color: $map-text;
@@ -319,7 +332,7 @@ h1, h2, h3, h4 {
   }
 
   .val {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 2.2rem;
     font-weight: 500;
     color: $map-text;
@@ -341,7 +354,7 @@ h1, h2, h3, h4 {
     margin-top: 0.5rem;
     font-size: 0.72rem;
     color: $map-slate;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
   }
 
   &.wide { grid-column: span 2; }
@@ -353,69 +366,79 @@ h1, h2, h3, h4 {
 }
 
 // ── Buttons (sharp rectangles with arrow indicator) ─────────────
+// ── Buttons (AdminCA — 0.65rem 1.25rem padding, 2px radius, 150ms) ─
 .btn-primary, .btn-hf-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: $map-red;
-  color: #fff !important;
-  padding: 0.7rem 1.25rem;
-  border-radius: $map-radius-sm;
-  font-weight: 500;
-  font-size: 0.9rem;
-  text-decoration: none !important;
-  border: 1px solid $map-red;
-  transition: background $map-transition, border-color $map-transition;
-  cursor: pointer;
-
-  &::after {
-    content: '\2192';
-    font-family: 'IBM Plex Mono', monospace;
-    transition: transform $map-transition;
-  }
-  &:hover {
-    background: $map-red-dark;
-    border-color: $map-red-dark;
-    &::after { transform: translateX(3px); }
-  }
-}
-
-.btn-secondary, .btn-hf-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: transparent;
-  color: $map-text !important;
-  padding: 0.7rem 1.25rem;
-  border-radius: $map-radius-sm;
-  font-weight: 500;
-  font-size: 0.9rem;
-  text-decoration: none !important;
-  border: 1px solid $map-border;
-  transition: background $map-transition, border-color $map-transition, color $map-transition;
-  cursor: pointer;
-
-  &:hover {
-    background: #fff;
-    border-color: $map-red;
-    color: $map-red !important;
-  }
-}
-
-.btn-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   background: $map-red;
   color: #fff !important;
-  padding: 0.6rem 1.1rem;
-  border-radius: $map-radius-sm;
+  padding: 0.65rem 1.25rem;
+  border-radius: $map-radius;
+  font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 0.88rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-decoration: none !important;
+  border: 1px solid $map-red;
+  transition: all $map-transition;
+  cursor: pointer;
+
+  &::after {
+    content: '\2192';
+    font-weight: 400;
+    transition: transform $map-transition;
+  }
+  &:hover {
+    background: $map-red-dark;
+    border-color: $map-red-dark;
+    box-shadow: 0 5px 20px rgba(13, 148, 136, 0.25);
+    &::after { transform: translateX(3px); }
+  }
+  &:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.22); }
+}
+
+.btn-secondary, .btn-hf-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  color: $map-text !important;
+  padding: 0.65rem 1.25rem;
+  border-radius: $map-radius;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-decoration: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all $map-transition;
+  cursor: pointer;
+
+  &:hover {
+    background: $map-bg-warm;
+    border-color: $map-red;
+    color: $map-red !important;
+    box-shadow: 0 5px 20px #d6dee4;
+  }
+  &:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15); }
+}
+
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: $map-red;
+  color: #fff !important;
+  padding: 0.5rem 1rem;
+  border-radius: $map-radius;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.85rem;
   border: 1px solid $map-red;
   cursor: pointer;
-  transition: background $map-transition;
-  &:hover { background: $map-red-dark; }
+  transition: all $map-transition;
+  &:hover { background: $map-red-dark; box-shadow: 0 3px 12px rgba(13,148,136,0.25); }
 }
 
 // ── Stats bar ────────────────────────────────────────────────────
@@ -454,8 +477,8 @@ h1, h2, h3, h4 {
 
 // ── Feature layers (numbered editorial rows) ─────────────────────
 .features-section {
-  background: #fff;
-  padding: 5rem 2rem 5rem;
+  background: $map-bg-section;   // bluish-grey AdminCA page bg
+  padding: 4.5rem 2rem;
 
   .section-header {
     max-width: 1400px;
@@ -468,7 +491,7 @@ h1, h2, h3, h4 {
     border-bottom: 1px solid $map-border;
 
     h2 {
-      font-family: 'IBM Plex Sans Condensed', sans-serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 1.75rem;
       font-weight: 600;
       color: $map-text;
@@ -512,12 +535,12 @@ h1, h2, h3, h4 {
     opacity: 0;
     transition: opacity $map-transition;
   }
-  &:hover { background: $map-bg-warm; }
+  &:hover { background: #fff; }
   &:hover::before { opacity: 1; }
 
   // "01" style row number in Plex Mono
   .row-num {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.9rem;
     font-weight: 500;
     color: $map-red;
@@ -536,7 +559,7 @@ h1, h2, h3, h4 {
   }
 
   h3 {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 1.4rem;
     color: $map-text;
@@ -560,7 +583,7 @@ h1, h2, h3, h4 {
     font-weight: 500;
     text-decoration: none;
     font-size: 0.85rem;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     letter-spacing: 0.01em;
     padding-top: 0.4rem;
 
@@ -646,7 +669,7 @@ h1, h2, h3, h4 {
   }
 
   h2 {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.6rem;
     font-weight: 600;
     color: $map-text;
@@ -681,39 +704,76 @@ h1, h2, h3, h4 {
   }
 }
 
-// ── Shared card styles ───────────────────────────────────────────
-.card-modern {
+// ── AdminCA card / ibox pattern ──────────────────────────────────
+// Distinct from a bare Bootstrap card: 25px body padding, subtle
+// 0 2px 4px rgba(0,0,0,.08) shadow, optional header bar with 60px
+// height and a light bottom border. Use for stat/KPI blocks, panel
+// containers, and any dashboard-widget content.
+.card-modern, .ibox {
   background: #fff;
   border-radius: $map-radius;
-  padding: 2rem;
+  padding: 25px;
   box-shadow: $map-shadow;
-  border: 1px solid $map-border;
+  border: 0;
+  margin-bottom: 25px;
+  transition: box-shadow $map-transition, transform $map-transition;
+
+  &.ibox-air { box-shadow: 0 5px 20px #d6dee4; }
+  &:hover.card-hoverable { box-shadow: 0 5px 20px #d6dee4; transform: translateY(-2px); }
 }
+
+// Optional panel header inside .card-modern / .ibox
+.ibox-head, .card-modern > .card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: 0 20px;
+  margin: -25px -25px 25px;
+  border-bottom: 1px solid $map-border;
+  color: $map-text;
+  font-weight: 500;
+}
+.ibox-body { padding: 0; }
+.ibox-title { font-size: 16px; font-weight: 500; margin: 0; color: $map-text; }
 
 .card-dark {
   background: $map-navy;
   color: rgba(255,255,255,0.9);
   border-radius: $map-radius;
-  padding: 2rem;
+  padding: 25px;
 }
 
-// ── Page banner (inner pages) — thin, data-forward ───────────────
+// ── Page banner (inner pages) — AdminCA-flavoured ────────────────
 .page-banner {
-  background: $map-navy;
-  color: #fff;
-  padding: 2rem 2rem 1.75rem;
-  margin-bottom: 2rem;
-  border-bottom: 3px solid $map-red;
+  background: #fff;
+  color: $map-text;
+  padding: 1.75rem 2rem 1.5rem;
+  margin-bottom: 25px;
+  border-bottom: 1px solid $map-border;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 2rem;
+    width: 3rem;
+    height: 3px;
+    background: $map-red;
+    border-radius: 2px;
+  }
 
   h1 {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-size: 1.85rem;
-    font-weight: 600;
-    margin: 0 0 0.35rem;
-    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 0 0 0.3rem;
+    color: $map-text;
     letter-spacing: -0.01em;
   }
-  p  { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin: 0; }
+  p  { color: $map-text-muted; font-size: 0.92rem; margin: 0; }
 }
 
 // ── Country hero ─────────────────────────────────────────────────
@@ -797,7 +857,7 @@ h1, h2, h3, h4 {
   padding: 0.75rem 1rem;
   border: 1.5px solid $map-border;
   border-radius: $map-radius-sm;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
   color: $map-text;
   background: $map-bg;
@@ -822,7 +882,7 @@ h1, h2, h3, h4 {
   padding: 0.85rem 1.5rem;
   font-size: 0.95rem;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   cursor: pointer;
   transition: all $map-transition;
   text-align: center;
@@ -929,7 +989,7 @@ h1, h2, h3, h4 {
   margin: 1.25rem 0;
   box-shadow: $map-shadow;
   h3 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 1rem;
     padding-bottom: 0.75rem;
@@ -960,7 +1020,7 @@ h1, h2, h3, h4 {
   padding: 1.5rem 2rem;
   margin-bottom: 1rem;
   box-shadow: $map-shadow;
-  h3 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; color: $map-navy; }
+  h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; color: $map-navy; }
   p  { font-size: 0.92rem; line-height: 1.7; margin: 0; color: $map-text-muted; }
 }
 
@@ -1004,7 +1064,7 @@ h1, h2, h3, h4 {
   &.in-progress::before { background: $map-amber; box-shadow: 0 0 0 2px $map-amber; }
 
   .tl-quarter { font-size: 0.74rem; font-weight: 700; color: $map-red; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
-  h4 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.97rem; margin-bottom: 0.4rem; color: $map-navy; }
+  h4 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.97rem; margin-bottom: 0.4rem; color: $map-navy; }
   p  { font-size: 0.9rem; margin: 0; line-height: 1.65; color: $map-text-muted; }
 }
 
@@ -1163,31 +1223,43 @@ main.content,
   }
 }
 
-// ── Page/section headers (svc-hero, reg-hero, etc.) — thin + left ─
+// ── Page/section headers (svc-hero, reg-hero, etc.) — AdminCA light ─
 .page-banner,
 .svc-hero,
 .reg-hero,
 .eq-hero,
 .finder-hero {
-  background: $map-navy;
-  color: #fff;
-  padding: 2.25rem 2rem 2rem;
+  background: #fff;
+  color: $map-text;
+  padding: 1.75rem 2rem 1.5rem;
   position: relative;
   overflow: hidden;
-  border-bottom: 3px solid $map-red;
+  border-bottom: 1px solid $map-border;
+  margin-bottom: 25px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 2rem;
+    width: 3rem;
+    height: 3px;
+    background: $map-red;
+    border-radius: 2px;
+  }
 
   h1 {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
-    font-weight: 600;
-    font-size: clamp(1.6rem, 2.4vw + .5rem, 2.2rem);
-    margin: 0 0 .4rem;
-    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.4rem, 2vw + .3rem, 1.7rem);
+    margin: 0 0 .35rem;
+    color: $map-text;
     letter-spacing: -0.01em;
     text-align: left;
   }
   p {
-    font-size: 0.95rem;
-    color: rgba(255,255,255,.7);
+    font-size: 0.92rem;
+    color: $map-text-muted;
     margin: 0;
     max-width: 720px;
     line-height: 1.5;
@@ -1195,7 +1267,7 @@ main.content,
   }
 }
 
-// ── Container cards ─────────────────────────────────────────────
+// ── Container cards (AdminCA card treatment) ─────────────────────
 // NOTE: .feature-card is intentionally excluded — it uses the numbered
 // editorial row layout defined earlier, not a card treatment.
 .card-modern,
@@ -1211,15 +1283,16 @@ main.content,
 .eq-chart-card,
 .reg-table-container {
   background: #ffffff !important;
-  border: $pl-border;
+  border: 0;
   border-radius: $pl-radius;
-  box-shadow: none;
-  transition: border-color $pl-transition;
+  box-shadow: $map-shadow;
+  transition: box-shadow $pl-transition, transform $pl-transition;
 }
 
 .card-modern:hover,
 .svc-card:hover {
-  border-color: $map-red;
+  box-shadow: 0 5px 20px #d6dee4;
+  transform: translateY(-1px);
 }
 
 // Polish-layer buttons intentionally left minimal here — the primary
@@ -1235,17 +1308,17 @@ main.content,
   gap: .5rem;
   padding: .55rem 1rem;
   border-radius: $pl-radius;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: .88rem;
+  font-size: .875rem;
   line-height: 1.2;
   border: 1px solid $map-red;
   background: $map-red;
   color: #fff !important;
   text-decoration: none;
   cursor: pointer;
-  transition: background $pl-transition, border-color $pl-transition;
-  &:hover { background: $map-red-dark; border-color: $map-red-dark; }
+  transition: all $pl-transition;
+  &:hover { background: $map-red-dark; border-color: $map-red-dark; box-shadow: 0 4px 16px rgba(13,148,136,0.25); }
   &:focus-visible { outline: none; box-shadow: $pl-focus-ring; }
 }
 
@@ -1302,7 +1375,7 @@ select.form-select,
 .finder-status.success { border-left-color: #16a34a; background: #f0fdf4; color: #14532d; }
 .finder-status.error   { border-left-color: #dc2626; background: #fef2f2; color: #7f1d1d; }
 
-// ── Tables (registry, methodology, etc.) ─────────────────────────
+// ── Tables (AdminCA styling — clean, muted, wide row hover) ──────
 #reg-table,
 table.table-sm,
 .eq-region-table,
@@ -1314,13 +1387,27 @@ table.table-sm,
   background: #fff;
   border-radius: $pl-radius;
   overflow: hidden;
-  box-shadow: $pl-shadow-sm;
-  border: $pl-border;
+  box-shadow: $map-shadow;
+  border: 0;
 
-  thead { background: $map-navy; color: #fff; }
-  th { padding: .8rem .9rem; font-weight: 600; text-align: left; }
-  td { padding: .7rem .9rem; border-top: 1px solid #f1f5f9; }
-  tbody tr:hover { background: rgba(13, 148, 136, .04); }
+  thead {
+    background: #f8f9fc;
+    color: $map-text;
+    th {
+      padding: .85rem .9rem;
+      font-weight: 600;
+      font-size: .82rem;
+      text-align: left;
+      border-bottom: 1px solid #e8e8e8;
+      color: $map-text;
+    }
+  }
+  td {
+    padding: .75rem .9rem;
+    border-top: 1px solid #e8e8e8;
+    color: $map-text;
+  }
+  tbody tr:hover { background: rgba(0, 0, 0, .05); }
 }
 
 // ── Maps (Leaflet panel) ─────────────────────────────────────────
@@ -1341,28 +1428,27 @@ table.table-sm,
   padding-bottom: 1.5rem;
 }
 
-// ── Navbar refinement ────────────────────────────────────────────
+// ── Navbar (AdminCA-flavoured — thin, clean, subtle) ─────────────
 .navbar {
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  box-shadow: none;
-  min-height: 52px;
-  padding: 0.3rem 1.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  min-height: 60px;
+  padding: 0.35rem 1.75rem;
 
-  .navbar-brand img { max-height: 28px; }
+  .navbar-brand img { max-height: 32px; }
   .navbar-brand-title {
-    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 600;
+    font-size: 1.1rem;
     letter-spacing: -0.005em;
   }
   .nav-link {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    font-size: .88rem;
-    padding-inline: .9rem !important;
+    font-size: .9rem;
+    padding-inline: .95rem !important;
     transition: color $pl-transition;
     &:hover { color: #fff !important; }
-    // remove the underline-hover flourish from the base rule for a
-    // cleaner data-forward feel
     &::after { display: none !important; }
   }
 }

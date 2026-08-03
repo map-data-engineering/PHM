@@ -6,8 +6,8 @@ toc: false
 
 ```{=html}
 <style>
-  .cs-hero{background:var(--map-navy,#0f172a);color:#fff;padding:2.5rem 2rem;}
-  .cs-hero h1{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
+  .cs-hero{background:#fff;color:var(--map-text,#34495f);border-bottom:1px solid var(--map-border,#eef0f5);padding:2.5rem 2rem;}
+  .cs-hero h1{font-family:'Poppins',sans-serif;font-size:2.2rem;margin:0 0 .4rem;}
   .cs-hero p{opacity:.75;margin:0;font-size:1rem;max-width:900px;}
   .cs-wrap{max-width:1000px;margin:0 auto;padding:2rem 1.5rem 4rem;}
   .cs-badge{display:inline-block;background:rgba(245,158,11,0.12);color:#b45309;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.3rem .7rem;border-radius:100px;margin-bottom:1rem;}

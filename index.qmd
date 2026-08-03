@@ -73,7 +73,7 @@ toc: false
     <div class="feature-card">
       <span class="row-num">02</span>
       <div>
-        <h3>Find the nearest pharmacy <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
+        <h3>Find the nearest pharmacy <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
         <p>Enter your address, share your location, or drop a pin on the map &mdash; PharmaScope returns the closest accredited CPPs sorted by distance, with contact numbers and one-tap directions to each.</p>
       </div>
       <a href="find-pharmacy.html">Find nearest pharmacy</a>
@@ -82,7 +82,7 @@ toc: false
     <div class="feature-card">
       <span class="row-num">03</span>
       <div>
-        <h3>Site Check &mdash; new registrations <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
+        <h3>Site Check &mdash; new registrations <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
         <p>Before accrediting a new outlet, drop a pin at the proposed location and get an evidence-based saturation verdict &mdash; number of existing CPPs within walking distance, density per km<sup>2</sup>, and whether the applicant should be redirected to an under-served ward.</p>
       </div>
       <a href="find-facility.html">Open Site Check</a>
@@ -91,7 +91,7 @@ toc: false
     <div class="feature-card">
       <span class="row-num">04</span>
       <div>
-        <h3>Data Quality intelligence <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
+        <h3>Data Quality intelligence <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
         <p>Every field in the CPP registry inspected for completeness &mdash; how many outlets are geocoded, which regions are under-reported, where the raw <code>.xls</code> lost information, and which fixes have the highest payoff for the next data refresh.</p>
       </div>
       <a href="data-quality.html">Inspect data quality</a>

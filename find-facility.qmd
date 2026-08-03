@@ -44,7 +44,7 @@ toc: false
   }
   .sc-field{ display:flex; flex-direction:column; gap:.35rem; }
   .sc-field label{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.7rem;
     text-transform:uppercase;
     letter-spacing:.06em;
@@ -56,7 +56,7 @@ toc: false
     border:1px solid var(--map-border,#e2e8f0);
     border-radius:4px;
     font-size:.9rem;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     background:#fff;
     color:var(--map-text,#0f172a);
   }
@@ -70,7 +70,7 @@ toc: false
     border:1px solid var(--map-navy,#0f172a);
     border-radius:4px;
     font-size:.85rem;
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:500;
     cursor:pointer;
     transition:background .15s;
@@ -83,7 +83,7 @@ toc: false
   .sc-radius{ display:flex; flex-direction:column; gap:.4rem; }
   .sc-radius input[type=range]{ width:100%; accent-color:var(--map-red,#0d9488); }
   .sc-radius .val{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:1.15rem;
     font-weight:500;
     color:var(--map-text,#0f172a);
@@ -106,7 +106,7 @@ toc: false
 
   .sc-verdict .badge{
     display:inline-block;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.7rem;
     letter-spacing:.08em;
     text-transform:uppercase;
@@ -121,7 +121,7 @@ toc: false
   .sc-verdict.underserved .badge{ background:#16a34a; color:#fff; }
 
   .sc-verdict h3{
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-size:1.25rem;
     font-weight:600;
     margin:0;
@@ -142,14 +142,14 @@ toc: false
     padding:.6rem .7rem;
   }
   .sc-metric .lbl{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.65rem;
     text-transform:uppercase;
     letter-spacing:.06em;
     color:var(--map-text-muted,#64748b);
   }
   .sc-metric .val{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:1.25rem;
     font-weight:500;
     color:var(--map-text,#0f172a);
@@ -182,12 +182,12 @@ toc: false
   }
   .sc-nearby-head h4{
     margin:0;
-    font-family:'IBM Plex Sans Condensed',sans-serif;
+    font-family:'Poppins',sans-serif;
     font-weight:600;
     font-size:1rem;
   }
   .sc-nearby-head .meta{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-size:.75rem;
     opacity:.75;
   }
@@ -196,7 +196,7 @@ toc: false
     background:#f1f5f9;
     padding:.55rem .8rem;
     text-align:left;
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     font-weight:500;
     font-size:.72rem;
     text-transform:uppercase;
@@ -206,7 +206,7 @@ toc: false
   }
   .sc-nearby td{ padding:.55rem .8rem; border-bottom:1px solid #f1f5f9; }
   .sc-nearby td.dist{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:'JetBrains Mono',monospace;
     color:var(--map-red,#0d9488);
     font-weight:500;
     text-align:right;
@@ -258,7 +258,7 @@ toc: false
       </div>
 
       <div class="sc-radius">
-        <label style="font-family:'IBM Plex Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--map-text-muted,#64748b);">
+        <label style="font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--map-text-muted,#64748b);">
           Search radius <span class="val" id="sc-rval">2.0</span> km
         </label>
         <input type="range" id="sc-radius" min="0.5" max="10" step="0.5" value="2"/>

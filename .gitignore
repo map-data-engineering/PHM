@@ -17,3 +17,8 @@ _quarto_internal_scss_error.scss
 # WorldPop rasters (~350 MB total across 8 countries) — download via
 # scripts/population/00_download_worldpop.R, never commit.
 data/population/raw/
+
+# Uploaded design template kept for reference; not part of the built site.
+/_templates/
+/docs/templates/
+/docs/_templates/
