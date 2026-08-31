@@ -70,6 +70,13 @@ format:
     link-external-icon: true
     link-external-newwindow: true
     smooth-scroll: true
+    # Inline the client-side auth guard into every page. The guard script
+    # skips itself on login.html / logout.html and otherwise redirects
+    # unauthenticated visitors to login.html?next=<current>. Effect:
+    # a fresh visitor landing on the root of the site is sent straight
+    # to the login form and only reaches the home page after signing in.
+    include-after-body:
+      - _auth-guard.html
     grid:
       body-width: 1400px
       sidebar-width: 0px

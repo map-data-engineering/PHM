@@ -539,6 +539,24 @@ ul.task-list li input[type="checkbox"] {
 
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script>
+
+(function(){
+
+  var path = window.location.pathname;
+
+  if (/\/(login|logout)\.html$/.test(path)) return;
+
+  if (localStorage.getItem('ps_auth') === '1') return;
+
+  var here = path.split('/').pop() || 'index.html';
+
+  window.location.replace('login.html?next=' + encodeURIComponent(here));
+
+})();
+
+</script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
