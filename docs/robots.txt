@@ -1,1 +1,1 @@
-Sitemap: https://map-data-engineering.github.io/pharmascope/sitemap.xml
+Sitemap: https://map-data-engineering.github.io/PHM/sitemap.xml

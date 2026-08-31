@@ -22,7 +22,7 @@ project:
 
 website:
   title: "PharmaScope"
-  site-url: https://map-data-engineering.github.io/pharmascope
+  site-url: https://map-data-engineering.github.io/PHM
   back-to-top-navigation: true
 
   page-footer:
