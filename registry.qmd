@@ -188,8 +188,10 @@ toc: false
 
   // ── Map + basemap ────────────────────────────────────────────────
   const map = L.map("reg-map", { preferCanvas: true }).setView([-6.4, 35.0], 6);
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-    { attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19 }).addTo(map);
+  // CARTO started gating basemaps.cartocdn.com behind API keys, so we use
+  // the truly-free OSM standard tile server here.
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(map);
 
   let polyLayer = null;   // Leaflet GeoJSON layer for the active polygon view
   let currentView = "regions";

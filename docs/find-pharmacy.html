@@ -599,18 +599,18 @@ ul.task-list li input[type="checkbox"] {
   // a stripped-down light layer.
   const map = L.map("fp-map", { preferCanvas: true }).setView([-6.4, 35.0], 6);
 
-  const baseVoyager = L.tileLayer(
-    "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png",
-    { attribution: "&copy; OpenStreetMap &copy; CARTO", maxZoom: 19 });
+  // CARTO Voyager is no longer key-free — we default to OSM standard for
+  // labels and keep Esri Satellite as an alternate. Both endpoints below
+  // are free to use anonymously.
   const baseOSM = L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 });
   const baseSat = L.tileLayer(
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     { attribution: "&copy; Esri, Maxar, Earthstar Geographics", maxZoom: 19 });
 
-  baseVoyager.addTo(map);
-  L.control.layers({ "Voyager (labels)": baseVoyager, "OpenStreetMap": baseOSM, "Satellite": baseSat },
+  baseOSM.addTo(map);
+  L.control.layers({ "OpenStreetMap": baseOSM, "Satellite": baseSat },
     null, { position: "topleft", collapsed: true }).addTo(map);
 
   const backdropLayer = L.layerGroup().addTo(map);   // faint markers of all outlets — nation-wide overview
