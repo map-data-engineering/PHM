@@ -50,19 +50,6 @@ toc: false
   .info.hover-panel .h-parent{color:#64748b;font-size:.75rem;margin-top:1px;}
   .info.hover-panel .h-count{margin-top:.35rem;color:var(--map-red,#0d9488);font-weight:700;font-size:1.1rem;}
 
-  /* Table */
-  .reg-table-wrap{margin-top:1.5rem;}
-  .reg-table-container{max-height:440px;overflow:auto;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;}
-  #reg-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-  #reg-table thead{background:#fff;color:var(--map-text,#34495f);border-bottom:1px solid var(--map-border,#eef0f5);position:sticky;top:0;}
-  #reg-table th{padding:.65rem .75rem;text-align:left;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap;}
-  #reg-table th:hover{background:rgba(255,255,255,.1);}
-  #reg-table td{padding:.55rem .75rem;border-bottom:1px solid var(--map-border,#e2e8f0);}
-  #reg-table tbody tr:hover{background:rgba(13,148,136,.03);}
-
-  .dl-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;background:var(--map-red,#0d9488);color:#fff;border:none;border-radius:4px;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;}
-  .dl-btn:hover{background:#0f766e;color:#fff;}
-
   .gi-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--map-border,#e2e8f0);}
   .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
   .gi-card{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1.25rem;box-shadow:var(--map-shadow);}
@@ -94,15 +81,15 @@ toc: false
   </div>
 
   <div class="reg-controls">
-    <div class="ctrl">
+    <div class="ctrl" id="ctrl-region">
       <label for="f-region">Region</label>
       <select id="f-region"><option value="">All regions</option></select>
     </div>
-    <div class="ctrl">
+    <div class="ctrl" id="ctrl-district">
       <label for="f-district">District</label>
       <select id="f-district" disabled><option value="">All districts</option></select>
     </div>
-    <div class="ctrl">
+    <div class="ctrl" id="ctrl-ward">
       <label for="f-ward">Ward</label>
       <select id="f-ward" disabled><option value="">All wards</option></select>
     </div>
@@ -118,32 +105,9 @@ toc: false
       <label for="f-search">Search</label>
       <input type="search" id="f-search" placeholder="Outlet, ward, street…"/>
     </div>
-    <div class="ctrl" style="flex:1;text-align:right;">
-      <a class="dl-btn" href="data/tanzania/addo_standardized.csv" download>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download CSV
-      </a>
-    </div>
   </div>
 
   <div id="reg-map"></div>
-
-  <div class="reg-table-wrap">
-    <div class="reg-table-container">
-      <table id="reg-table">
-        <thead><tr>
-          <th data-k="addo_name">Outlet</th>
-          <th data-k="business_type">Type</th>
-          <th data-k="accreditation_source">Accreditation</th>
-          <th data-k="region">Region</th>
-          <th data-k="district">District</th>
-          <th data-k="ward">Ward</th>
-          <th data-k="has_coords">Geocoded</th>
-        </tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
 
   <div class="gi-section">
     <h2 style="font-family:'Poppins',sans-serif;font-size:1.5rem;color:var(--map-navy,#0f172a);margin:0 0 1rem;">Coverage snapshot</h2>
@@ -181,7 +145,9 @@ toc: false
     fBiz: document.getElementById("f-biz"),
     fAcc: document.getElementById("f-acc"),
     fSearch: document.getElementById("f-search"),
-    tbody: document.querySelector("#reg-table tbody"),
+    ctrlRegion: document.getElementById("ctrl-region"),
+    ctrlDistrict: document.getElementById("ctrl-district"),
+    ctrlWard: document.getElementById("ctrl-ward"),
     viewNote: document.getElementById("reg-view-note"),
     viewPills: document.querySelectorAll(".reg-viewpill"),
   };
@@ -196,6 +162,8 @@ toc: false
   let polyLayer = null;   // Leaflet GeoJSON layer for the active polygon view
   let currentView = "regions";
   const geoCache = {};    // level -> parsed GeoJSON
+
+  updateFilterVisibility(currentView);
 
   // Sequential teal ramp (Colorbrewer YlGnBu variant biased toward teals)
   const RAMP = ["#f1f5f9", "#ccfbf1", "#5eead4", "#14b8a6", "#0d9488", "#0f766e", "#134e4a"];
@@ -234,13 +202,10 @@ toc: false
   // ── State ────────────────────────────────────────────────────────
   let all = [];
   let currentRows = [];
-  let sortState = { key: "addo_name", dir: 1 };
   const regionChart = { instance: null };
   const accChart    = { instance: null };
 
   // ── Helpers ──────────────────────────────────────────────────────
-  const fmt = (v) => (v === null || v === undefined || v === "" ? "&mdash;" : String(v));
-  const cmp = (a, b) => (a == null ? 1 : b == null ? -1 : a > b ? 1 : a < b ? -1 : 0);
   const uniq = (rows, k) => [...new Set(rows.map((r) => r[k]).filter((v) => v !== null && v !== ""))].sort();
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 
@@ -313,14 +278,15 @@ toc: false
     );
 
     els.viewPills.forEach(btn => btn.addEventListener("click", () => setView(btn.dataset.view)));
+  }
 
-    document.querySelectorAll("#reg-table th").forEach((th) =>
-      th.addEventListener("click", () => {
-        const k = th.dataset.k;
-        sortState = { key: k, dir: sortState.key === k ? -sortState.dir : 1 };
-        renderTable(currentRows);
-      })
-    );
+  // Only the filter matching the active map-view level is shown — Region
+  // while viewing Regions, District while viewing Districts, Ward while
+  // viewing Wards — since each filter's value is what the map zooms to.
+  function updateFilterVisibility(view) {
+    els.ctrlRegion.style.display   = view === "regions"   ? "" : "none";
+    els.ctrlDistrict.style.display = view === "districts" ? "" : "none";
+    els.ctrlWard.style.display     = view === "wards"     ? "" : "none";
   }
 
   function rebuildChildSelect(sel, key, filter) {
@@ -346,7 +312,6 @@ toc: false
     });
     renderSummary(currentRows);
     renderMap();  // uses currentView + currentRows
-    renderTable(currentRows);
     renderCharts(currentRows);
   }
 
@@ -366,6 +331,7 @@ toc: false
   function setView(view) {
     currentView = view;
     els.viewPills.forEach(b => b.classList.toggle("active", b.dataset.view === view));
+    updateFilterVisibility(view);
     renderMap();
   }
 
@@ -446,9 +412,19 @@ toc: false
     hoverCtl.addTo(map);
     legendCtl.update(breaks, level.charAt(0).toUpperCase() + level.slice(1, -1));
 
-    // Fit to the filtered subset when a filter zooms us to a region/district
-    if (els.fRegion.value || els.fDistrict.value) {
-      map.fitBounds(polyLayer.getBounds(), { padding: [20, 20], maxZoom: 10 });
+    // Zoom to whichever polygon the active (view-matched) filter selects.
+    const selName = level === "regions" ? els.fRegion.value
+      : level === "districts" ? els.fDistrict.value
+      : els.fWard.value;
+    const selected = selName && gj.features.find((f) => {
+      if (f.properties.name !== selName) return false;
+      if (level === "districts" && els.fRegion.value) return f.properties.region === els.fRegion.value;
+      if (level === "wards" && els.fDistrict.value) return f.properties.district === els.fDistrict.value;
+      return true;
+    });
+    if (selected) {
+      const maxZoom = level === "wards" ? 13 : level === "districts" ? 11 : 9;
+      map.fitBounds(L.geoJSON(selected).getBounds(), { padding: [20, 20], maxZoom });
     } else {
       map.setView([-6.4, 35.0], 6);
     }
@@ -459,27 +435,6 @@ toc: false
     els.viewNote.textContent =
       `${matched.toLocaleString()} / ${currentRows.length.toLocaleString()} outlets placed in ${level} polygons (${pct}%). ` +
       `${unmatched.toLocaleString()} could not be auto-matched.`;
-  }
-
-  // ── Table ────────────────────────────────────────────────────────
-  function renderTable(rows) {
-    const { key, dir } = sortState;
-    const sorted = [...rows].sort((a, b) => dir * cmp(a[key], b[key]));
-    const first = sorted.slice(0, 500);
-    els.tbody.innerHTML = first.map((r) => `
-      <tr>
-        <td>${fmt(r.addo_name)}</td>
-        <td>${fmt(r.business_type)}</td>
-        <td>${fmt(r.accreditation_source)}</td>
-        <td>${fmt(r.region)}</td>
-        <td>${fmt(r.district)}</td>
-        <td>${fmt(r.ward)}</td>
-        <td>${r.has_coords ? "&#10003;" : "&mdash;"}</td>
-      </tr>`).join("");
-    if (rows.length > 500) {
-      els.tbody.insertAdjacentHTML("beforeend",
-        `<tr><td colspan="7" style="text-align:center;font-style:italic;color:#64748b;padding:.75rem;">Showing first 500 of ${rows.length.toLocaleString()} outlets &mdash; narrow the filters to see more, or download the CSV.</td></tr>`);
-    }
   }
 
   // ── Charts ───────────────────────────────────────────────────────
