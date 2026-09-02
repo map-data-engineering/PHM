@@ -104,13 +104,12 @@ toc: false
 <section class="countries-banner">
   <div style="max-width:1400px;margin:0 auto;">
     <h2>Start exploring</h2>
-    <p>Jump straight into the CPP registry or download the standardised CSV.</p>
+    <p>Jump straight into the CPP registry, find a nearby pharmacy, or check a proposed site.</p>
     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
       <a href="registry.html" class="btn-primary">CPP Registry</a>
       <a href="find-pharmacy.html" class="btn-secondary">Find Pharmacy</a>
       <a href="find-facility.html" class="btn-secondary">Site Check</a>
       <a href="data-quality.html" class="btn-secondary">Data Quality</a>
-      <a href="data/tanzania/addo_standardized.csv" class="btn-secondary" download>Download CSV</a>
     </div>
   </div>
 </section>
