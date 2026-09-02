@@ -307,9 +307,18 @@ toc: false
 
   // ── Map ──────────────────────────────────────────────────────────
   const map = L.map("sc-map", { preferCanvas: true }).setView([-6.4, 35.0], 6);
-  // CARTO now requires an API key for basemaps.cartocdn.com; using OSM directly.
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-    { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(map);
+  // CARTO now requires an API key for basemaps.cartocdn.com; using OSM directly,
+  // with an Esri Satellite alternate (both free, no key required).
+  const baseOSM = L.tileLayer(
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 });
+  const baseSat = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { attribution: "&copy; Esri, Maxar, Earthstar Geographics", maxZoom: 19 });
+
+  baseOSM.addTo(map);
+  L.control.layers({ "OpenStreetMap": baseOSM, "Satellite": baseSat },
+    null, { position: "topleft", collapsed: true }).addTo(map);
 
   const nearbyLayer = L.layerGroup().addTo(map);
   const backdropLayer = L.layerGroup().addTo(map);   // faint markers outside radius
