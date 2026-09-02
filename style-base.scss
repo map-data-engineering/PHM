@@ -319,6 +319,12 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: $map-radius;
   padding: 1.25rem 1.1rem;
   position: relative;
+  transition: box-shadow $map-transition, transform $map-transition;
+
+  &:hover {
+    box-shadow: 0 5px 20px #d6dee4;
+    transform: translateY(-1px);
+  }
 
   // A small colored top-edge marker instead of a full border-top
   &::before {
@@ -502,56 +508,58 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-// Numbered rows — one feature per row on desktop
+// Responsive card grid, using the same AdminCA card treatment (white,
+// rounded, $map-shadow, hover lift) as .card-modern/.svc-card etc. — same
+// $map-radius scale rather than $pl-radius since that's defined further
+// down this file and this block renders earlier. auto-fit collapses to
+// 1 column on narrow screens with no extra breakpoints needed.
 .feature-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .feature-card {
-  display: grid;
-  grid-template-columns: 5rem 1fr 12rem;
-  gap: 2rem;
-  padding: 2rem 0;
-  border-top: 1px solid $map-border;
-  align-items: start;
-  transition: background $map-transition;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: 1.75rem 1.6rem;
+  background: #ffffff;
+  border: 0;
+  border-radius: $map-radius;
+  box-shadow: $map-shadow;
+  transition: box-shadow $map-transition, transform $map-transition;
   position: relative;
 
-  &:last-child { border-bottom: 1px solid $map-border; }
-
-  // Small colored inset marker on hover
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: $map-red;
-    opacity: 0;
-    transition: opacity $map-transition;
+  &:hover {
+    box-shadow: 0 5px 20px #d6dee4;
+    transform: translateY(-1px);
   }
-  &:hover { background: #fff; }
-  &:hover::before { opacity: 1; }
 
-  // "01" style row number in Plex Mono
+  // "01" rendered as a small AdminCA-flavoured number badge
   .row-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: $map-radius;
+    background: rgba($map-red, 0.08);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: $map-red;
-    letter-spacing: 0.05em;
-    padding-top: 0.35rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.75rem;
   }
 
   // The "feature-icon" wrapper is retained for backward compatibility
   // but now sits inline with the row number, small and quiet.
   .feature-icon {
-    display: none;    // hidden in the new numbered-row layout
+    display: none;    // hidden in the card layout
   }
 
   .card-svg {
@@ -561,46 +569,36 @@ h1, h2, h3, h4, h5, h6 {
   h3 {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     color: $map-text;
-    margin: 0 0 0.65rem;
+    margin: 0 0 0.5rem;
     letter-spacing: -0.005em;
   }
 
   p {
-    font-size: 0.94rem;
+    font-size: 0.92rem;
     color: $map-text-muted;
-    line-height: 1.65;
-    margin: 0;
-    max-width: 60ch;
+    line-height: 1.6;
+    margin: 0 0 1rem;
   }
 
   a {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    margin-top: auto;
     color: $map-red;
     font-weight: 500;
     text-decoration: none;
     font-size: 0.85rem;
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: 0.01em;
-    padding-top: 0.4rem;
 
     &::after {
       content: '\2192';
       transition: transform $map-transition;
     }
     &:hover::after { transform: translateX(4px); }
-  }
-}
-
-@media (max-width: 900px) {
-  .feature-card {
-    grid-template-columns: 3rem 1fr;
-    gap: 1rem;
-    padding: 1.75rem 0;
-    a { grid-column: 2; margin-top: 0.75rem; }
   }
 }
 
@@ -1268,8 +1266,9 @@ main.content,
 }
 
 // ── Container cards (AdminCA card treatment) ─────────────────────
-// NOTE: .feature-card is intentionally excluded — it uses the numbered
-// editorial row layout defined earlier, not a card treatment.
+// .feature-card has this treatment inline (defined earlier alongside its
+// grid/layout rules) since it also needs its own hover + hover-only link
+// arrow; listed here only for anyone grepping for the shared pattern.
 .card-modern,
 .svc-card,
 .reg-scard,
