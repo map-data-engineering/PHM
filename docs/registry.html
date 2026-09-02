@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -38,14 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-1a5461d7bfb35b22c64910606425e66e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-fa50acfc23bf207bc495cae7119f221d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-1a5461d7bfb35b22c64910606425e66e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-55fdf7cbe6a6183dae1c3b79778743f2.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f53ede40ec589ce147231cd30c4c646c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-55fdf7cbe6a6183dae1c3b79778743f2.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-296afa6f020eb1b09c3171dcdb3ab5a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-4f2e87dee3de35f6fa3a817fb6f89e5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-296afa6f020eb1b09c3171dcdb3ab5a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5b846faf4769d98bb01de381f2541d39.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f57cd740ed99f08dc8372f54fd537577.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-5b846faf4769d98bb01de381f2541d39.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -356,19 +359,6 @@ ul.task-list li input[type="checkbox"] {
   .info.hover-panel .h-parent{color:#64748b;font-size:.75rem;margin-top:1px;}
   .info.hover-panel .h-count{margin-top:.35rem;color:var(--map-red,#0d9488);font-weight:700;font-size:1.1rem;}
 
-  /* Table */
-  .reg-table-wrap{margin-top:1.5rem;}
-  .reg-table-container{max-height:440px;overflow:auto;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;}
-  #reg-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-  #reg-table thead{background:#fff;color:var(--map-text,#34495f);border-bottom:1px solid var(--map-border,#eef0f5);position:sticky;top:0;}
-  #reg-table th{padding:.65rem .75rem;text-align:left;font-weight:600;cursor:pointer;user-select:none;white-space:nowrap;}
-  #reg-table th:hover{background:rgba(255,255,255,.1);}
-  #reg-table td{padding:.55rem .75rem;border-bottom:1px solid var(--map-border,#e2e8f0);}
-  #reg-table tbody tr:hover{background:rgba(13,148,136,.03);}
-
-  .dl-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;background:var(--map-red,#0d9488);color:#fff;border:none;border-radius:4px;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;}
-  .dl-btn:hover{background:#0f766e;color:#fff;}
-
   .gi-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--map-border,#e2e8f0);}
   .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
   .gi-card{background:#fff;border:1px solid var(--map-border,#e2e8f0);border-radius:4px;padding:1.25rem;box-shadow:var(--map-shadow);}
@@ -400,15 +390,15 @@ ul.task-list li input[type="checkbox"] {
   </div>
 
   <div class="reg-controls">
-    <div class="ctrl">
+    <div class="ctrl" id="ctrl-region">
       <label for="f-region">Region</label>
       <select id="f-region"><option value="">All regions</option></select>
     </div>
-    <div class="ctrl">
+    <div class="ctrl" id="ctrl-district">
       <label for="f-district">District</label>
       <select id="f-district" disabled=""><option value="">All districts</option></select>
     </div>
-    <div class="ctrl">
+    <div class="ctrl" id="ctrl-ward">
       <label for="f-ward">Ward</label>
       <select id="f-ward" disabled=""><option value="">All wards</option></select>
     </div>
@@ -424,37 +414,9 @@ ul.task-list li input[type="checkbox"] {
       <label for="f-search">Search</label>
       <input type="search" id="f-search" placeholder="Outlet, ward, street…">
     </div>
-    <div class="ctrl" style="flex:1;text-align:right;">
-      <a class="dl-btn" href="data/tanzania/addo_standardized.csv" download="">
-        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        Download CSV
-      </a>
-    </div>
   </div>
 
   <div id="reg-map"></div>
-
-  <div class="reg-table-wrap">
-    <div class="reg-table-container">
-      
-<table id="reg-table" class="caption-top">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" data-k="addo_name">Outlet</th>
-<th data-quarto-table-cell-role="th" data-k="business_type">Type</th>
-<th data-quarto-table-cell-role="th" data-k="accreditation_source">Accreditation</th>
-<th data-quarto-table-cell-role="th" data-k="region">Region</th>
-<th data-quarto-table-cell-role="th" data-k="district">District</th>
-<th data-quarto-table-cell-role="th" data-k="ward">Ward</th>
-<th data-quarto-table-cell-role="th" data-k="has_coords">Geocoded</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-
-    </div>
-  </div>
 
   <div class="gi-section">
     <h2 style="font-family:'Poppins',sans-serif;font-size:1.5rem;color:var(--map-navy,#0f172a);margin:0 0 1rem;" class="anchored">Coverage snapshot</h2>
@@ -492,7 +454,9 @@ ul.task-list li input[type="checkbox"] {
     fBiz: document.getElementById("f-biz"),
     fAcc: document.getElementById("f-acc"),
     fSearch: document.getElementById("f-search"),
-    tbody: document.querySelector("#reg-table tbody"),
+    ctrlRegion: document.getElementById("ctrl-region"),
+    ctrlDistrict: document.getElementById("ctrl-district"),
+    ctrlWard: document.getElementById("ctrl-ward"),
     viewNote: document.getElementById("reg-view-note"),
     viewPills: document.querySelectorAll(".reg-viewpill"),
   };
@@ -507,6 +471,8 @@ ul.task-list li input[type="checkbox"] {
   let polyLayer = null;   // Leaflet GeoJSON layer for the active polygon view
   let currentView = "regions";
   const geoCache = {};    // level -> parsed GeoJSON
+
+  updateFilterVisibility(currentView);
 
   // Sequential teal ramp (Colorbrewer YlGnBu variant biased toward teals)
   const RAMP = ["#f1f5f9", "#ccfbf1", "#5eead4", "#14b8a6", "#0d9488", "#0f766e", "#134e4a"];
@@ -545,13 +511,10 @@ ul.task-list li input[type="checkbox"] {
   // ── State ────────────────────────────────────────────────────────
   let all = [];
   let currentRows = [];
-  let sortState = { key: "addo_name", dir: 1 };
   const regionChart = { instance: null };
   const accChart    = { instance: null };
 
   // ── Helpers ──────────────────────────────────────────────────────
-  const fmt = (v) => (v === null || v === undefined || v === "" ? "&mdash;" : String(v));
-  const cmp = (a, b) => (a == null ? 1 : b == null ? -1 : a > b ? 1 : a < b ? -1 : 0);
   const uniq = (rows, k) => [...new Set(rows.map((r) => r[k]).filter((v) => v !== null && v !== ""))].sort();
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
 
@@ -624,14 +587,15 @@ ul.task-list li input[type="checkbox"] {
     );
 
     els.viewPills.forEach(btn => btn.addEventListener("click", () => setView(btn.dataset.view)));
+  }
 
-    document.querySelectorAll("#reg-table th").forEach((th) =>
-      th.addEventListener("click", () => {
-        const k = th.dataset.k;
-        sortState = { key: k, dir: sortState.key === k ? -sortState.dir : 1 };
-        renderTable(currentRows);
-      })
-    );
+  // Only the filter matching the active map-view level is shown — Region
+  // while viewing Regions, District while viewing Districts, Ward while
+  // viewing Wards — since each filter's value is what the map zooms to.
+  function updateFilterVisibility(view) {
+    els.ctrlRegion.style.display   = view === "regions"   ? "" : "none";
+    els.ctrlDistrict.style.display = view === "districts" ? "" : "none";
+    els.ctrlWard.style.display     = view === "wards"     ? "" : "none";
   }
 
   function rebuildChildSelect(sel, key, filter) {
@@ -657,7 +621,6 @@ ul.task-list li input[type="checkbox"] {
     });
     renderSummary(currentRows);
     renderMap();  // uses currentView + currentRows
-    renderTable(currentRows);
     renderCharts(currentRows);
   }
 
@@ -677,6 +640,7 @@ ul.task-list li input[type="checkbox"] {
   function setView(view) {
     currentView = view;
     els.viewPills.forEach(b => b.classList.toggle("active", b.dataset.view === view));
+    updateFilterVisibility(view);
     renderMap();
   }
 
@@ -757,9 +721,19 @@ ul.task-list li input[type="checkbox"] {
     hoverCtl.addTo(map);
     legendCtl.update(breaks, level.charAt(0).toUpperCase() + level.slice(1, -1));
 
-    // Fit to the filtered subset when a filter zooms us to a region/district
-    if (els.fRegion.value || els.fDistrict.value) {
-      map.fitBounds(polyLayer.getBounds(), { padding: [20, 20], maxZoom: 10 });
+    // Zoom to whichever polygon the active (view-matched) filter selects.
+    const selName = level === "regions" ? els.fRegion.value
+      : level === "districts" ? els.fDistrict.value
+      : els.fWard.value;
+    const selected = selName && gj.features.find((f) => {
+      if (f.properties.name !== selName) return false;
+      if (level === "districts" && els.fRegion.value) return f.properties.region === els.fRegion.value;
+      if (level === "wards" && els.fDistrict.value) return f.properties.district === els.fDistrict.value;
+      return true;
+    });
+    if (selected) {
+      const maxZoom = level === "wards" ? 13 : level === "districts" ? 11 : 9;
+      map.fitBounds(L.geoJSON(selected).getBounds(), { padding: [20, 20], maxZoom });
     } else {
       map.setView([-6.4, 35.0], 6);
     }
@@ -770,27 +744,6 @@ ul.task-list li input[type="checkbox"] {
     els.viewNote.textContent =
       `${matched.toLocaleString()} / ${currentRows.length.toLocaleString()} outlets placed in ${level} polygons (${pct}%). ` +
       `${unmatched.toLocaleString()} could not be auto-matched.`;
-  }
-
-  // ── Table ────────────────────────────────────────────────────────
-  function renderTable(rows) {
-    const { key, dir } = sortState;
-    const sorted = [...rows].sort((a, b) => dir * cmp(a[key], b[key]));
-    const first = sorted.slice(0, 500);
-    els.tbody.innerHTML = first.map((r) => `
-      <tr>
-        <td>${fmt(r.addo_name)}</td>
-        <td>${fmt(r.business_type)}</td>
-        <td>${fmt(r.accreditation_source)}</td>
-        <td>${fmt(r.region)}</td>
-        <td>${fmt(r.district)}</td>
-        <td>${fmt(r.ward)}</td>
-        <td>${r.has_coords ? "&#10003;" : "&mdash;"}</td>
-      </tr>`).join("");
-    if (rows.length > 500) {
-      els.tbody.insertAdjacentHTML("beforeend",
-        `<tr><td colspan="7" style="text-align:center;font-style:italic;color:#64748b;padding:.75rem;">Showing first 500 of ${rows.length.toLocaleString()} outlets &mdash; narrow the filters to see more, or download the CSV.</td></tr>`);
-    }
   }
 
   // ── Charts ───────────────────────────────────────────────────────
@@ -835,7 +788,7 @@ ul.task-list li input[type="checkbox"] {
 
   if (/\/(login|logout)\.html$/.test(path)) return;
 
-  if (localStorage.getItem('ps_auth') === '1') return;
+  if (sessionStorage.getItem('ps_auth') === '1') return;
 
   var here = path.split('/').pop() || 'index.html';
 
