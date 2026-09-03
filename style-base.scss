@@ -43,6 +43,19 @@ $map-shadow-lg:     0 5px 20px rgba(53, 73, 95, 0.15);
 $map-shadow-xl:     0 10px 30px rgba(53, 73, 95, 0.18);
 $map-transition:    0.15s ease-in-out;
 
+// ── Landing-page treatment (homepage only) ────────────────────────
+// The rest of the site is deliberately near-flat (2px radius, sparing
+// shadow) — that's the right call for dense app screens like the
+// Registry. The homepage is a marketing surface, not a workflow, so it
+// gets a warmer, rounder companion scale instead — same brand teal,
+// softer geometry. Matches the sister onboarding portal's landing.css.
+$landing-radius:      12px;
+$landing-radius-lg:   18px;
+$landing-shadow:      0 8px 30px rgba(52, 73, 95, 0.08);
+$landing-shadow-hover: 0 20px 45px rgba(52, 73, 95, 0.12);
+$landing-btn-shadow:      0 6px 20px rgba(13, 148, 136, 0.35);
+$landing-btn-shadow-hover: 0 10px 25px rgba(13, 148, 136, 0.45);
+
 // Bootstrap overrides
 $primary:              $map-navy;
 $secondary:            $map-red;
@@ -212,19 +225,22 @@ h1, h2, h3, h4, h5, h6 {
 // ── Hero section (data-forward, light split) ─────────────────────
 .hero-section {
   position: relative;
-  background: #ffffff;
+  background:
+    radial-gradient(1100px 380px at 15% -120px, rgba(13,148,136,0.10), transparent 60%),
+    linear-gradient(180deg, #f0fdfa 0%, #ffffff 55%);
   border-bottom: 1px solid $map-border;
   padding: 4.5rem 2rem 3.75rem;
   overflow: hidden;
 
-  // Very light diagonal accent behind the hero, AdminCA-flavoured
+  // Two soft colour blobs, teal + navy, echoing the sister portal's hero-decor
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(ellipse at 90% 20%, rgba(13,148,136,0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 5% 90%, rgba(38,50,72,0.04) 0%, transparent 45%);
+    background-image:
+      radial-gradient(circle at 92% 18%, rgba(13,148,136,0.09) 0, transparent 42%),
+      radial-gradient(circle at 6% 92%, rgba(38,50,72,0.06) 0, transparent 42%);
+    pointer-events: none;
     z-index: 0;
   }
 }
@@ -259,23 +275,14 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
+  font-weight: 500;
   color: $map-red;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   margin-bottom: 1.5rem;
-  padding-left: 1.75rem;
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1.25rem;
-    height: 1px;
-    background: $map-red;
-  }
+  padding: 0.45rem 1rem;
+  background: rgba($map-red, 0.08);
+  border-radius: $map-radius-pill;
 }
 
 .hero-title-block {
@@ -304,6 +311,15 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+
+  // Pill buttons on the homepage hero only — the rest of the site keeps
+  // the sharp arrow-tail button used on interior/app pages.
+  .btn-primary, .btn-secondary {
+    border-radius: $map-radius-pill;
+    padding: 0.75rem 1.5rem;
+  }
+  .btn-primary { box-shadow: $landing-btn-shadow; }
+  .btn-primary:hover { box-shadow: $landing-btn-shadow-hover; transform: translateY(-1px); }
 }
 
 // Data cards on the right side of the hero — live numbers
@@ -315,15 +331,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero-stat {
   background: #fff;
-  border: 1px solid $map-border;
-  border-radius: $map-radius;
+  border: 0;
+  border-radius: $landing-radius;
+  box-shadow: $landing-shadow;
   padding: 1.25rem 1.1rem;
   position: relative;
   transition: box-shadow $map-transition, transform $map-transition;
 
   &:hover {
-    box-shadow: 0 5px 20px #d6dee4;
-    transform: translateY(-1px);
+    box-shadow: $landing-shadow-hover;
+    transform: translateY(-2px);
   }
 
   // A small colored top-edge marker instead of a full border-top
@@ -331,9 +348,10 @@ h1, h2, h3, h4, h5, h6 {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 2rem;
+    left: 1.1rem;
+    width: 1.75rem;
     height: 3px;
+    border-radius: 0 0 3px 3px;
     background: $map-red;
   }
 
@@ -526,20 +544,21 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   align-items: flex-start;
   gap: 0.4rem;
-  padding: 1.75rem 1.6rem;
+  padding: 2rem 1.75rem;
   background: #ffffff;
   border: 0;
-  border-radius: $map-radius;
-  box-shadow: $map-shadow;
+  border-radius: $landing-radius-lg;
+  box-shadow: $landing-shadow;
   transition: box-shadow $map-transition, transform $map-transition;
   position: relative;
 
   &:hover {
-    box-shadow: 0 5px 20px #d6dee4;
-    transform: translateY(-1px);
+    box-shadow: $landing-shadow-hover;
+    transform: translateY(-4px);
   }
 
-  // "01" rendered as a small AdminCA-flavoured number badge
+  // Legacy numbered-row marker, kept for any page still using it — the
+  // homepage cards now use .feature-icon instead.
   .row-num {
     display: inline-flex;
     align-items: center;
@@ -556,10 +575,19 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.75rem;
   }
 
-  // The "feature-icon" wrapper is retained for backward compatibility
-  // but now sits inline with the row number, small and quiet.
+  // Icon-in-tinted-box, matching the sister onboarding portal's landing
+  // page feature-icon treatment.
   .feature-icon {
-    display: none;    // hidden in the card layout
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: $landing-radius;
+    background: rgba($map-red, 0.08);
+    color: $map-red;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.1rem;
   }
 
   .card-svg {
@@ -650,31 +678,55 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // ── CTA strip at bottom of index ─────────────────────────────────
+// Full-bleed gradient band, matching the sister onboarding portal's
+// .cta-strip — teal instead of their gold, same soft radial blobs.
 .countries-banner {
-  background: $map-bg-section;
-  color: $map-text;
-  padding: 3.5rem 2rem;
-  text-align: left;
-  border-top: 1px solid $map-border;
+  position: relative;
+  background: linear-gradient(135deg, $map-red 0%, $map-red-dark 100%);
+  color: #fff;
+  padding: 4rem 2rem;
+  text-align: center;
+  overflow: hidden;
 
   &::before {
     content: '';
-    display: block;
-    width: 2rem;
-    height: 2px;
-    background: $map-red;
-    margin-bottom: 1.25rem;
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 30%, rgba(255,255,255,0.08) 0, transparent 40%),
+      radial-gradient(circle at 85% 70%, rgba(255,255,255,0.08) 0, transparent 40%);
+    pointer-events: none;
   }
+
+  > div { position: relative; z-index: 1; }
 
   h2 {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.6rem;
+    font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
     font-weight: 600;
-    color: $map-text;
-    margin: 0 0 0.35rem;
+    color: #fff;
+    margin: 0 0 0.5rem;
     letter-spacing: -0.005em;
   }
-  > p { color: $map-text-muted; margin: 0 0 1.75rem; font-size: 0.95rem; }
+  > div > p { color: rgba(255,255,255,0.85); margin: 0 0 1.75rem; font-size: 1rem; }
+
+  // White pill buttons on the dark gradient
+  .btn-primary, .btn-secondary {
+    border-radius: $map-radius-pill;
+    padding: 0.75rem 1.5rem;
+  }
+  .btn-primary {
+    background: #fff; border-color: #fff; color: $map-red !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  }
+  .btn-primary:hover {
+    background: #fff; border-color: #fff; color: $map-red-dark !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.22); transform: translateY(-1px);
+  }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.35); color: #fff !important;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.16); border-color: #fff; }
 }
 
 .country-cards { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }

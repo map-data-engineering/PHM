@@ -5,6 +5,7 @@ toc: false
 ---
 
 ```{=html}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- ═══════════════ HERO — data-forward split ═══════════════ -->
 <section class="hero-section">
   <div class="hero-inner">
@@ -62,7 +63,7 @@ toc: false
   <div class="feature-cards">
 
     <div class="feature-card">
-      <span class="row-num">01</span>
+      <div class="feature-icon"><i class="bi bi-database-fill"></i></div>
       <div>
         <h3>CPP Registry Lake</h3>
         <p>Standardised accreditation data from the Pharmacy Council of Tanzania and TFDA. ~4,900 outlets across 21+ regions, harmonised from regulator source records rather than third-party aggregators.</p>
@@ -71,7 +72,7 @@ toc: false
     </div>
 
     <div class="feature-card">
-      <span class="row-num">02</span>
+      <div class="feature-icon"><i class="bi bi-geo-alt-fill"></i></div>
       <div>
         <h3>Find the nearest pharmacy <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
         <p>Enter your address, share your location, or drop a pin on the map &mdash; PharmaScope returns the closest accredited CPPs sorted by distance, with contact numbers and one-tap directions to each.</p>
@@ -80,7 +81,7 @@ toc: false
     </div>
 
     <div class="feature-card">
-      <span class="row-num">03</span>
+      <div class="feature-icon"><i class="bi bi-clipboard-check-fill"></i></div>
       <div>
         <h3>Site Check &mdash; new registrations <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
         <p>Before accrediting a new outlet, drop a pin at the proposed location and get an evidence-based saturation verdict &mdash; number of existing CPPs within walking distance, density per km<sup>2</sup>, and whether the applicant should be redirected to an under-served ward.</p>
@@ -89,7 +90,7 @@ toc: false
     </div>
 
     <div class="feature-card">
-      <span class="row-num">04</span>
+      <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
       <div>
         <h3>Data Quality intelligence <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#0d9488;font-weight:500;letter-spacing:0.04em;margin-left:0.4rem;">/ LIVE</span></h3>
         <p>Every field in the CPP registry inspected for completeness &mdash; how many outlets are geocoded, which regions are under-reported, where the raw <code>.xls</code> lost information, and which fixes have the highest payoff for the next data refresh.</p>
@@ -105,7 +106,7 @@ toc: false
   <div style="max-width:1400px;margin:0 auto;">
     <h2>Start exploring</h2>
     <p>Jump straight into the CPP registry, find a nearby pharmacy, or check a proposed site.</p>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
       <a href="registry.html" class="btn-primary">CPP Registry</a>
       <a href="find-pharmacy.html" class="btn-secondary">Find Pharmacy</a>
       <a href="find-facility.html" class="btn-secondary">Site Check</a>
