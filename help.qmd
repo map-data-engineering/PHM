@@ -79,7 +79,7 @@ toc: false
       <span class="faq-toggle">&#9660;</span>
     </div>
     <div class="faq-content">
-      Not from this preview &mdash; bulk export is disabled while the portal is in review. The registry is fully explorable via the interactive map, table, and filters on the <a href="registry.html" style="color:var(--map-red);text-decoration:none;font-weight:600;">CPP Registry</a> page.
+      Not from this preview: bulk export is disabled while the portal is in review. The registry is fully explorable via the interactive map, table, and filters on the <a href="registry.html" style="color:var(--map-red);text-decoration:none;font-weight:600;">CPP Registry</a> page.
     </div>
   </div>
 

@@ -8,7 +8,7 @@ toc: false
 <section class="page-banner">
   <div style="max-width:1400px;margin:0 auto;">
     <h1>The Team</h1>
-    <p>The people behind PharmaScope &mdash; the Data Engineering Team (DET) at the Ifakara Health Institute.</p>
+    <p>The people behind PharmaScope: the Data Engineering Team (DET) at the Ifakara Health Institute.</p>
   </div>
 </section>
 
@@ -174,8 +174,8 @@ toc: false
   <div class="team-def">
     <div class="tag">DET<span class="sub">Data Engineering Team</span></div>
     <div>
-      <h2>Data Engineering Team &mdash; Ifakara Health Institute</h2>
-      <p>The <strong>Data Engineering Team (DET)</strong> is the unit at the Ifakara Health Institute that designs, builds and maintains the data infrastructure powering IHI's public-health portals &mdash; ingestion pipelines, ETL workflows, quality-control frameworks, and the open web tools that make the resulting datasets discoverable.</p>
+      <h2>Data Engineering Team, Ifakara Health Institute</h2>
+      <p>The <strong>Data Engineering Team (DET)</strong> is the unit at the Ifakara Health Institute that designs, builds and maintains the data infrastructure powering IHI's public-health portals: ingestion pipelines, ETL workflows, quality-control frameworks, and the open web tools that make the resulting datasets discoverable.</p>
       <p>PharmaScope is one of several DET-maintained data platforms in the Malaria Atlas Project family, alongside HealthScope and other in-house intelligence tools. DET works at the intersection of health-facility research, geospatial analysis, and reproducible open data.</p>
     </div>
   </div>
@@ -207,16 +207,16 @@ toc: false
   <div class="team-inst">
     <div>
       <h3>Ifakara Health Institute</h3>
-      <p>The Ifakara Health Institute (IHI) is one of Africa's leading not-for-profit research organisations, headquartered in Dar es Salaam with a long-standing research campus in Ifakara. Founded in 1956, IHI conducts research to improve the health and well-being of populations across Sub-Saharan Africa &mdash; with core strengths in malaria, HIV, TB, health-systems research, and demographic surveillance.</p>
+      <p>The Ifakara Health Institute (IHI) is one of Africa's leading not-for-profit research organisations, headquartered in Dar es Salaam with a long-standing research campus in Ifakara. Founded in 1956, IHI conducts research to improve the health and well-being of populations across Sub-Saharan Africa, with core strengths in malaria, HIV, TB, health-systems research, and demographic surveillance.</p>
       <p>The Data Engineering Team sits within IHI's broader data-science and epidemiological modelling capability.</p>
     </div>
     <div>
       <h3>What DET produces</h3>
       <ul>
-        <li><strong>Ingestion pipelines</strong> &mdash; regulator, LMIS, HFR and survey feeds harmonised into shared canonical schemas.</li>
-        <li><strong>Open datasets</strong> &mdash; standardised, versioned, and downloadable under permissive licences.</li>
-        <li><strong>Data portals</strong> &mdash; HealthScope for health facilities, PharmaScope for community pharmaceutical premises, and other MAP-node intelligence tools.</li>
-        <li><strong>Quality frameworks</strong> &mdash; completeness, coordinate validation, cross-source deduplication.</li>
+        <li><strong>Ingestion pipelines</strong>: regulator, LMIS, HFR and survey feeds harmonised into shared canonical schemas.</li>
+        <li><strong>Open datasets</strong>: standardised, versioned, and downloadable under permissive licences.</li>
+        <li><strong>Data portals</strong>: HealthScope for health facilities, PharmaScope for community pharmaceutical premises, and other MAP-node intelligence tools.</li>
+        <li><strong>Quality frameworks</strong>: completeness, coordinate validation, cross-source deduplication.</li>
       </ul>
     </div>
   </div>

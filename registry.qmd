@@ -61,7 +61,7 @@ toc: false
 <section class="reg-hero">
   <div style="max-width:1400px;margin:0 auto;">
     <h1>CPP Registry Explorer</h1>
-    <p>Every Community Pharmaceutical Premise in the Pharmacy Council of Tanzania inventory &mdash; searchable, filterable, and mapped as points or admin-boundary choropleths.</p>
+    <p>Every Community Pharmaceutical Premise in the Pharmacy Council of Tanzania inventory: searchable, filterable, and mapped as points or admin-boundary choropleths.</p>
   </div>
 </section>
 

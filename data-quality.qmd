@@ -196,7 +196,7 @@ toc: false
 <section class="page-banner">
   <div style="max-width:1400px;margin:0 auto;">
     <h1>Data Quality</h1>
-    <p>Every field in the CPP registry inspected for completeness and provenance &mdash; how many outlets are geocoded, which regions are under-reported, and where the source <code>.xls</code> lost information.</p>
+    <p>Every field in the CPP registry inspected for completeness and provenance: how many outlets are geocoded, which regions are under-reported, and where the source <code>.xls</code> lost information.</p>
   </div>
 </section>
 
@@ -557,13 +557,13 @@ toc: false
         crit: false,
         tag: `${noWard.toLocaleString()} records`,
         title: "No ward assigned",
-        body: `${noWard.toLocaleString()} outlets carry no ward name. This is the biggest driver of the low ward-matching rate — the raw inventory did not always collect ward-level detail.`,
+        body: `${noWard.toLocaleString()} outlets carry no ward name. This is the biggest driver of the low ward-matching rate: the raw inventory did not always collect ward-level detail.`,
       },
       {
         crit: regionCoordMismatch > 50,
         tag: `${regionCoordMismatch} records`,
         title: "Region ↔ coordinate inconsistency",
-        body: `${regionCoordMismatch} outlets have GPS coordinates that sit more than 300 km from the centroid of their declared region &mdash; e.g. an outlet declared in Njombe with a Dar es Salaam GPS. The ETL currently accepts these because they fall inside Tanzania's bounding box. Adding a region-polygon-in-point validation would flag them for review.`,
+        body: `${regionCoordMismatch} outlets have GPS coordinates that sit more than 300 km from the centroid of their declared region (e.g. an outlet declared in Njombe with a Dar es Salaam GPS). The ETL currently accepts these because they fall inside Tanzania's bounding box. Adding a region-polygon-in-point validation would flag them for review.`,
       },
     ];
     els.issues.innerHTML = issues.map(i => `
