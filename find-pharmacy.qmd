@@ -236,7 +236,7 @@ toc: false
 <section class="page-banner">
   <div style="max-width:1400px;margin:0 auto;">
     <h1>Find the nearest pharmacy</h1>
-    <p>Enter your address, share your location, or drop a pin on the map &mdash; PharmaScope returns the closest accredited CPPs with contact details and one-tap directions.</p>
+    <p>Enter your address, share your location, or drop a pin on the map. PharmaScope returns the closest accredited CPPs with contact details and one-tap directions.</p>
   </div>
 </section>
 
@@ -245,7 +245,7 @@ toc: false
   <div class="fp-status" id="fp-status">Loading pharmacy registry&hellip;</div>
 
   <div class="fp-search">
-    <input type="search" id="fp-addr" placeholder="Ward, town or landmark — e.g. Ifakara, Kariakoo, Ubungo" autocomplete="off"/>
+    <input type="search" id="fp-addr" placeholder="Ward, town or landmark: e.g. Ifakara, Kariakoo, Ubungo" autocomplete="off"/>
     <button class="ghost" id="fp-locate" title="Use my current location">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:.3rem;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg>
       My location
@@ -358,7 +358,7 @@ toc: false
         .filter(r => Number.isFinite(r.lat) && Number.isFinite(r.lon));
       for (const r of all) {
         L.circleMarker([r.lat, r.lon], {
-          radius: 1.5, color: "#94a3b8", weight: 0, fillColor: "#94a3b8", fillOpacity: 0.35,
+          radius: 2, color: "#b91c1c", weight: 0, fillColor: "#b91c1c", fillOpacity: 0.6,
           interactive: false,
         }).addTo(backdropLayer);
       }

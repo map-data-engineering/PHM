@@ -234,7 +234,7 @@ toc: false
 <div class="sc-wrap">
 
   <div class="sc-explain">
-    <strong>How to use it.</strong> Drop a pin on the map at the proposed pharmacy location (or paste GPS coordinates / search an address). PharmaScope returns the number of accredited outlets within your chosen radius, the distance to the nearest one, the density per km<sup>2</sup>, and a suggested verdict &mdash; <em>saturated</em>, <em>well-served</em>, <em>adequate</em>, or <em>under-served</em>. Use it as evidence, not a decision.
+    <strong>How to use it.</strong> Drop a pin on the map at the proposed pharmacy location (or paste GPS coordinates / search an address). PharmaScope returns the number of accredited outlets within your chosen radius, the distance to the nearest one, the density per km<sup>2</sup>, and a suggested verdict: <em>saturated</em>, <em>well-served</em>, <em>adequate</em>, or <em>under-served</em>. Use it as evidence, not a decision.
   </div>
 
   <div class="sc-grid">
@@ -243,7 +243,7 @@ toc: false
     <div class="sc-panel">
 
       <div class="sc-field">
-        <label for="sc-coords">Coordinates &mdash; lat, lon</label>
+        <label for="sc-coords">Coordinates (lat, lon)</label>
         <input type="text" id="sc-coords" placeholder="e.g. -6.798, 39.207" autocomplete="off"/>
       </div>
 
@@ -269,7 +269,7 @@ toc: false
       </div>
 
       <div class="sc-note">
-        Verdict thresholds are density-based (accredited outlets per km<sup>2</sup> inside the search radius). They are guidance only &mdash; the Pharmacy Council retains full discretion on new applications.
+        Verdict thresholds are density-based (accredited outlets per km<sup>2</sup> inside the search radius). They are guidance only: the Pharmacy Council retains full discretion on new applications.
       </div>
 
     </div>
@@ -364,7 +364,7 @@ toc: false
       // before dropping a pin — all 4,370 geocoded outlets as tiny grey dots.
       for (const r of all) {
         L.circleMarker([r.lat, r.lon], {
-          radius: 1.5, color: "#94a3b8", weight: 0, fillColor: "#94a3b8", fillOpacity: 0.35,
+          radius: 2, color: "#b91c1c", weight: 0, fillColor: "#b91c1c", fillOpacity: 0.6,
           interactive: false,
         }).addTo(backdropLayer);
       }
@@ -484,7 +484,7 @@ toc: false
     if (nearest.dist_km !== Infinity && nearest.dist_km > R) {
       L.circleMarker([nearest.lat, nearest.lon], {
         radius: 5, color: "#64748b", fillColor: "#94a3b8", fillOpacity: 0.7, weight: 1,
-      }).bindPopup(popupHtml(nearest) + `<br/><em>Nearest overall &mdash; ${nearest.dist_km.toFixed(2)} km</em>`).addTo(nearbyLayer);
+      }).bindPopup(popupHtml(nearest) + `<br/><em>Nearest overall: ${nearest.dist_km.toFixed(2)} km</em>`).addTo(nearbyLayer);
     }
 
     // Verdict
@@ -546,7 +546,7 @@ toc: false
       key: "saturated",
       label: "Saturated",
       headline: "This locality is saturated.",
-      body: "Density exceeds 3 outlets/km². Recommend redirecting the applicant to an under-served ward &mdash; use the Regions view on the CPP Registry to identify gaps.",
+      body: "Density exceeds 3 outlets/km². Recommend redirecting the applicant to an under-served ward. Use the Regions view on the CPP Registry to identify gaps.",
     };
   }
 
@@ -569,7 +569,7 @@ toc: false
     els.nearbyMeta.textContent = `${rows.length.toLocaleString()} within ${radius.toFixed(1)} km`;
     if (!rows.length) {
       els.nearbyTbody.innerHTML = "";
-      els.nearbyMeta.textContent = `0 within ${radius.toFixed(1)} km — nearest overall is highlighted on the map`;
+      els.nearbyMeta.textContent = `0 within ${radius.toFixed(1)} km, nearest overall is highlighted on the map`;
       return;
     }
     const show = rows.slice(0, 50);
@@ -583,7 +583,7 @@ toc: false
     `).join("");
     if (rows.length > 50) {
       els.nearbyTbody.insertAdjacentHTML("beforeend",
-        `<tr><td colspan="4" style="text-align:center;font-style:italic;color:#64748b;padding:.75rem;">Showing 50 of ${rows.length.toLocaleString()} — narrow the radius for the full list.</td></tr>`);
+        `<tr><td colspan="4" style="text-align:center;font-style:italic;color:#64748b;padding:.75rem;">Showing 50 of ${rows.length.toLocaleString()}. Narrow the radius for the full list.</td></tr>`);
     }
   }
 
