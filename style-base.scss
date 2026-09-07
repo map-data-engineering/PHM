@@ -322,66 +322,24 @@ h1, h2, h3, h4, h5, h6 {
   .btn-primary:hover { box-shadow: $landing-btn-shadow-hover; transform: translateY(-1px); }
 }
 
-// Data cards on the right side of the hero — live numbers
-.hero-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+// Product-shot side of the hero, replacing the old stat-tile grid.
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hero-stat {
-  background: #fff;
-  border: 0;
-  border-radius: $landing-radius;
-  box-shadow: $landing-shadow;
-  padding: 1.25rem 1.1rem;
-  position: relative;
-  transition: box-shadow $map-transition, transform $map-transition;
+.hero-visual-img {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  display: block;
+}
 
-  &:hover {
-    box-shadow: $landing-shadow-hover;
-    transform: translateY(-2px);
+@media (prefers-reduced-motion: no-preference) {
+  .hero-visual-img {
+    animation: float 6s ease-in-out infinite;
   }
-
-  // A small colored top-edge marker instead of a full border-top
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 1.1rem;
-    width: 1.75rem;
-    height: 3px;
-    border-radius: 0 0 3px 3px;
-    background: $map-red;
-  }
-
-  .val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2.2rem;
-    font-weight: 500;
-    color: $map-text;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    display: block;
-    margin: 0.35rem 0 0.4rem;
-    font-feature-settings: "tnum" 1;
-  }
-  .lbl {
-    font-size: 0.72rem;
-    color: $map-text-muted;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-weight: 500;
-  }
-  .sub {
-    display: block;
-    margin-top: 0.5rem;
-    font-size: 0.72rem;
-    color: $map-slate;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  &.wide { grid-column: span 2; }
 }
 
 @media (max-width: 900px) {
@@ -1139,6 +1097,21 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
+}
+
+// Fade/rise the page's intro banner and homepage sections in on load.
+// Feature cards stagger slightly so they don't all pop in at once.
+@media (prefers-reduced-motion: no-preference) {
+  .page-banner, .reg-hero, .svc-hero, .hero-section,
+  .features-section, .countries-banner {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+  .feature-cards .feature-card {
+    animation: fadeInUp 0.6s ease-out both;
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) { animation-delay: #{$i * 0.08}s; }
+    }
+  }
 }
 
 // ── Divider ──────────────────────────────────────────────────────
