@@ -46,9 +46,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-55fdf7cbe6a6183dae1c3b79778743f2.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b3461e17c2187d839183a2ab7e55a7b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7d2a431d73b493ad4dc6fbb514d7c051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-b3461e17c2187d839183a2ab7e55a7b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d3c00ca8a656bf475fc7cc368c1c8371.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-1f1ee5c01bc0e55e474c1416e2cd0767.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-d3c00ca8a656bf475fc7cc368c1c8371.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -545,7 +545,7 @@ ul.task-list li input[type="checkbox"] {
 <section class="page-banner">
   <div style="max-width:1400px;margin:0 auto;">
     
-    <p>Enter your address, share your location, or drop a pin on the map — PharmaScope returns the closest accredited CPPs with contact details and one-tap directions.</p>
+    <p>Enter your address, share your location, or drop a pin on the map. PharmaScope returns the closest accredited CPPs with contact details and one-tap directions.</p>
   </div>
 </section>
 
@@ -554,7 +554,7 @@ ul.task-list li input[type="checkbox"] {
   <div class="fp-status" id="fp-status">Loading pharmacy registry…</div>
 
   <div class="fp-search">
-    <input type="search" id="fp-addr" placeholder="Ward, town or landmark — e.g. Ifakara, Kariakoo, Ubungo" autocomplete="off">
+    <input type="search" id="fp-addr" placeholder="Ward, town or landmark: e.g. Ifakara, Kariakoo, Ubungo" autocomplete="off">
     <button class="ghost" id="fp-locate" title="Use my current location">
       <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:.3rem;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>
       My location
@@ -667,7 +667,7 @@ ul.task-list li input[type="checkbox"] {
         .filter(r => Number.isFinite(r.lat) && Number.isFinite(r.lon));
       for (const r of all) {
         L.circleMarker([r.lat, r.lon], {
-          radius: 1.5, color: "#94a3b8", weight: 0, fillColor: "#94a3b8", fillOpacity: 0.35,
+          radius: 2, color: "#b91c1c", weight: 0, fillColor: "#b91c1c", fillOpacity: 0.6,
           interactive: false,
         }).addTo(backdropLayer);
       }

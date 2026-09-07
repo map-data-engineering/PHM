@@ -46,9 +46,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-55fdf7cbe6a6183dae1c3b79778743f2.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b3461e17c2187d839183a2ab7e55a7b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7d2a431d73b493ad4dc6fbb514d7c051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-b3461e17c2187d839183a2ab7e55a7b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d3c00ca8a656bf475fc7cc368c1c8371.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-1f1ee5c01bc0e55e474c1416e2cd0767.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-d3c00ca8a656bf475fc7cc368c1c8371.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -312,8 +312,6 @@ ul.task-list li input[type="checkbox"] {
    
   <ul class="collapse">
   <li><a href="#mission" id="toc-mission" class="nav-link active" data-scroll-target="#mission">Mission</a></li>
-  <li><a href="#the-gap-we-fill" id="toc-the-gap-we-fill" class="nav-link" data-scroll-target="#the-gap-we-fill">The Gap We Fill</a></li>
-  <li><a href="#intelligence-layers" id="toc-intelligence-layers" class="nav-link" data-scroll-target="#intelligence-layers">Intelligence Layers</a></li>
   <li><a href="#etl-pipeline" id="toc-etl-pipeline" class="nav-link" data-scroll-target="#etl-pipeline">ETL Pipeline</a></li>
   <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
   <li><a href="#team" id="toc-team" class="nav-link" data-scroll-target="#team">Team</a></li>
@@ -335,63 +333,27 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="mission" class="level2">
 <h2 class="anchored" data-anchor-id="mission">Mission</h2>
-<p>Our mission is to make access to accredited medicines outlets <strong>measurable, comparable, and continually updated</strong> across Tanzania — so that the Pharmacy Council, TFDA, implementers, and researchers plan around who can reach a legitimate outlet, not just where outlets appear on a map.</p>
+<p>Our mission is to make access to accredited medicines outlets <strong>measurable, comparable, and continually updated</strong> across Tanzania, so that the Pharmacy Council, TFDA, implementers, and researchers plan around who can reach a legitimate outlet, not just where outlets appear on a map.</p>
 <p>We commit to four principles:</p>
 <ul>
-<li><strong>Open</strong> — every dataset and method behind the portal is freely available under permissive licences, without registration.</li>
-<li><strong>Regulator-sourced</strong> — primary data comes directly from the Pharmacy Council of Tanzania and TFDA accreditation records, never from second-hand aggregators.</li>
-<li><strong>Reproducible</strong> — the ETL pipeline that produces every table, chart, and map on this site is versioned, documented, and rerunnable from source.</li>
-<li><strong>Population-first</strong> — each layer of analysis is built around the people an outlet is meant to serve, not just the outlet itself.</li>
+<li><strong>Open</strong>: every dataset and method behind the portal is freely available under permissive licences, without registration.</li>
+<li><strong>Regulator-sourced</strong>: primary data comes directly from the Pharmacy Council of Tanzania and TFDA accreditation records, never from second-hand aggregators.</li>
+<li><strong>Reproducible</strong>: the ETL pipeline that produces every table, chart, and map on this site is versioned, documented, and rerunnable from source.</li>
+<li><strong>Population-first</strong>: each layer of analysis is built around the people an outlet is meant to serve, not just the outlet itself.</li>
 </ul>
-</section>
-<section id="the-gap-we-fill" class="level2">
-<h2 class="anchored" data-anchor-id="the-gap-we-fill">The Gap We Fill</h2>
-<p>Existing pharmacy datasets tend to list outlets without saying whether populations can realistically reach them or what medicines they actually stock. PharmaScope goes further by providing:</p>
-<ul>
-<li><strong>Population-demand modelling</strong> — reachability analysis beyond simple location pins</li>
-<li><strong>Service-level intelligence</strong> — mapping of which malaria commodities, antimicrobials, and priority medicines are stocked where</li>
-<li><strong>Access metrics at scale</strong> — outlets per 10,000 population, equity of coverage, and gaps by region and ward</li>
-</ul>
-<p>PharmaScope addresses these gaps as an open, reproducible data platform for Tanzania’s private drug-retail sector.</p>
-</section>
-<section id="intelligence-layers" class="level2">
-<h2 class="anchored" data-anchor-id="intelligence-layers">Intelligence Layers</h2>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin:2rem 0;">
-
-  <div class="card-modern" style="border-left:4px solid var(--map-red,#0d9488);">
-    <h3 style="color:var(--map-red,#0d9488);margin-top:0;" class="anchored">1. CPP Registry Lake</h3>
-    <p>Standardized outlet data from the Pharmacy Council of Tanzania and TFDA. Harmonized schema; direct regulator sourcing.</p>
-  </div>
-
-  <div class="card-modern" style="border-left:4px solid #059669;">
-    <h3 style="color:#059669;margin-top:0;" class="anchored">2. Demand-Side Access</h3>
-    <p>Population catchment zones using road networks; travel-time isochrones showing not just outlet location, but reachability.</p>
-  </div>
-
-  <div class="card-modern" style="border-left:4px solid #f59e0b;">
-    <h3 style="color:#f59e0b;margin-top:0;" class="anchored">3. Service Gap Intelligence</h3>
-    <p>Which medicines and priority services exist where. Malaria commodities, antimicrobials, and outlet-level service profiles.</p>
-  </div>
-
-  <div class="card-modern" style="border-left:4px solid #06b6d4;">
-    <h3 style="color:#06b6d4;margin-top:0;" class="anchored">4. General Information</h3>
-    <p>Region-level descriptive statistics — outlet counts, business type, accreditation source — that give a fast picture of the registry without claiming reachability we have not yet modelled.</p>
-  </div>
-
-</div>
 </section>
 <section id="etl-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="etl-pipeline">ETL Pipeline</h2>
 <p>The PharmaScope ETL pipeline ingests the Pharmacy Council and TFDA records through three steps:</p>
 <ol type="1">
-<li><strong>Extract</strong> — pull the latest CPP inventory export (Pharmacy Council of Tanzania) into <code>data-raw/</code>.</li>
-<li><strong>Transform</strong> — standardise columns to a shared schema, normalise region/district casing, coalesce the two coordinate sources (tablet GPS and hand GPS), validate coordinates against Tanzania’s bounding box, and mint a stable outlet UID.</li>
-<li><strong>Load</strong> — publish a versioned CSV (<code>data/tanzania/addo_standardized.csv</code>) that the portal reads directly at page load.</li>
+<li><strong>Extract</strong>: pull the latest CPP inventory export (Pharmacy Council of Tanzania) into <code>data-raw/</code>.</li>
+<li><strong>Transform</strong>: standardise columns to a shared schema, normalise region/district casing, coalesce the two coordinate sources (tablet GPS and hand GPS), validate coordinates against Tanzania’s bounding box, and mint a stable outlet UID.</li>
+<li><strong>Load</strong>: publish a versioned CSV (<code>data/tanzania/addo_standardized.csv</code>) that the portal reads directly at page load.</li>
 </ol>
 </section>
 <section id="data-sources" class="level2">
 <h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
-<p>PharmaScope ingests <strong>only authoritative, official sources</strong> — the Pharmacy Council of Tanzania CPP inventory and TFDA accreditation records. For source details and citation, visit the dedicated page.</p>
+<p>PharmaScope ingests <strong>only authoritative, official sources</strong>: the Pharmacy Council of Tanzania CPP inventory and TFDA accreditation records. For source details and citation, visit the dedicated page.</p>
 <p><a href="data-sources.html"><strong>View Data Sources →</strong></a></p>
 </section>
 <section id="team" class="level2">

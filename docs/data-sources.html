@@ -46,9 +46,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-55fdf7cbe6a6183dae1c3b79778743f2.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b3461e17c2187d839183a2ab7e55a7b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-7d2a431d73b493ad4dc6fbb514d7c051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-b3461e17c2187d839183a2ab7e55a7b9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d3c00ca8a656bf475fc7cc368c1c8371.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-1f1ee5c01bc0e55e474c1416e2cd0767.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-d3c00ca8a656bf475fc7cc368c1c8371.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -314,7 +314,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#principle-regulator-sourced-never-aggregated" id="toc-principle-regulator-sourced-never-aggregated" class="nav-link active" data-scroll-target="#principle-regulator-sourced-never-aggregated">Principle: regulator-sourced, never aggregated</a></li>
   <li><a href="#current-source" id="toc-current-source" class="nav-link" data-scroll-target="#current-source">Current source</a></li>
   <li><a href="#what-we-harmonise" id="toc-what-we-harmonise" class="nav-link" data-scroll-target="#what-we-harmonise">What we harmonise</a></li>
-  <li><a href="#data-we-are-actively-looking-for" id="toc-data-we-are-actively-looking-for" class="nav-link" data-scroll-target="#data-we-are-actively-looking-for">Data we are actively looking for</a></li>
   </ul>
 </nav>
     </div>
@@ -328,7 +327,7 @@ ul.task-list li input[type="checkbox"] {
 <section class="page-banner">
   <div style="max-width:1000px;margin:0 auto;">
     
-    <p>Where PharmaScope's data comes from — and how you can trace every record back to source.</p>
+    <p>Where PharmaScope's data comes from, and how you can trace every record back to source.</p>
   </div>
 </section>
 <section id="principle-regulator-sourced-never-aggregated" class="level2">
@@ -337,7 +336,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="current-source" class="level2">
 <h2 class="anchored" data-anchor-id="current-source">Current source</h2>
-<p><strong>Pharmacy Council of Tanzania — CPP Inventory Form Results (2014)</strong></p>
+<p><strong>Pharmacy Council of Tanzania: CPP Inventory Form Results (2014)</strong></p>
 <p>This is the underlying dataset that powers the current release of the <a href="registry.html">CPP Registry</a>.</p>
 <table class="caption-top table">
 <thead>
@@ -398,19 +397,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Region canonicalisation.</strong> 70+ raw region strings (case variants, misspellings, embedded municipality suffixes) are collapsed to the 26 canonical Tanzanian regions via fuzzy matching. Unmatched values are recorded as <code>NA</code> and preserved in <code>region_raw_clean</code> for audit.</li>
 <li><strong>Business type and accreditation source.</strong> Short codes (<code>RA</code>, <code>RW</code>, <code>PC</code>, <code>TFDA</code>) are expanded to their full labels.</li>
 <li><strong>Coordinate coalescing.</strong> For each outlet we prefer the tablet-GPS coordinate when it falls inside Tanzania’s bounding box; otherwise we fall back to the hand-GPS coordinate; otherwise <code>has_coords = FALSE</code>.</li>
-<li><strong>Stable identifiers.</strong> Each outlet is assigned a <code>TZ-ADDO-#####</code> UID so downstream layers (Service Intelligence, Population and Access) can key against a stable primary key.</li>
+<li><strong>Stable identifiers.</strong> Each outlet is assigned a <code>TZ-ADDO-#####</code> UID so downstream layers like Data Quality can key against a stable primary key.</li>
 </ul>
-</section>
-<section id="data-we-are-actively-looking-for" class="level2">
-<h2 class="anchored" data-anchor-id="data-we-are-actively-looking-for">Data we are actively looking for</h2>
-<p>The current release covers <em>where</em> accredited outlets exist. To power the <a href="services.html">Service Intelligence</a> and <a href="population-access.html">Population and Access</a> layers we are actively seeking:</p>
-<ul>
-<li>CPP stock-availability surveys (malaria commodities, antimicrobials).</li>
-<li>LMIS records or supervisory-visit exports covering CPPs.</li>
-<li>Refreshed accreditation lists more recent than 2014.</li>
-<li>Roads and settlement layers for isochrone modelling.</li>
-</ul>
-<p>If you have or know of such datasets, please reach out via the <a href="help.html">Help</a> page.</p>
 
 
 </section>
