@@ -9,7 +9,7 @@ toc-depth: 2
 <section class="page-banner">
   <div style="max-width:1000px;margin:0 auto;">
     <h1>Data Sources</h1>
-    <p>Where PharmaScope's data comes from &mdash; and how you can trace every record back to source.</p>
+    <p>Where PharmaScope's data comes from, and how you can trace every record back to source.</p>
   </div>
 </section>
 ```
@@ -20,7 +20,7 @@ PharmaScope ingests **only authoritative, official records** from Tanzania's med
 
 ## Current source
 
-**Pharmacy Council of Tanzania &mdash; CPP Inventory Form Results (2014)**
+**Pharmacy Council of Tanzania: CPP Inventory Form Results (2014)**
 
 This is the underlying dataset that powers the current release of the [CPP Registry](registry.html).
 
@@ -46,15 +46,4 @@ The raw inventory arrives with regionally-inconsistent free-text fields and two 
 - **Region canonicalisation.** 70+ raw region strings (case variants, misspellings, embedded municipality suffixes) are collapsed to the 26 canonical Tanzanian regions via fuzzy matching. Unmatched values are recorded as `NA` and preserved in `region_raw_clean` for audit.
 - **Business type and accreditation source.** Short codes (`RA`, `RW`, `PC`, `TFDA`) are expanded to their full labels.
 - **Coordinate coalescing.** For each outlet we prefer the tablet-GPS coordinate when it falls inside Tanzania's bounding box; otherwise we fall back to the hand-GPS coordinate; otherwise `has_coords = FALSE`.
-- **Stable identifiers.** Each outlet is assigned a `TZ-ADDO-#####` UID so downstream layers (Service Intelligence, Population and Access) can key against a stable primary key.
-
-## Data we are actively looking for
-
-The current release covers <em>where</em> accredited outlets exist. To power the [Service Intelligence](services.html) and [Population and Access](population-access.html) layers we are actively seeking:
-
-- CPP stock-availability surveys (malaria commodities, antimicrobials).
-- LMIS records or supervisory-visit exports covering CPPs.
-- Refreshed accreditation lists more recent than 2014.
-- Roads and settlement layers for isochrone modelling.
-
-If you have or know of such datasets, please reach out via the [Help](help.html) page.
+- **Stable identifiers.** Each outlet is assigned a `TZ-ADDO-#####` UID so downstream layers like Data Quality can key against a stable primary key.
