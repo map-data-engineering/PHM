@@ -8,6 +8,10 @@ toc: false
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<!-- OpenRouteService key (gitignored source; docs/ors-key.js is committed so
+     GitHub Pages can serve it) + the shared matrix-call helper. -->
+<script src="ors-key.js"></script>
+<script src="ors-routing.js"></script>
 
 <style>
   .fp-wrap{ max-width:1400px; margin:0 auto; padding:1.5rem 1.5rem 3rem; }
@@ -15,7 +19,7 @@ toc: false
   /* Search bar row */
   .fp-search{
     display:grid;
-    grid-template-columns:1fr auto auto 130px;
+    grid-template-columns:1fr auto auto auto 130px;
     gap:.6rem;
     padding:1.1rem 1.25rem;
     background:#fff;
@@ -220,6 +224,21 @@ toc: false
     font-weight:400;
     margin-top:.15rem;
   }
+  .fp-dist .fp-time{
+    font-family:'Poppins',sans-serif;
+    font-size:.72rem;
+    font-weight:500;
+    color:var(--map-text,#0f172a);
+    margin-top:.3rem;
+    white-space:nowrap;
+  }
+  .fp-dist .fp-note{
+    font-family:'Poppins',sans-serif;
+    font-size:.65rem;
+    font-style:italic;
+    color:var(--map-text-muted,#64748b);
+    margin-top:.15rem;
+  }
 
   .fp-status{
     padding:.7rem 1rem;
@@ -254,6 +273,11 @@ toc: false
       <option value="">All types</option>
       <option value="Retail A">Retail A</option>
       <option value="Retail Wholesale">Retail Wholesale</option>
+    </select>
+    <select id="fp-mode" title="Travel mode for road distance/time">
+      <option value="driving-car" selected>Driving</option>
+      <option value="cycling-regular">Cycling</option>
+      <option value="foot-walking">Walking</option>
     </select>
     <select id="fp-count" title="Number of results">
       <option value="5">Top 5</option>
@@ -325,12 +349,19 @@ toc: false
   // ── State ────────────────────────────────────────────────────────
   let all = [];
   let currentLoc = null;
+  let recomputeSeq = 0;   // guards against a slow ORS response clobbering a newer search
+
+  // How many haversine-nearest candidates get upgraded to real road distance
+  // per search. One ORS Matrix call (1 origin, ORS_PREFILTER_N destinations)
+  // regardless of how many outlets match the filter, so quota use stays flat.
+  const ORS_PREFILTER_N = 30;
 
   const els = {
     status:    document.getElementById("fp-status"),
     addr:      document.getElementById("fp-addr"),
     locate:    document.getElementById("fp-locate"),
     typeFilt:  document.getElementById("fp-type"),
+    modeSel:   document.getElementById("fp-mode"),
     countSel:  document.getElementById("fp-count"),
     resultsBody: document.getElementById("fp-results-body"),
     resultsMeta: document.getElementById("fp-results-meta"),
@@ -409,6 +440,7 @@ toc: false
   });
 
   els.typeFilt.addEventListener("change", () => currentLoc && recompute());
+  els.modeSel.addEventListener("change", () => currentLoc && recompute());
   els.countSel.addEventListener("change", () => currentLoc && recompute());
 
   // ── Core: set user location + recompute nearest ──────────────────
@@ -430,18 +462,51 @@ toc: false
     recompute();
   }
 
-  function recompute() {
+  async function recompute() {
     if (!currentLoc) return;
     const { lat, lon } = currentLoc;
     const typeFilter = els.typeFilt.value;
+    const mode = els.modeSel.value;
     const N = parseInt(els.countSel.value, 10);
+    const seq = ++recomputeSeq;
 
-    // Filter, distance, sort, take top N
-    const withDist = all
+    // Straight-line pass: always runs, always available. Sort ascending and
+    // pre-filter to a candidate pool bigger than what's shown (N or
+    // ORS_PREFILTER_N, whichever is larger) so the road-distance re-sort
+    // below has enough options to promote a nearer-by-road outlet into view.
+    const byHaversine = all
       .filter(r => !typeFilter || r.business_type === typeFilter)
-      .map(r => ({ ...r, dist_km: haversineKm(lat, lon, r.lat, r.lon) }))
-      .sort((a, b) => a.dist_km - b.dist_km)
-      .slice(0, N);
+      .map(r => ({ ...r, dist_km: haversineKm(lat, lon, r.lat, r.lon), duration_sec: null, routed: false }))
+      .sort((a, b) => a.dist_km - b.dist_km);
+    let candidates = byHaversine.slice(0, Math.max(N, ORS_PREFILTER_N));
+
+    // Road-distance pass: one ORS Matrix call upgrades the candidate pool to
+    // real route distance + travel time for the selected mode. Falls back
+    // silently to the straight-line numbers above if the key is missing, the
+    // request fails, or ORS can't snap a point to the road network.
+    if (window.ORS_API_KEY && candidates.length) {
+      els.resultsMeta.textContent = "Calculating road distances…";
+      try {
+        const mx = await window.orsMatrix(mode, [lat, lon], candidates.map(c => [c.lat, c.lon]));
+        if (seq !== recomputeSeq) return; // a newer search superseded this one
+        candidates.forEach((c, i) => {
+          const d = mx.distances[i];
+          const t = mx.durations[i];
+          if (d != null && isFinite(d)) {
+            c.dist_km = d;
+            c.duration_sec = (t != null && isFinite(t)) ? t : null;
+            c.routed = true;
+          }
+        });
+        candidates.sort((a, b) => a.dist_km - b.dist_km);
+      } catch (err) {
+        if (seq !== recomputeSeq) return;
+        console.warn("OpenRouteService matrix failed, falling back to straight-line distance:", err);
+      }
+    }
+    if (seq !== recomputeSeq) return;
+
+    const withDist = candidates.slice(0, N);
 
     // Draw numbered markers
     resultsLayer.clearLayers();
@@ -485,18 +550,30 @@ toc: false
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
+  // Map an ORS routing profile to the matching Google Maps travelmode param.
+  function gmapsTravelMode(orsMode) {
+    if (orsMode === "foot-walking") return "walking";
+    if (orsMode === "cycling-regular") return "bicycling";
+    return "driving";
+  }
+
   function renderList(rows) {
     if (!rows.length) {
       els.resultsBody.innerHTML = `<div class="fp-empty">No accredited outlets match this filter within Tanzania. Try changing the business-type filter.</div>`;
       els.resultsMeta.textContent = "0 results";
       return;
     }
-    els.resultsMeta.textContent = `${rows.length} nearest`;
+    const anyRouted = rows.some(r => r.routed);
+    els.resultsMeta.textContent = `${rows.length} nearest (${anyRouted ? "by road" : "straight-line"})`;
+    const gmapsMode = gmapsTravelMode(els.modeSel.value);
     els.resultsBody.innerHTML = rows.map((r, i) => {
       const n = i + 1;
       const loc = [r.ward, r.district, r.region].filter(Boolean).join(", ");
-      const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lon}&travelmode=driving`;
+      const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lon}&travelmode=${gmapsMode}`;
       const phone = cleanPhone(r.phone);
+      const timeHtml = (r.routed && r.duration_sec != null)
+        ? `<div class="fp-time">${window.formatOrsDuration(r.duration_sec)}</div>` : "";
+      const noteHtml = r.routed ? "" : `<div class="fp-note">straight-line</div>`;
       return `
         <div class="fp-card" data-n="${n}" data-lat="${r.lat}" data-lon="${r.lon}">
           <div class="fp-num">${n}</div>
@@ -513,6 +590,8 @@ toc: false
           </div>
           <div class="fp-dist">
             ${r.dist_km.toFixed(2)}<span class="sub">km</span>
+            ${timeHtml}
+            ${noteHtml}
           </div>
         </div>`;
     }).join("");
@@ -536,14 +615,16 @@ toc: false
 
   function popupHtml(r, n) {
     const loc = [r.ward, r.district, r.region].filter(Boolean).join(", ");
-    const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lon}&travelmode=driving`;
+    const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lon}&travelmode=${gmapsTravelMode(els.modeSel.value)}`;
     const phone = cleanPhone(r.phone);
+    const distLabel = r.dist_km.toFixed(2) + " km" + (r.routed ? " by road" : " (straight-line)");
+    const timeLabel = (r.routed && r.duration_sec != null) ? ` &middot; ${window.formatOrsDuration(r.duration_sec)}` : "";
     return `
       <div style="min-width:200px;">
         <strong style="font-family:'Poppins',sans-serif;font-size:1rem;">${n}. ${escapeHtml(r.name || "—")}</strong><br/>
         <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;color:#64748b;">${escapeHtml(r.business_type || "")}</span><br/>
         <span style="font-size:.85rem;">${escapeHtml(loc || "—")}</span><br/>
-        <div style="margin-top:.4rem;color:#0d9488;font-weight:600;">${r.dist_km.toFixed(2)} km away</div>
+        <div style="margin-top:.4rem;color:#0d9488;font-weight:600;">${distLabel}${timeLabel}</div>
         <div style="margin-top:.4rem;display:flex;gap:.35rem;">
           <a href="${gmapsUrl}" target="_blank" rel="noopener" style="background:#0d9488;color:#fff;padding:.25rem .55rem;border-radius:3px;text-decoration:none;font-size:.75rem;font-weight:500;">Directions</a>
           ${phone ? `<a href="tel:${phone}" style="border:1px solid #e2e8f0;color:#0f172a;padding:.25rem .55rem;border-radius:3px;text-decoration:none;font-size:.75rem;">${escapeHtml(phone)}</a>` : ""}

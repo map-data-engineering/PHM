@@ -8,6 +8,10 @@ toc: false
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<!-- OpenRouteService key (gitignored source; docs/ors-key.js is committed so
+     GitHub Pages can serve it) + the shared matrix-call helper. -->
+<script src="ors-key.js"></script>
+<script src="ors-routing.js"></script>
 
 <style>
   .sc-wrap { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1.5rem 3rem; }
@@ -51,7 +55,8 @@ toc: false
     color:var(--map-text-muted,#64748b);
   }
   .sc-field input[type=text],
-  .sc-field input[type=search]{
+  .sc-field input[type=search],
+  .sc-field select{
     padding:.55rem .7rem;
     border:1px solid var(--map-border,#e2e8f0);
     border-radius:4px;
@@ -60,7 +65,8 @@ toc: false
     background:#fff;
     color:var(--map-text,#0f172a);
   }
-  .sc-field input:focus{ outline:none; border-color:var(--map-red,#0d9488); box-shadow:0 0 0 2px rgba(13,148,136,.1); }
+  .sc-field input:focus,
+  .sc-field select:focus{ outline:none; border-color:var(--map-red,#0d9488); box-shadow:0 0 0 2px rgba(13,148,136,.1); }
 
   .sc-row{ display:flex; gap:.5rem; align-items:center; }
   .sc-row button{
@@ -212,6 +218,22 @@ toc: false
     text-align:right;
     white-space:nowrap;
   }
+  .sc-dist-time{
+    display:block;
+    font-family:'Poppins',sans-serif;
+    font-size:.72rem;
+    font-weight:400;
+    color:var(--map-text,#0f172a);
+    margin-top:.15rem;
+  }
+  .sc-dist-note{
+    display:block;
+    font-family:'Poppins',sans-serif;
+    font-size:.65rem;
+    font-style:italic;
+    color:var(--map-text-muted,#64748b);
+    margin-top:.1rem;
+  }
   .sc-nearby tbody tr:hover{ background:#f8fafc; }
 
   .sc-note{
@@ -255,6 +277,15 @@ toc: false
       <div class="sc-row">
         <button id="sc-locate">Use my location</button>
         <button id="sc-clear">Clear</button>
+      </div>
+
+      <div class="sc-field">
+        <label for="sc-mode">Travel mode (for road distance/time)</label>
+        <select id="sc-mode">
+          <option value="driving-car" selected>Driving</option>
+          <option value="cycling-regular">Cycling</option>
+          <option value="foot-walking">Walking</option>
+        </select>
       </div>
 
       <div class="sc-radius">
@@ -329,12 +360,19 @@ toc: false
   let all = [];               // CPP rows (geocoded only)
   let currentPin = null;      // { lat, lon }
   let currentRadius = 2.0;    // km
+  let recomputeSeq = 0;       // guards against a slow ORS response clobbering a newer check
+
+  // Road-distance upgrade is capped to this many nearest-by-straight-line
+  // candidates per search, so one ORS Matrix call covers it regardless of
+  // how many outlets sit inside a wide radius.
+  const ORS_PREFILTER_N = 30;
 
   const els = {
     coords: document.getElementById("sc-coords"),
     addr:   document.getElementById("sc-addr"),
     locate: document.getElementById("sc-locate"),
     clear:  document.getElementById("sc-clear"),
+    modeSel: document.getElementById("sc-mode"),
     radius: document.getElementById("sc-radius"),
     rval:   document.getElementById("sc-rval"),
     verdict: document.getElementById("sc-verdict"),
@@ -379,6 +417,8 @@ toc: false
     els.rval.textContent = currentRadius.toFixed(1);
     if (currentPin) recompute();
   });
+
+  els.modeSel.addEventListener("change", () => { if (currentPin) recompute(); });
 
   els.coords.addEventListener("change", () => {
     const m = els.coords.value.match(/^\s*(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)\s*$/);
@@ -453,10 +493,12 @@ toc: false
     recompute();
   }
 
-  function recompute() {
+  async function recompute() {
     if (!currentPin) return;
     const { lat, lon } = currentPin;
     const R = currentRadius;
+    const mode = els.modeSel.value;
+    const seq = ++recomputeSeq;
 
     // Update radius circle
     if (radiusCircle) map.removeLayer(radiusCircle);
@@ -468,10 +510,40 @@ toc: false
     // Fit view so both pin and circle are visible
     map.fitBounds(radiusCircle.getBounds().pad(0.25));
 
-    // Compute distances
-    const withDist = all.map(r => ({ ...r, dist_km: haversineKm(lat, lon, r.lat, r.lon) }));
+    // Straight-line pass — this defines the radius/density/verdict, which is
+    // deliberately geometric (it matches the circle drawn on the map) and
+    // stays this way regardless of travel mode or road-network availability.
+    const withDist = all.map(r => ({ ...r, dist_km: haversineKm(lat, lon, r.lat, r.lon), duration_sec: null, routed: false }));
     const inRadius = withDist.filter(r => r.dist_km <= R).sort((a, b) => a.dist_km - b.dist_km);
     const nearest = withDist.reduce((min, r) => r.dist_km < min.dist_km ? r : min, { dist_km: Infinity });
+
+    // Road-distance pass: upgrades the *displayed* distance/time for the
+    // in-radius outlets (plus the single nearest-overall, even if it's
+    // outside the radius) to real route figures for the selected travel
+    // mode. Never changes which outlets count toward the radius/density
+    // above. Falls back silently to the straight-line numbers if the key is
+    // missing, the request fails, or a point can't be snapped to a road.
+    const candidates = inRadius.slice(0, ORS_PREFILTER_N);
+    if (nearest.dist_km !== Infinity && !candidates.includes(nearest)) candidates.push(nearest);
+    if (window.ORS_API_KEY && candidates.length) {
+      try {
+        const mx = await window.orsMatrix(mode, [lat, lon], candidates.map(c => [c.lat, c.lon]));
+        if (seq !== recomputeSeq) return; // a newer search superseded this one
+        candidates.forEach((c, i) => {
+          const d = mx.distances[i];
+          const t = mx.durations[i];
+          if (d != null && isFinite(d)) {
+            c.dist_km = d;
+            c.duration_sec = (t != null && isFinite(t)) ? t : null;
+            c.routed = true;
+          }
+        });
+      } catch (err) {
+        if (seq !== recomputeSeq) return;
+        console.warn("OpenRouteService matrix failed, falling back to straight-line distance:", err);
+      }
+    }
+    if (seq !== recomputeSeq) return;
 
     // Draw nearby markers
     nearbyLayer.clearLayers();
@@ -482,16 +554,20 @@ toc: false
     }
     // Also highlight the single nearest outlet even if outside radius
     if (nearest.dist_km !== Infinity && nearest.dist_km > R) {
+      const nearestLabel = nearest.routed
+        ? `${nearest.dist_km.toFixed(2)} km by road${nearest.duration_sec != null ? ` (${window.formatOrsDuration(nearest.duration_sec)})` : ""}`
+        : `${nearest.dist_km.toFixed(2)} km (straight-line)`;
       L.circleMarker([nearest.lat, nearest.lon], {
         radius: 5, color: "#64748b", fillColor: "#94a3b8", fillOpacity: 0.7, weight: 1,
-      }).bindPopup(popupHtml(nearest) + `<br/><em>Nearest overall: ${nearest.dist_km.toFixed(2)} km</em>`).addTo(nearbyLayer);
+      }).bindPopup(popupHtml(nearest) + `<br/><em>Nearest overall: ${nearestLabel}</em>`).addTo(nearbyLayer);
     }
 
-    // Verdict
+    // Verdict — count/density stay straight-line-based; the "nearest outlet"
+    // stat shown to the user reflects the road-distance upgrade when available.
     const areaKm2 = Math.PI * R * R;
     const density = inRadius.length / areaKm2;
     const verdict = classify(density, inRadius.length, nearest.dist_km);
-    renderVerdict(verdict, inRadius.length, density, nearest.dist_km, R);
+    renderVerdict(verdict, inRadius.length, density, nearest, R);
     renderNearby(inRadius, R);
   }
 
@@ -550,7 +626,17 @@ toc: false
     };
   }
 
-  function renderVerdict(v, count, density, nearestKm, radius) {
+  function renderVerdict(v, count, density, nearest, radius) {
+    const nearestKm = nearest.dist_km;
+    let nearestVal = "&mdash;";
+    if (nearestKm !== Infinity) {
+      nearestVal = nearestKm.toFixed(2) + " km";
+      if (nearest.routed) {
+        nearestVal += nearest.duration_sec != null ? ` <span class="sc-dist-time" style="display:inline;">(${window.formatOrsDuration(nearest.duration_sec)})</span>` : "";
+      } else {
+        nearestVal += ` <span class="sc-dist-note" style="display:inline;">straight-line</span>`;
+      }
+    }
     els.verdict.className = `sc-verdict ${v.key}`;
     els.verdict.innerHTML = `
       <span class="badge">${escapeHtml(v.label)}</span>
@@ -559,7 +645,7 @@ toc: false
       <div class="sc-metrics">
         <div class="sc-metric"><div class="lbl">Outlets within ${radius.toFixed(1)} km</div><div class="val">${count.toLocaleString()}</div></div>
         <div class="sc-metric"><div class="lbl">Density (per km²)</div><div class="val">${density.toFixed(2)}</div></div>
-        <div class="sc-metric"><div class="lbl">Nearest outlet</div><div class="val">${nearestKm === Infinity ? "&mdash;" : nearestKm.toFixed(2) + " km"}</div></div>
+        <div class="sc-metric"><div class="lbl">Nearest outlet</div><div class="val">${nearestVal}</div></div>
         <div class="sc-metric"><div class="lbl">Circle area</div><div class="val">${(Math.PI * radius * radius).toFixed(1)} km²</div></div>
       </div>`;
   }
@@ -573,14 +659,19 @@ toc: false
       return;
     }
     const show = rows.slice(0, 50);
-    els.nearbyTbody.innerHTML = show.map(r => `
+    els.nearbyTbody.innerHTML = show.map(r => {
+      const timeHtml = (r.routed && r.duration_sec != null)
+        ? `<span class="sc-dist-time">${window.formatOrsDuration(r.duration_sec)}</span>` : "";
+      const noteHtml = r.routed ? "" : `<span class="sc-dist-note">straight-line</span>`;
+      return `
       <tr>
         <td><strong>${escapeHtml(r.name || "—")}</strong></td>
         <td>${escapeHtml(r.business_type || "—")}</td>
         <td>${escapeHtml([r.district, r.region].filter(Boolean).join(", ") || "—")}</td>
-        <td class="dist">${r.dist_km.toFixed(2)} km</td>
+        <td class="dist">${r.dist_km.toFixed(2)} km${timeHtml}${noteHtml}</td>
       </tr>
-    `).join("");
+    `;
+    }).join("");
     if (rows.length > 50) {
       els.nearbyTbody.insertAdjacentHTML("beforeend",
         `<tr><td colspan="4" style="text-align:center;font-style:italic;color:#64748b;padding:.75rem;">Showing 50 of ${rows.length.toLocaleString()}. Narrow the radius for the full list.</td></tr>`);
@@ -588,10 +679,12 @@ toc: false
   }
 
   function popupHtml(r) {
+    const timeSuffix = (r.routed && r.duration_sec != null) ? ` &middot; ${window.formatOrsDuration(r.duration_sec)}` : "";
+    const modeSuffix = r.routed ? " by road" : " (straight-line)";
     return `<strong>${escapeHtml(r.name || "—")}</strong><br/>` +
            `${escapeHtml(r.business_type || "—")} · ${escapeHtml(r.accreditation_source || "—")}<br/>` +
            `${escapeHtml([r.ward, r.district, r.region].filter(Boolean).join(", ") || "—")}<br/>` +
-           `<strong style="color:#0d9488;">${r.dist_km.toFixed(2)} km</strong> from the pin`;
+           `<strong style="color:#0d9488;">${r.dist_km.toFixed(2)} km${modeSuffix}</strong>${timeSuffix} from the pin`;
   }
 
   function escapeHtml(s) {

@@ -19,6 +19,8 @@ project:
     - data/tanzania/boundaries/tza_regions.geojson
     - data/tanzania/boundaries/tza_districts.geojson
     - data/tanzania/boundaries/tza_wards.geojson
+    - ors-key.js
+    - ors-routing.js
 
 website:
   title: "PharmaScope"
