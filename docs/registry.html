@@ -469,7 +469,11 @@ ul.task-list li input[type="checkbox"] {
     { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(map);
 
   let polyLayer = null;   // Leaflet GeoJSON layer for the active polygon view
-  const pointsLayer = L.layerGroup().addTo(map);  // individual outlet pins for an active search
+  // Dedicated pane so outlet pins always sit above the choropleth, regardless
+  // of which layer was most recently added/removed from the map.
+  map.createPane("pointsPane");
+  map.getPane("pointsPane").style.zIndex = 650;
+  const pointsLayer = L.layerGroup().addTo(map);  // individual outlet pins
   let currentView = "regions";
   const geoCache = {};    // level -> parsed GeoJSON
 
@@ -654,26 +658,27 @@ ul.task-list li input[type="checkbox"] {
     renderPoints(currentRows);
   }
 
-  // A text search usually narrows the registry down to a handful of named
-  // outlets — a choropleth can't show "which 2 outlets", only "which
-  // polygon has a nonzero count". So when the search box has a query, drop
-  // an actual pin on every matching outlet that has coordinates, on top of
-  // the choropleth, and zoom to fit them.
+  // Every geocoded outlet in the current filter gets a pin, by default —
+  // not just while searching — layered on top of the choropleth via the
+  // dedicated pointsPane. A text search additionally zooms to fit its
+  // (usually much smaller) result set, since that's specific enough to be
+  // worth moving the map for; a plain choropleth/dropdown filter isn't.
   function renderPoints(rows) {
     pointsLayer.clearLayers();
     const q = els.fSearch.value.trim();
-    if (!q) return;
-
     const CAP = 300;
     const withCoords = rows.filter(r => r.has_coords);
-    const shown = withCoords.slice(0, CAP);
+    const shown = q ? withCoords.slice(0, CAP) : withCoords;
     const markers = shown.map(r => L.circleMarker([r.latitude, r.longitude], {
-      radius: 8, weight: 2, color: "#ffffff", fillColor: "#0d9488", fillOpacity: 0.95,
+      pane: "pointsPane",
+      radius: 4, weight: 1, color: "#ffffff", fillColor: "#0d9488", fillOpacity: 0.85,
     }).bindPopup(
       `<strong>${escapeHtml(r.addo_name)}</strong><br/>` +
       `${escapeHtml(r.business_type || "—")} · ${escapeHtml(r.accreditation_source || "—")}<br/>` +
       `${escapeHtml([r.ward, r.district, r.region].filter(Boolean).join(", ") || "—")}`
     ).addTo(pointsLayer));
+
+    if (!q) return; // default view: pins are shown, but the current zoom/pan is left alone
 
     if (markers.length) {
       const bounds = L.latLngBounds(shown.map(r => [r.latitude, r.longitude]));
