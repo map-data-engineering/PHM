@@ -160,6 +160,7 @@ toc: false
     { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(map);
 
   let polyLayer = null;   // Leaflet GeoJSON layer for the active polygon view
+  const pointsLayer = L.layerGroup().addTo(map);  // individual outlet pins for an active search
   let currentView = "regions";
   const geoCache = {};    // level -> parsed GeoJSON
 
@@ -335,10 +336,48 @@ toc: false
     renderMap();
   }
 
-  function renderMap() {
+  async function renderMap() {
     if (polyLayer) { map.removeLayer(polyLayer); polyLayer = null; }
     map.removeControl(legendCtl); map.removeControl(hoverCtl);
-    renderChoropleth(currentView);
+    await renderChoropleth(currentView);
+    // Runs after the choropleth's own zoom-to-selection so an active search
+    // (which is far more specific) always wins the final map view.
+    renderPoints(currentRows);
+  }
+
+  // A text search usually narrows the registry down to a handful of named
+  // outlets — a choropleth can't show "which 2 outlets", only "which
+  // polygon has a nonzero count". So when the search box has a query, drop
+  // an actual pin on every matching outlet that has coordinates, on top of
+  // the choropleth, and zoom to fit them.
+  function renderPoints(rows) {
+    pointsLayer.clearLayers();
+    const q = els.fSearch.value.trim();
+    if (!q) return;
+
+    const CAP = 300;
+    const withCoords = rows.filter(r => r.has_coords);
+    const shown = withCoords.slice(0, CAP);
+    const markers = shown.map(r => L.circleMarker([r.latitude, r.longitude], {
+      radius: 8, weight: 2, color: "#ffffff", fillColor: "#0d9488", fillOpacity: 0.95,
+    }).bindPopup(
+      `<strong>${escapeHtml(r.addo_name)}</strong><br/>` +
+      `${escapeHtml(r.business_type || "—")} · ${escapeHtml(r.accreditation_source || "—")}<br/>` +
+      `${escapeHtml([r.ward, r.district, r.region].filter(Boolean).join(", ") || "—")}`
+    ).addTo(pointsLayer));
+
+    if (markers.length) {
+      const bounds = L.latLngBounds(shown.map(r => [r.latitude, r.longitude]));
+      map.fitBounds(bounds.pad(0.3), { maxZoom: 15 });
+      if (markers.length === 1) markers[0].openPopup();
+      if (withCoords.length > CAP) {
+        els.viewNote.style.color = "#64748b";
+        els.viewNote.textContent = `Showing the first ${CAP} of ${withCoords.length.toLocaleString()} matching outlets as pins — narrow the search to see the rest.`;
+      }
+    } else if (rows.length) {
+      els.viewNote.style.color = "#b45309";
+      els.viewNote.textContent = `${rows.length.toLocaleString()} match${rows.length === 1 ? "" : "es"} found for "${q}", but none have a GPS location on file.`;
+    }
   }
 
   async function loadGeo(level) {
