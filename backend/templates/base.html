@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PharmaScope{% endblock %}</title>
+  <style>
+    :root {
+      --teal: #0d9488; --navy: #0f172a; --border: #e2e8f0; --muted: #64748b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--navy); background: #f8fafc;
+    }
+    header.site-nav {
+      background: var(--navy); color: #fff; padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    header.site-nav .brand { font-weight: 700; font-size: 1.05rem; }
+    header.site-nav .brand a { color: #fff; text-decoration: none; }
+    header.site-nav nav { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+    header.site-nav nav a {
+      color: #cbd5e1; text-decoration: none; font-size: 0.88rem; font-weight: 500;
+    }
+    header.site-nav nav a:hover, header.site-nav nav a.active { color: #fff; }
+    header.site-nav .user { font-size: 0.8rem; color: #94a3b8; }
+    header.site-nav .user a { color: #5eead4; }
+    main { min-height: calc(100vh - 60px); }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <header class="site-nav">
+    <div class="brand"><a href="/">PharmaScope</a></div>
+    <nav>
+      <a href="{% url 'outlets:registry-page' %}">Registry</a>
+      <a href="{% url 'siting:find-pharmacy-page' %}">Find Pharmacy</a>
+      {% if user.is_authenticated %}<a href="{% url 'siting:site-check-page' %}">Site Check</a>{% endif %}
+      {% if user.is_authenticated %}<a href="{% url 'dataquality:dashboard-page' %}">Data Quality</a>{% endif %}
+      {% if user.is_staff %}<a href="/admin/">Admin</a>{% endif %}
+    </nav>
+    <div class="user">
+      {% if user.is_authenticated %}
+        {{ user.username }} · <a href="{% url 'accounts:logout' %}">Sign out</a>
+      {% else %}
+        <a href="{% url 'accounts:login' %}">Sign in</a>
+      {% endif %}
+    </div>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>

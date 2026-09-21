@@ -1,10 +1,10 @@
-from django.urls import path
+from django.urls import include, path
 
 from . import views
 
 app_name = "dataquality"
 
 urlpatterns = [
-    path("data-quality/summary/", views.SummaryView.as_view(), name="summary"),
-    path("data-quality/details/", views.DetailsView.as_view(), name="details"),
+    path("data-quality/", views.dashboard_page, name="dashboard-page"),
+    path("api/v1/", include("dataquality.api_urls")),
 ]

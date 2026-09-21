@@ -1,14 +1,10 @@
-from django.urls import path
-from rest_framework.routers import SimpleRouter
+from django.urls import include, path
 
 from . import views
 
 app_name = "outlets"
 
-router = SimpleRouter()
-router.register("outlets", views.OutletViewSet, basename="outlet")
-router.register("edit-proposals", views.EditProposalViewSet, basename="edit-proposal")
-
-urlpatterns = router.urls + [
-    path("boundaries/<str:level>/", views.BoundaryView.as_view(), name="boundaries"),
+urlpatterns = [
+    path("registry/", views.registry_page, name="registry-page"),
+    path("api/v1/", include("outlets.api_urls")),
 ]

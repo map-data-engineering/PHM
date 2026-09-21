@@ -92,9 +92,24 @@ def likely_duplicate_count():
     return sum(row["n"] for row in qs)
 
 
+def region_mismatch_count():
+    """Outlets whose point-in-polygon region (from their own GPS coordinates)
+    disagrees with the as-submitted region text — e.g. a Njombe outlet with a
+    Dar es Salaam GPS reading. This supersedes the old static site's coarse
+    region-centroid-distance heuristic: the point-in-polygon join already
+    gives an exact answer for any geocoded outlet, no distance threshold needed."""
+    n = 0
+    qs = Outlet.objects.filter(has_coords=True, region__isnull=False).exclude(region_name="").select_related("region")
+    for o in qs.only("region_name", "region__name"):
+        if o.region_name.strip().casefold() != o.region.name.strip().casefold():
+            n += 1
+    return n
+
+
 def details():
     return {
         "field_completeness": field_completeness(),
         "gps_source": gps_source_breakdown(),
         "likely_duplicates": likely_duplicate_count(),
+        "region_mismatches": region_mismatch_count(),
     }

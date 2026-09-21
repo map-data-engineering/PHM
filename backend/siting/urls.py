@@ -1,10 +1,11 @@
-from django.urls import path
+from django.urls import include, path
 
 from . import views
 
 app_name = "siting"
 
 urlpatterns = [
-    path("nearest-outlets/", views.NearestOutletsView.as_view(), name="nearest-outlets"),
-    path("site-check/", views.SiteCheckView.as_view(), name="site-check"),
+    path("find-pharmacy/", views.find_pharmacy_page, name="find-pharmacy-page"),
+    path("site-check/", views.site_check_page, name="site-check-page"),
+    path("api/v1/", include("siting.api_urls")),
 ]

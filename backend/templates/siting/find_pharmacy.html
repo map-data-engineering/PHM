@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Find Pharmacy &mdash; PharmaScope{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  .fp-wrap{ max-width:1400px; margin:0 auto; padding:1.5rem 1.5rem 3rem; }
+  .fp-search{ display:grid; grid-template-columns:1fr auto auto auto 130px; gap:.6rem; padding:1.1rem 1.25rem; background:#fff; border:1px solid var(--border); border-radius:4px; margin-bottom:1.25rem; align-items:center; }
+  @media (max-width: 780px){ .fp-search{ grid-template-columns:1fr; } }
+  .fp-search input[type=search]{ padding:.65rem .85rem; border:1px solid var(--border); border-radius:4px; font-size:.95rem; color:#0f172a; background:#fff; }
+  .fp-search input:focus{ outline:none; border-color:var(--teal); box-shadow:0 0 0 2px rgba(13,148,136,.1); }
+  .fp-search button{ padding:.65rem 1rem; border-radius:4px; font-weight:500; font-size:.9rem; cursor:pointer; transition:background .15s; white-space:nowrap; }
+  .fp-search button.ghost{ background:#fff; color:#0f172a; border:1px solid var(--border); }
+  .fp-search button.ghost:hover{ border-color:var(--teal); color:var(--teal); }
+  .fp-search select{ padding:.65rem .85rem; border:1px solid var(--border); border-radius:4px; font-size:.9rem; background:#fff; color:#0f172a; cursor:pointer; }
+
+  .fp-split{ display:grid; grid-template-columns:1fr 420px; gap:1.25rem; align-items:stretch; }
+  @media (max-width: 960px){ .fp-split{ grid-template-columns:1fr; } }
+  #fp-map{ height:640px; border:1px solid var(--border); border-radius:4px; z-index:1; }
+  @media (max-width: 960px){ #fp-map{ height:400px; } }
+
+  .fp-results{ background:#fff; border:1px solid var(--border); border-radius:4px; display:flex; flex-direction:column; max-height:640px; overflow:hidden; }
+  .fp-results-head{ padding:.9rem 1.1rem; background:var(--navy); color:#fff; display:flex; justify-content:space-between; align-items:baseline; gap:1rem; }
+  .fp-results-head h4{ margin:0; font-weight:600; font-size:1rem; }
+  .fp-results-head .meta{ font-size:.75rem; opacity:.75; }
+  .fp-results-body{ overflow-y:auto; padding:.5rem; }
+
+  .fp-empty{ padding:2rem 1.25rem; text-align:center; color:var(--muted); font-size:.9rem; line-height:1.5; }
+  .fp-card{ display:grid; grid-template-columns:36px 1fr auto; gap:.75rem; padding:.85rem .9rem; border-bottom:1px solid #f1f5f9; align-items:start; cursor:pointer; transition:background .12s; }
+  .fp-card:last-child{ border-bottom:0; }
+  .fp-card:hover{ background:#f8fafc; }
+  .fp-card.active{ background:#f0fdfa; }
+  .fp-num{ width:32px; height:32px; border-radius:50%; background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:500; font-size:.85rem; }
+  .fp-name{ font-weight:600; font-size:.98rem; color:#0f172a; line-height:1.25; margin:0 0 .15rem; }
+  .fp-meta{ font-size:.78rem; color:var(--muted); line-height:1.35; margin:0 0 .35rem; }
+  .fp-meta .type{ color:#0f172a; font-size:.7rem; text-transform:uppercase; letter-spacing:.04em; margin-right:.35rem; }
+  .fp-actions{ display:flex; gap:.4rem; margin-top:.2rem; flex-wrap:wrap; }
+  .fp-actions a{ display:inline-flex; align-items:center; gap:.25rem; padding:.28rem .55rem; font-size:.75rem; font-weight:500; border-radius:3px; text-decoration:none; border:1px solid var(--border); color:#0f172a; background:#fff; transition:all .12s; }
+  .fp-actions a:hover{ border-color:var(--teal); color:var(--teal); }
+  .fp-actions a.directions{ background:var(--teal); color:#fff; border-color:var(--teal); }
+  .fp-actions a.directions:hover{ background:#0f766e; color:#fff; }
+  .fp-dist{ text-align:right; font-weight:500; color:var(--teal); font-size:.95rem; white-space:nowrap; }
+  .fp-dist .sub{ display:block; font-size:.65rem; color:var(--muted); letter-spacing:.05em; text-transform:uppercase; font-weight:400; margin-top:.15rem; }
+  .fp-dist .fp-time{ font-size:.72rem; font-weight:500; color:#0f172a; margin-top:.3rem; white-space:nowrap; }
+  .fp-dist .fp-note{ font-size:.65rem; font-style:italic; color:var(--muted); margin-top:.15rem; }
+
+  .fp-status{ padding:.7rem 1rem; font-size:.85rem; background:rgba(13,148,136,.05); border-left:3px solid var(--teal); border-radius:0 4px 4px 0; margin-bottom:1rem; color:var(--muted); }
+  .fp-status.error{ background:#fef2f2; border-left-color:#dc2626; color:#991b1b; }
+  .page-banner{ background:#fff; border-bottom:1px solid var(--border); padding:2.5rem 2rem; }
+  .page-banner h1{ font-size:2rem; margin:0 0 .4rem; }
+  .page-banner p{ color:var(--muted); margin:0; max-width:700px; }
+</style>
+{% endblock %}
+{% block content %}
+<section class="page-banner">
+  <div style="max-width:1400px;margin:0 auto;">
+    <h1>Find the nearest pharmacy</h1>
+    <p>Enter your address, share your location, or drop a pin on the map. PharmaScope returns the closest accredited CPPs with contact details and one-tap directions.</p>
+  </div>
+</section>
+
+<div class="fp-wrap">
+  <div class="fp-status" id="fp-status">Loading pharmacy registry&hellip;</div>
+
+  <div class="fp-search">
+    <input type="search" id="fp-addr" placeholder="Ward, town or landmark: e.g. Ifakara, Kariakoo, Ubungo" autocomplete="off"/>
+    <button class="ghost" id="fp-locate" title="Use my current location">My location</button>
+    <select id="fp-type" title="Filter by business type">
+      <option value="">All types</option>
+      <option value="Retail A">Retail A</option>
+      <option value="Retail Wholesale">Retail Wholesale</option>
+    </select>
+    <select id="fp-mode" title="Travel mode for road distance/time">
+      <option value="driving-car" selected>Driving</option>
+      <option value="cycling-regular">Cycling</option>
+      <option value="foot-walking">Walking</option>
+    </select>
+    <select id="fp-count" title="Number of results">
+      <option value="5">Top 5</option>
+      <option value="10" selected>Top 10</option>
+      <option value="20">Top 20</option>
+    </select>
+  </div>
+
+  <div class="fp-split">
+    <div id="fp-map"></div>
+    <div class="fp-results">
+      <div class="fp-results-head">
+        <h4>Nearest pharmacies</h4>
+        <span class="meta" id="fp-results-meta">&mdash;</span>
+      </div>
+      <div class="fp-results-body" id="fp-results-body">
+        <div class="fp-empty">Search an address, use your location, or click anywhere on the map to see the nearest pharmacies.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'siting/find_pharmacy.js' %}"></script>
+{% endblock %}

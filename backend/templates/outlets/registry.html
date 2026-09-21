@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}CPP Registry &mdash; PharmaScope{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  .reg-hero{background:#fff;color:#34495f;border-bottom:1px solid var(--border);padding:2.5rem 2rem;}
+  .reg-hero h1{font-size:2.2rem;margin:0 0 .4rem;}
+  .reg-hero p{opacity:.75;margin:0;font-size:1rem;}
+  .reg-wrap{max-width:1400px;margin:0 auto;padding:1.5rem 1.5rem 3rem;}
+
+  .reg-controls{display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;padding:1.25rem;background:#fff;border-radius:4px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(15,23,42,.06);margin-bottom:1rem;}
+  .reg-controls .ctrl{display:flex;flex-direction:column;gap:.3rem;}
+  .reg-controls label{font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;}
+  .reg-controls select,.reg-controls input[type=search]{padding:.55rem .75rem;border:1px solid var(--border);border-radius:4px;font-size:.9rem;min-width:170px;background:#fff;}
+  .reg-controls select:focus,.reg-controls input[type=search]:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 2px rgba(13,148,136,.1);}
+
+  .reg-viewbar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:.75rem;font-size:.85rem;}
+  .reg-viewbar .lbl{color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:.72rem;margin-right:.35rem;}
+  .reg-viewpill{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .95rem;border-radius:4px;font-size:.82rem;font-weight:600;background:#f1f5f9;color:var(--muted);border:none;cursor:pointer;transition:all .15s;}
+  .reg-viewpill.active{background:var(--teal);color:#fff;}
+  .reg-viewpill:not(.active):hover{background:#e2e8f0;}
+
+  #reg-map{width:100%;height:600px;border-radius:4px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(15,23,42,.06);z-index:1;}
+
+  .reg-status{padding:.75rem 1rem;border-radius:4px;font-size:.88rem;margin-bottom:1rem;background:rgba(13,148,136,.05);border-left:4px solid var(--teal);}
+  .reg-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin:1rem 0;}
+  .reg-scard{background:#fff;border:1px solid var(--border);border-radius:4px;padding:1rem;text-align:center;box-shadow:0 1px 4px rgba(15,23,42,.06);}
+  .reg-scard .val{font-size:1.5rem;font-weight:700;color:var(--teal);}
+  .reg-scard .lbl{font-size:.75rem;color:var(--muted);margin-top:.2rem;}
+
+  .info.legend{background:#fff;padding:.6rem .8rem;border-radius:4px;box-shadow:0 1px 4px rgba(15,23,42,.15);font-size:.78rem;line-height:1.4;color:#0f172a;border:1px solid #e2e8f0;max-width:200px;}
+  .info.legend .lg-title{font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:#64748b;margin-bottom:.35rem;}
+  .info.legend .lg-row{display:flex;align-items:center;gap:.4rem;margin:2px 0;}
+  .info.legend i{display:inline-block;width:14px;height:14px;border-radius:2px;border:1px solid rgba(0,0,0,.08);}
+
+  .info.hover-panel{background:rgba(255,255,255,.95);padding:.55rem .75rem;border-radius:4px;box-shadow:0 1px 4px rgba(15,23,42,.15);font-size:.82rem;color:#0f172a;border:1px solid #e2e8f0;min-width:180px;}
+  .info.hover-panel .h-name{font-weight:700;color:#0f172a;}
+  .info.hover-panel .h-count{margin-top:.35rem;color:var(--teal);font-weight:700;font-size:1.1rem;}
+
+  .gi-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+  .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+  .gi-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:1.25rem;box-shadow:0 1px 4px rgba(15,23,42,.06);}
+  .gi-card h3{font-size:1rem;margin:0 0 .75rem;color:#0f172a;}
+  .gi-card canvas{max-height:300px !important;}
+  @media(max-width:768px){#reg-map{height:400px;} .gi-grid{grid-template-columns:1fr;}}
+</style>
+{% endblock %}
+{% block content %}
+<section class="reg-hero">
+  <div style="max-width:1400px;margin:0 auto;">
+    <h1>CPP Registry Explorer</h1>
+    <p>Every Community Pharmaceutical Premise in the Pharmacy Council of Tanzania inventory: searchable, filterable, and mapped as points or admin-boundary choropleths.</p>
+  </div>
+</section>
+
+<div class="reg-wrap">
+  <div class="reg-status" id="reg-status">Loading CPP registry&hellip;</div>
+  <div class="reg-summary" id="reg-summary"></div>
+
+  <div class="reg-viewbar">
+    <span class="lbl">Map view</span>
+    <button class="reg-viewpill active" data-view="region">Regions</button>
+    <button class="reg-viewpill" data-view="district">Districts</button>
+    <button class="reg-viewpill" data-view="ward">Wards</button>
+    <span style="flex:1"></span>
+    <span id="reg-view-note" style="color:#64748b;font-size:.75rem;"></span>
+  </div>
+
+  <div class="reg-controls">
+    <div class="ctrl" id="ctrl-region">
+      <label for="f-region">Region</label>
+      <select id="f-region"><option value="">All regions</option></select>
+    </div>
+    <div class="ctrl" id="ctrl-district">
+      <label for="f-district">District</label>
+      <select id="f-district" disabled><option value="">All districts</option></select>
+    </div>
+    <div class="ctrl" id="ctrl-ward">
+      <label for="f-ward">Ward</label>
+      <select id="f-ward" disabled><option value="">All wards</option></select>
+    </div>
+    <div class="ctrl">
+      <label for="f-biz">Business type</label>
+      <select id="f-biz"><option value="">All types</option></select>
+    </div>
+    <div class="ctrl">
+      <label for="f-acc">Accreditation</label>
+      <select id="f-acc"><option value="">All sources</option></select>
+    </div>
+    <div class="ctrl">
+      <label for="f-search">Search</label>
+      <input type="search" id="f-search" placeholder="Outlet name&hellip;"/>
+    </div>
+  </div>
+
+  <div id="reg-map"></div>
+
+  <div class="gi-section">
+    <h2 style="font-size:1.5rem;color:#0f172a;margin:0 0 1rem;">Coverage snapshot</h2>
+    <div class="gi-grid">
+      <div class="gi-card">
+        <h3>Outlets per region (top 15)</h3>
+        <canvas id="chart-region"></canvas>
+      </div>
+      <div class="gi-card">
+        <h3>Accreditation source</h3>
+        <canvas id="chart-acc"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'outlets/registry.js' %}"></script>
+{% endblock %}

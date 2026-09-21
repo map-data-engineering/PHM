@@ -40,9 +40,20 @@ class OutletDetailSerializer(serializers.ModelSerializer):
 
 
 class OutletPointSerializer(serializers.ModelSerializer):
+    """Map-pin + chart payload: lightweight scalar fields only (no po_box,
+    phone, training_center, or GPS provenance) — mirrors what the old static
+    site already shipped to the browser for these same maps/charts."""
+
+    region = serializers.CharField(source="region.name", default="", read_only=True)
+    district = serializers.CharField(source="district.name", default="", read_only=True)
+    ward = serializers.CharField(source="ward.name", default="", read_only=True)
+
     class Meta:
         model = Outlet
-        fields = ["addo_uid", "name", "business_type", "latitude", "longitude"]
+        fields = [
+            "addo_uid", "name", "business_type", "accreditation_source",
+            "region", "district", "ward", "latitude", "longitude",
+        ]
 
 
 class EditProposalCreateSerializer(serializers.Serializer):

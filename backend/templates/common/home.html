@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}PharmaScope{% endblock %}
+{% block content %}
+<style>
+  .home-hero { background: var(--navy); color: #fff; padding: 3.5rem 1.5rem; text-align: center; }
+  .home-hero h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+  .home-hero p { color: #cbd5e1; max-width: 640px; margin: 0 auto; }
+  .home-grid {
+    max-width: 900px; margin: -2rem auto 3rem; padding: 0 1.5rem;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;
+  }
+  .home-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;
+    box-shadow: 0 4px 14px rgba(15,23,42,0.06); text-decoration: none; color: var(--navy);
+  }
+  .home-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+  .home-card p { margin: 0; font-size: 0.85rem; color: var(--muted); }
+  .home-card .tag {
+    display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--teal); margin-bottom: 0.4rem;
+  }
+</style>
+<section class="home-hero">
+  <h1>PharmaScope</h1>
+  <p>Tanzania pharmacy-accreditation data, rebuilt on a real backend — Django Admin, role-based access, and a live REST API behind every map tool.</p>
+</section>
+<div class="home-grid">
+  <a class="home-card" href="{% url 'outlets:registry-page' %}">
+    <span class="tag">Public</span>
+    <h3>CPP Registry</h3>
+    <p>Search, filter, and map every accredited outlet as points or admin-boundary choropleths.</p>
+  </a>
+  <a class="home-card" href="{% url 'siting:find-pharmacy-page' %}">
+    <span class="tag">Public</span>
+    <h3>Find Pharmacy</h3>
+    <p>Nearest accredited outlets to any point, with real road distance and travel time.</p>
+  </a>
+  {% if user.is_authenticated %}
+  <a class="home-card" href="{% url 'siting:site-check-page' %}">
+    <span class="tag">Regulator</span>
+    <h3>Site Check</h3>
+    <p>Check outlet density and get a coverage verdict before accrediting a new site.</p>
+  </a>
+  <a class="home-card" href="{% url 'dataquality:dashboard-page' %}">
+    <span class="tag">Regulator</span>
+    <h3>Data Quality</h3>
+    <p>Completeness, geocoding, and boundary-matching metrics, computed live.</p>
+  </a>
+  {% endif %}
+</div>
+{% endblock %}
