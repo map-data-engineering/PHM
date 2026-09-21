@@ -23,7 +23,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
     "django_filters",
+    "corsheaders",
     "common",
     "accounts",
     "geo",
@@ -35,6 +37,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -89,11 +92,24 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 100,
+    # SessionAuthentication still works for same-origin use (Django Admin,
+    # the server-rendered pages under templates/). TokenAuthentication is
+    # for the separately-hosted static frontend (Vercel) calling this API
+    # cross-origin, where cookies/CSRF don't travel reliably.
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "DEFAULT_THROTTLE_RATES": {
         "siting": "60/min",
     },
 }
+
+# The static frontend's origin(s) — e.g. https://pharmascope.vercel.app —
+# allowed to call this API cross-origin. No cookies are sent cross-origin
+# (auth is via the Authorization header), so CORS_ALLOW_CREDENTIALS stays off.
+CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", default="http://localhost:3000", cast=Csv())
 
 # OpenRouteService — read server-side only; never serialized to the client.
 ORS_API_KEY = config("ORS_API_KEY", default="")

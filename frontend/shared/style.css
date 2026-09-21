@@ -1,0 +1,40 @@
+:root {
+  --teal: #0d9488; --teal-dark: #0f766e; --navy: #263248; --navy-dark: #0f172a;
+  --text: #34495f; --muted: #71808f; --border: #eef0f5; --bg-section: #f2f3fa; --bg-warm: #f9fafc;
+  --radius-lg: 18px; --radius: 12px;
+  --shadow: 0 8px 30px rgba(52, 73, 95, 0.08);
+  --shadow-hover: 0 20px 45px rgba(52, 73, 95, 0.12);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--text); background: var(--bg-section);
+}
+a { color: var(--teal); }
+
+.site-nav {
+  background: var(--navy-dark); color: #fff; padding: 0 1.5rem;
+  display: flex; align-items: center; justify-content: space-between; height: 60px;
+}
+.site-nav .brand a { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.05rem; }
+.site-nav nav { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+.site-nav nav a { color: #cbd5e1; text-decoration: none; font-size: 0.88rem; font-weight: 500; }
+.site-nav nav a:hover { color: #fff; }
+.site-nav .user { font-size: 0.8rem; color: #94a3b8; }
+.site-nav .user a { color: #5eead4; }
+
+.btn-primary, .btn-secondary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.65rem 1.25rem; border-radius: 2px; font-weight: 500; font-size: 0.875rem;
+  line-height: 1.4; text-decoration: none !important; transition: all .15s ease-in-out; cursor: pointer;
+}
+.btn-primary { background: var(--teal); color: #fff !important; border: 1px solid var(--teal); }
+.btn-primary::after { content: "\2192"; font-weight: 400; transition: transform .15s ease-in-out; }
+.btn-primary:hover { background: var(--teal-dark); border-color: var(--teal-dark); box-shadow: 0 5px 20px rgba(13,148,136,.25); }
+.btn-primary:hover::after { transform: translateX(3px); }
+.btn-secondary { background: #fff; color: var(--text) !important; border: 1px solid rgba(0,0,0,.1); }
+.btn-secondary:hover { background: var(--bg-warm); border-color: var(--teal); color: var(--teal) !important; box-shadow: 0 5px 20px #d6dee4; }
+
+.page-banner { background: #fff; border-bottom: 1px solid var(--border); padding: 2.5rem 2rem; }
+.page-banner h1 { font-size: 2rem; margin: 0 0 .4rem; color: var(--text); }
+.page-banner p { color: var(--muted); margin: 0; max-width: 700px; }

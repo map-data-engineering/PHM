@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in &mdash; PharmaScope</title>
+  <style>
+    :root { --teal: #0d9488; --navy: #263248; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: var(--navy); font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .card { width: 100%; max-width: 380px; background: #fff; border-radius: 12px; padding: 2.25rem 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.35); }
+    h1 { margin: 0 0 0.25rem; font-size: 1.4rem; color: var(--navy); }
+    p.sub { margin: 0 0 1.5rem; color: #667085; font-size: 0.9rem; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--navy); margin: 1rem 0 0.35rem; }
+    input { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 0.95rem; }
+    input:focus { outline: 2px solid var(--teal); border-color: var(--teal); }
+    button { width: 100%; margin-top: 1.5rem; padding: 0.65rem; background: var(--teal); color: #fff; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; }
+    button:hover { background: #0b7a70; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .errors { margin-top: 1rem; padding: 0.6rem 0.75rem; background: #fef2f2; color: #b42318; border-radius: 8px; font-size: 0.85rem; display: none; }
+    a.back { display: block; text-align: center; margin-top: 1.25rem; font-size: .82rem; color: #94a3b8; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>PharmaScope</h1>
+    <p class="sub">Sign in to access the regulator and data-team tools.</p>
+    <div class="errors" id="err"></div>
+    <form id="login-form">
+      <label for="username">Username</label>
+      <input type="text" id="username" autofocus required>
+      <label for="password">Password</label>
+      <input type="password" id="password" required>
+      <button type="submit" id="submit-btn">Sign in</button>
+    </form>
+    <a class="back" href="index.html">&larr; Back to PharmaScope</a>
+  </div>
+
+  <script src="shared/api.js"></script>
+  <script>
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("submit-btn");
+      const err = document.getElementById("err");
+      err.style.display = "none";
+      btn.disabled = true;
+      btn.textContent = "Signing in…";
+      try {
+        await Auth.login(document.getElementById("username").value, document.getElementById("password").value);
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = params.get("next") || "index.html";
+      } catch (ex) {
+        err.textContent = ex.message;
+        err.style.display = "block";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Sign in";
+      }
+    });
+  </script>
+</body>
+</html>
