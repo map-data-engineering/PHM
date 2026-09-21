@@ -4,7 +4,7 @@ Pure functions (no caching) — at ~4,900 rows this is well under 50ms and
 always reflects the current data, unlike the old static site's numbers
 which were frozen at whatever the CSV looked like on the last Quarto build.
 """
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from outlets.models import Outlet
 
@@ -92,24 +92,105 @@ def likely_duplicate_count():
     return sum(row["n"] for row in qs)
 
 
-def region_mismatch_count():
+def geocoding_by_region(min_total=5, bottom_n=15):
+    """Geocoding rate per submitted region, worst first — surfaces regions
+    where field data collection is weakest, not just the national average."""
+    rows = (
+        Outlet.objects.values("region_name")
+        .annotate(total=Count("id"), geo=Count("id", filter=Q(has_coords=True)))
+        .filter(total__gte=min_total)
+    )
+    out = [
+        {
+            "region": r["region_name"] or "(no region)",
+            "total": r["total"],
+            "geocoded": r["geo"],
+            "pct": _pct(r["geo"], r["total"]),
+        }
+        for r in rows
+    ]
+    out.sort(key=lambda x: x["pct"])
+    return out[:bottom_n]
+
+
+def admin_matching():
+    """Region/district/ward match counts, for a matched-vs-unmatched chart."""
+    n = Outlet.objects.count()
+    region_matched = Outlet.objects.filter(region__isnull=False).count()
+    district_matched = Outlet.objects.filter(district__isnull=False).count()
+    ward_matched = Outlet.objects.filter(ward__isnull=False).count()
+    return {
+        "labels": ["Region", "District", "Ward"],
+        "matched": [region_matched, district_matched, ward_matched],
+        "unmatched": [n - region_matched, n - district_matched, n - ward_matched],
+    }
+
+
+def regions_lowest_district_match(min_total=20):
+    """Which regions have the weakest district-level join — worst first."""
+    rows = (
+        Outlet.objects.exclude(region_name="")
+        .values("region_name")
+        .annotate(total=Count("id"), dmatched=Count("id", filter=Q(district__isnull=False)))
+        .filter(total__gte=min_total)
+    )
+    out = [
+        {
+            "region": r["region_name"],
+            "total": r["total"],
+            "district_matched": r["dmatched"],
+            "pct": _pct(r["dmatched"], r["total"]),
+        }
+        for r in rows
+    ]
+    out.sort(key=lambda x: x["pct"])
+    return out
+
+
+def region_mismatches(limit=50):
     """Outlets whose point-in-polygon region (from their own GPS coordinates)
     disagrees with the as-submitted region text — e.g. a Njombe outlet with a
     Dar es Salaam GPS reading. This supersedes the old static site's coarse
     region-centroid-distance heuristic: the point-in-polygon join already
     gives an exact answer for any geocoded outlet, no distance threshold needed."""
-    n = 0
-    qs = Outlet.objects.filter(has_coords=True, region__isnull=False).exclude(region_name="").select_related("region")
-    for o in qs.only("region_name", "region__name"):
+    rows = []
+    qs = (
+        Outlet.objects.filter(has_coords=True, region__isnull=False)
+        .exclude(region_name="")
+        .select_related("region", "district")
+    )
+    for o in qs.only("addo_uid", "name", "region_name", "region__name", "district__name"):
         if o.region_name.strip().casefold() != o.region.name.strip().casefold():
-            n += 1
-    return n
+            rows.append({
+                "addo_uid": o.addo_uid,
+                "name": o.name,
+                "submitted_region": o.region_name,
+                "gps_region": o.region.name,
+                "district": o.district.name if o.district else "",
+            })
+    return {"total": len(rows), "sample": rows[:limit]}
+
+
+def known_issues():
+    n = Outlet.objects.count()
+    no_region = Outlet.objects.filter(region_name="").count()
+    no_ward = Outlet.objects.filter(ward_name="").count()
+    no_phone = n - _filled_count("phone")
+    return {
+        "no_region": no_region,
+        "no_ward": no_ward,
+        "no_phone": no_phone,
+        "likely_duplicates": likely_duplicate_count(),
+        "region_mismatches": region_mismatches(),
+    }
 
 
 def details():
     return {
         "field_completeness": field_completeness(),
         "gps_source": gps_source_breakdown(),
-        "likely_duplicates": likely_duplicate_count(),
-        "region_mismatches": region_mismatch_count(),
+        "geocoding_by_region": geocoding_by_region(),
+        "admin_matching": admin_matching(),
+        "regions_lowest_district_match": regions_lowest_district_match(),
+        "known_issues": known_issues(),
     }

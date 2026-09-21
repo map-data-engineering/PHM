@@ -167,7 +167,7 @@
     const anyRouted = rows.some(r => r.routed);
     els.resultsMeta.textContent = `${rows.length} nearest (${anyRouted ? "by road" : "straight-line"})`;
     const gmapsMode = gmapsTravelMode(els.modeSel.value);
-    els.resultsBody.innerHTML = rows.map((r, i) => {
+    const cards = rows.map((r, i) => {
       const n = i + 1;
       const loc = [r.ward, r.district, r.region].filter(Boolean).join(", ");
       const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${r.latitude},${r.longitude}&travelmode=${gmapsMode}`;
@@ -175,14 +175,14 @@
       const timeHtml = (r.routed && r.duration_sec != null) ? `<div class="fp-time">${formatDuration(r.duration_sec)}</div>` : "";
       const noteHtml = r.routed ? "" : `<div class="fp-note">straight-line</div>`;
       return `
-        <div class="fp-card" data-n="${n}" data-lat="${r.latitude}" data-lon="${r.longitude}">
+        <div class="fp-card list-group-item list-group-item-action p-3" data-n="${n}" data-lat="${r.latitude}" data-lon="${r.longitude}">
           <div class="fp-num">${n}</div>
           <div>
             <div class="fp-name">${escapeHtml(r.name || "—")}</div>
             <div class="fp-meta"><span class="type">${escapeHtml(r.business_type || "")}</span>${escapeHtml(loc || "—")}</div>
             <div class="fp-actions">
-              <a href="${gmapsUrl}" target="_blank" rel="noopener" class="directions">Directions</a>
-              ${phone ? `<a href="tel:${phone}">${escapeHtml(phone)}</a>` : ""}
+              <a href="${gmapsUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Directions</a>
+              ${phone ? `<a href="tel:${phone}" class="btn btn-sm btn-outline-secondary">${escapeHtml(phone)}</a>` : ""}
             </div>
           </div>
           <div class="fp-dist">
@@ -192,6 +192,7 @@
           </div>
         </div>`;
     }).join("");
+    els.resultsBody.innerHTML = `<div class="list-group list-group-flush">${cards}</div>`;
 
     document.querySelectorAll(".fp-card").forEach(el => {
       el.addEventListener("click", (e) => {

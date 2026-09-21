@@ -4,28 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Data Quality &mdash; PharmaScope</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="shared/style.css">
   <script src="https://cdn.jsdelivr.net/npm/highcharts@11.4.8/highcharts.js"></script>
   <style>
-    .dq-wrap{ max-width:1200px; margin:0 auto; padding:1.5rem 1.5rem 3rem; }
-    .dq-status{ padding:.75rem 1rem; border-radius:4px; font-size:.88rem; margin-bottom:1rem; background:rgba(13,148,136,.05); border-left:4px solid var(--teal); color:var(--muted); }
-    .dq-toprow{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:.75rem; margin-bottom:1.5rem; }
-    .dq-metric{ position:relative; background:#fff; border:1px solid var(--border); border-radius:4px; padding:1rem; overflow:hidden; }
+    .dq-metric{ position:relative; overflow:hidden; }
     .dq-metric::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--teal); }
     .dq-metric.warn::before{ background:#d97706; }
     .dq-metric.bad::before{ background:#dc2626; }
     .dq-metric .lbl{ font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
     .dq-metric .val{ font-size:1.5rem; font-weight:700; margin:.2rem 0; }
     .dq-metric .sub{ font-size:.72rem; color:var(--muted); }
-    .dq-section{ background:#fff; border:1px solid var(--border); border-radius:4px; padding:1.25rem; margin-bottom:1.25rem; }
-    .dq-section h3{ margin:0 0 1rem; font-size:1.05rem; }
-    .dq-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
-    @media (max-width:768px){ .dq-grid{ grid-template-columns:1fr; } }
-    table.dq-tbl{ width:100%; border-collapse:collapse; font-size:.85rem; }
-    table.dq-tbl th{ background:#f1f5f9; padding:.5rem .7rem; text-align:left; font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
-    table.dq-tbl td{ padding:.5rem .7rem; border-bottom:1px solid #f1f5f9; }
     table.dq-tbl td.num, table.dq-tbl td.pct{ text-align:right; font-weight:500; }
-    .dq-note{ padding:.6rem .85rem; font-size:.85rem; color:var(--muted); background:#f8fafc; border-left:2px solid var(--border); border-radius:0 3px 3px 0; margin-bottom:1rem; }
   </style>
 </head>
 <body>
@@ -34,37 +24,90 @@
   <section class="page-banner">
     <div style="max-width:1200px;margin:0 auto;">
       <h1>Data Quality</h1>
-      <p>Every field in the CPP registry inspected for completeness and provenance: how many outlets are geocoded, and where the source data is incomplete.</p>
+      <p>Every field in the CPP registry inspected for completeness and provenance: how many outlets are geocoded, where the source data is incomplete, and which specific outlets need a second look.</p>
     </div>
   </section>
 
-  <div class="dq-wrap">
-    <div class="dq-status" id="dq-status">Loading&hellip;</div>
-    <div class="dq-toprow" id="dq-toprow"></div>
+  <div class="container-fluid py-4" style="max-width:1200px;">
+    <div class="alert alert-light border small mb-3" id="dq-status" style="border-left:4px solid var(--teal) !important;">Loading&hellip;</div>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mb-4" id="dq-toprow"></div>
 
     <div id="dq-details-section">
-      <div class="dq-note" id="dq-details-note">Loading detailed breakdown&hellip;</div>
-      <div class="dq-section">
-        <h3>Field completeness</h3>
-        <div class="dq-grid">
-          <div id="chart-completeness"></div>
-          <div style="max-height:320px;overflow:auto;">
-            <table class="dq-tbl" id="dq-completeness-tbl">
-              <thead><tr><th>Field</th><th class="num">Filled</th><th class="num">Missing</th><th class="pct">%</th></tr></thead>
+      <div class="alert alert-light border small mb-4" id="dq-details-note">Loading detailed breakdown&hellip;</div>
+
+      <div class="card card-lift mb-4">
+        <div class="card-body">
+          <h3 class="h6 mb-3">Field completeness</h3>
+          <div class="row g-3">
+            <div class="col-md-6"><div id="chart-completeness"></div></div>
+            <div class="col-md-6">
+              <div class="table-responsive" style="max-height:320px;">
+                <table class="table table-sm dq-tbl" id="dq-completeness-tbl">
+                  <thead><tr><th>Field</th><th class="num">Filled</th><th class="num">Missing</th><th class="pct">%</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="card card-lift h-100">
+            <div class="card-body">
+              <h3 class="h6 mb-3">GPS source</h3>
+              <div id="chart-gps-source"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card card-lift h-100">
+            <div class="card-body">
+              <h3 class="h6 mb-3">Region / district / ward match rate</h3>
+              <div id="chart-admin-matching"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-lift mb-4">
+        <div class="card-body">
+          <h3 class="h6 mb-3">Geocoding rate by region (lowest 15)</h3>
+          <div id="chart-geocode-region"></div>
+        </div>
+      </div>
+
+      <div class="card card-lift mb-4">
+        <div class="card-body">
+          <h3 class="h6 mb-3">Regions with the weakest district match</h3>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover dq-tbl" id="dq-region-match-tbl">
+              <thead><tr><th>Region</th><th class="num">Outlets</th><th class="num">District-matched</th><th class="pct">%</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
         </div>
       </div>
-      <div class="dq-section">
-        <h3>GPS source</h3>
-        <div style="max-width:400px;margin:0 auto;">
-          <div id="chart-gps-source"></div>
+
+      <div class="card card-lift mb-4">
+        <div class="card-body">
+          <h3 class="h6 mb-3">Known issues</h3>
+          <div class="row row-cols-2 row-cols-md-4 g-3 mb-3" id="dq-issues-row"></div>
+          <h4 class="h6 text-muted mt-4">Region mismatches <span class="small fw-normal">(GPS-derived region disagrees with the submitted region)</span></h4>
+          <div class="table-responsive" style="max-height:320px;">
+            <table class="table table-sm table-hover dq-tbl" id="dq-mismatch-tbl">
+              <thead><tr><th>Outlet</th><th>Submitted region</th><th>GPS-derived region</th><th>District</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="small text-muted mt-2" id="dq-mismatch-note"></div>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="shared/api.js"></script>
   <script>Auth.requireAuth();</script>
   <script src="shared/nav.js"></script>

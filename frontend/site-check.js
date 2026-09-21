@@ -157,14 +157,14 @@
     }
     els.verdict.className = `sc-verdict ${v.key}`;
     els.verdict.innerHTML = `
-      <span class="badge">${escapeHtml(v.label)}</span>
-      <h3>${escapeHtml(v.headline)}</h3>
-      <p>${v.body}</p>
-      <div class="sc-metrics">
-        <div class="sc-metric"><div class="lbl">Outlets within ${data.radius_km.toFixed(1)} km</div><div class="val">${data.count_in_radius.toLocaleString()}</div></div>
-        <div class="sc-metric"><div class="lbl">Density (per km&sup2;)</div><div class="val">${data.density_per_km2.toFixed(2)}</div></div>
-        <div class="sc-metric"><div class="lbl">Nearest outlet</div><div class="val">${nearestVal}</div></div>
-        <div class="sc-metric"><div class="lbl">Circle area</div><div class="val">${data.area_km2.toFixed(1)} km&sup2;</div></div>
+      <span class="badge ${v.key} mb-2">${escapeHtml(v.label)}</span>
+      <h3 class="h5">${escapeHtml(v.headline)}</h3>
+      <p class="small text-muted mb-3">${v.body}</p>
+      <div class="row row-cols-2 g-2">
+        <div class="col"><div class="sc-metric"><div class="lbl">Outlets within ${data.radius_km.toFixed(1)} km</div><div class="val">${data.count_in_radius.toLocaleString()}</div></div></div>
+        <div class="col"><div class="sc-metric"><div class="lbl">Density (per km&sup2;)</div><div class="val">${data.density_per_km2.toFixed(2)}</div></div></div>
+        <div class="col"><div class="sc-metric"><div class="lbl">Nearest outlet</div><div class="val">${nearestVal}</div></div></div>
+        <div class="col"><div class="sc-metric"><div class="lbl">Circle area</div><div class="val">${data.area_km2.toFixed(1)} km&sup2;</div></div></div>
       </div>`;
   }
 

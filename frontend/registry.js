@@ -15,7 +15,7 @@
     ctrlDistrict: document.getElementById("ctrl-district"),
     ctrlWard: document.getElementById("ctrl-ward"),
     viewNote: document.getElementById("reg-view-note"),
-    viewPills: document.querySelectorAll(".reg-viewpill"),
+    viewPills: document.querySelectorAll("[data-view]"),
   };
 
   // ── Map + basemap ────────────────────────────────────────────────
@@ -171,11 +171,15 @@
     const geocoded = rows.filter(r => r.latitude != null && r.longitude != null).length;
     const regions = new Set(rows.map(r => r.region).filter(Boolean)).size;
     const districts = new Set(rows.map(r => r.district).filter(Boolean)).size;
-    els.summary.innerHTML = `
-      <div class="reg-scard"><div class="val">${rows.length.toLocaleString()}</div><div class="lbl">Outlets in view</div></div>
-      <div class="reg-scard"><div class="val">${geocoded.toLocaleString()}</div><div class="lbl">With GPS (${rows.length ? Math.round(100 * geocoded / rows.length) : 0}%)</div></div>
-      <div class="reg-scard"><div class="val">${regions}</div><div class="lbl">Regions</div></div>
-      <div class="reg-scard"><div class="val">${districts}</div><div class="lbl">Districts</div></div>`;
+    const card = (val, lbl) => `
+      <div class="col"><div class="card card-lift reg-scard h-100 text-center"><div class="card-body py-3">
+        <div class="val">${val}</div><div class="lbl">${lbl}</div>
+      </div></div></div>`;
+    els.summary.innerHTML =
+      card(rows.length.toLocaleString(), "Outlets in view") +
+      card(geocoded.toLocaleString(), `With GPS (${rows.length ? Math.round(100 * geocoded / rows.length) : 0}%)`) +
+      card(regions, "Regions") +
+      card(districts, "Districts");
   }
 
   function renderPoints(rows) {
