@@ -1,8 +1,8 @@
 // PharmaScope frontend — API client shared by every page.
 //
-// EDIT THIS before deploying: point it at your PythonAnywhere backend.
-// Left as localhost for local development against `manage.py runserver`.
-const API_BASE_URL = "http://127.0.0.1:8000";
+// For local development against `manage.py runserver`, temporarily swap
+// this to "http://127.0.0.1:8000" — don't commit that swap.
+const API_BASE_URL = "https://DET.pythonanywhere.com";
 
 const TOKEN_KEY = "ps_token";
 const USER_KEY = "ps_user"; // { username, roles: [...] }
