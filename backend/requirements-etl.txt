@@ -1,0 +1,15 @@
+# Only needed to run the one-time data-import management commands
+# (geo.import_boundaries, outlets.import_outlets) — NOT needed to serve the
+# live app. Install this locally (or anywhere with disk/RAM to spare), run
+# the imports, then ship the resulting db.sqlite3 to the actual host.
+# This is exactly why PythonAnywhere's free-tier disk quota (512MB) chokes
+# if you try to `pip install -r requirements.txt` with these included —
+# numpy + pandas + shapely alone are 150MB+ installed.
+numpy==2.5.3
+pandas==3.0.6
+python-dateutil==2.9.0.post0
+RapidFuzz==3.14.6
+shapely==2.1.2
+six==1.17.0
+topojson==1.10
+xlrd==2.0.2

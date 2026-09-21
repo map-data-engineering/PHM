@@ -1,0 +1,7 @@
+# Only needed for the Postgres/Render deployment path (config/settings/
+# production.py). PythonAnywhere uses SQLite (config/settings/pythonanywhere.py)
+# and doesn't need any of this.
+dj-database-url==3.1.2
+gunicorn==26.2.0
+psycopg==3.3.6
+psycopg-binary==3.3.6
