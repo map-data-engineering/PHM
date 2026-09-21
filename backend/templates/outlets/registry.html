@@ -4,7 +4,7 @@
 {% block extra_head %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <style>
   .reg-hero{background:#fff;color:#34495f;border-bottom:1px solid var(--border);padding:2.5rem 2rem;}
   .reg-hero h1{font-size:2.2rem;margin:0 0 .4rem;}
@@ -44,7 +44,6 @@
   .gi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
   .gi-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:1.25rem;box-shadow:0 1px 4px rgba(15,23,42,.06);}
   .gi-card h3{font-size:1rem;margin:0 0 .75rem;color:#0f172a;}
-  .gi-card canvas{max-height:300px !important;}
   @media(max-width:768px){#reg-map{height:400px;} .gi-grid{grid-template-columns:1fr;}}
 </style>
 {% endblock %}
@@ -103,11 +102,11 @@
     <div class="gi-grid">
       <div class="gi-card">
         <h3>Outlets per region (top 15)</h3>
-        <canvas id="chart-region"></canvas>
+        <div id="chart-region"></div>
       </div>
       <div class="gi-card">
         <h3>Accreditation source</h3>
-        <canvas id="chart-acc"></canvas>
+        <div id="chart-acc"></div>
       </div>
     </div>
   </div>

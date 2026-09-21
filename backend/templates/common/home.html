@@ -1,51 +1,181 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}PharmaScope{% endblock %}
-{% block content %}
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <style>
-  .home-hero { background: var(--navy); color: #fff; padding: 3.5rem 1.5rem; text-align: center; }
-  .home-hero h1 { font-size: 2rem; margin: 0 0 0.5rem; }
-  .home-hero p { color: #cbd5e1; max-width: 640px; margin: 0 auto; }
-  .home-grid {
-    max-width: 900px; margin: -2rem auto 3rem; padding: 0 1.5rem;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;
+  :root {
+    --map-red: #0d9488; --map-red-dark: #0f766e; --map-navy: #263248;
+    --map-text: #34495f; --map-text-muted: #71808f; --map-border: #eef0f5;
+    --map-bg-warm: #f9fafc; --map-bg-section: #f2f3fa;
+    --landing-radius: 12px; --landing-radius-lg: 18px;
+    --landing-shadow: 0 8px 30px rgba(52, 73, 95, 0.08);
+    --landing-shadow-hover: 0 20px 45px rgba(52, 73, 95, 0.12);
+    --landing-btn-shadow: 0 6px 20px rgba(13, 148, 136, 0.35);
+    --landing-btn-shadow-hover: 0 10px 25px rgba(13, 148, 136, 0.45);
   }
-  .home-card {
-    background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;
-    box-shadow: 0 4px 14px rgba(15,23,42,0.06); text-decoration: none; color: var(--navy);
+  body { background: var(--map-bg-section); }
+
+  .btn-primary, .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.65rem 1.25rem; border-radius: 2px; font-weight: 500; font-size: 0.875rem;
+    line-height: 1.4; text-decoration: none !important; transition: all .15s ease-in-out; cursor: pointer;
   }
-  .home-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
-  .home-card p { margin: 0; font-size: 0.85rem; color: var(--muted); }
-  .home-card .tag {
-    display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.04em; color: var(--teal); margin-bottom: 0.4rem;
+  .btn-primary { background: var(--map-red); color: #fff !important; border: 1px solid var(--map-red); }
+  .btn-primary::after { content: "\2192"; font-weight: 400; transition: transform .15s ease-in-out; }
+  .btn-primary:hover { background: var(--map-red-dark); border-color: var(--map-red-dark); box-shadow: 0 5px 20px rgba(13,148,136,.25); }
+  .btn-primary:hover::after { transform: translateX(3px); }
+  .btn-secondary { background: #fff; color: var(--map-text) !important; border: 1px solid rgba(0,0,0,.1); }
+  .btn-secondary:hover { background: var(--map-bg-warm); border-color: var(--map-red); color: var(--map-red) !important; box-shadow: 0 5px 20px #d6dee4; }
+
+  .hero-section {
+    position: relative; overflow: hidden; border-bottom: 1px solid var(--map-border);
+    padding: 4.5rem 2rem 3.75rem;
+    background: radial-gradient(1100px 380px at 15% -120px, rgba(13,148,136,.10), transparent 60%),
+                linear-gradient(180deg, #f0fdfa 0%, #ffffff 55%);
   }
+  .hero-section::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle at 92% 18%, rgba(13,148,136,.09) 0, transparent 42%),
+                       radial-gradient(circle at 6% 92%, rgba(38,50,72,.06) 0, transparent 42%);
+  }
+  .hero-inner {
+    position: relative; z-index: 1; max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 4rem; align-items: center;
+  }
+  .hero-wordmark { font-weight: 700; font-size: 1.9rem; color: var(--map-text); letter-spacing: -.02em; line-height: 1; margin-bottom: 1.25rem; }
+  .hero-wordmark span { color: var(--map-red); }
+  .hero-eyebrow {
+    display: inline-block; font-size: .72rem; font-weight: 500; color: var(--map-red);
+    text-transform: uppercase; letter-spacing: .1em; margin-bottom: 1.5rem;
+    padding: .45rem 1rem; background: rgba(13,148,136,.08); border-radius: 50px;
+  }
+  .hero-title-block {
+    font-size: clamp(2.4rem, 4.5vw, 4rem); font-weight: 600; color: var(--map-text);
+    line-height: 1.05; letter-spacing: -.02em; margin: 0 0 1.5rem;
+  }
+  .hero-title-block .accent { color: var(--map-red); }
+  .hero-lede { font-size: 1.05rem; color: var(--map-text-muted); max-width: 560px; line-height: 1.65; margin: 0 0 2rem; }
+  .hero-ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
+  .hero-ctas .btn-primary, .hero-ctas .btn-secondary { border-radius: 50px; padding: .75rem 1.5rem; }
+  .hero-ctas .btn-primary { box-shadow: var(--landing-btn-shadow); }
+  .hero-ctas .btn-primary:hover { box-shadow: var(--landing-btn-shadow-hover); transform: translateY(-1px); }
+  .hero-visual { display: flex; align-items: center; justify-content: center; }
+  .hero-visual-img { width: 100%; max-width: 460px; height: auto; display: block; }
+  @media (prefers-reduced-motion: no-preference) { .hero-visual-img { animation: float 6s ease-in-out infinite; } }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 2.25rem; } .hero-section { padding: 3rem 1.5rem 2.5rem; } }
+
+  .features-section { background: var(--map-bg-section); padding: 4.5rem 2rem; }
+  .features-section .section-header {
+    max-width: 1400px; margin: 0 auto 3rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--map-border);
+  }
+  .features-section .section-header h2 { font-size: 1.75rem; font-weight: 600; color: var(--map-text); margin: 0; letter-spacing: -.01em; }
+  .feature-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1400px; margin: 0 auto; }
+  .feature-card {
+    display: flex; flex-direction: column; align-items: flex-start; gap: .4rem;
+    padding: 2rem 1.75rem; background: #fff; border-radius: var(--landing-radius-lg);
+    box-shadow: var(--landing-shadow); transition: box-shadow .15s ease-in-out, transform .15s ease-in-out;
+  }
+  .feature-card:hover { box-shadow: var(--landing-shadow-hover); transform: translateY(-4px); }
+  .feature-card .feature-icon {
+    width: 3.5rem; height: 3.5rem; border-radius: var(--landing-radius); background: rgba(13,148,136,.08);
+    color: var(--map-red); display: inline-flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.1rem;
+  }
+  .feature-card h3 { font-weight: 600; font-size: 1.25rem; color: var(--map-text); margin: 0 0 .5rem; letter-spacing: -.005em; }
+  .feature-card p { font-size: .92rem; color: var(--map-text-muted); line-height: 1.6; margin: 0 0 1rem; }
+  .feature-card a { display: inline-flex; align-items: center; gap: .5rem; margin-top: auto; color: var(--map-red); font-weight: 500; text-decoration: none; font-size: .85rem; }
+  .feature-card a::after { content: "\2192"; transition: transform .15s ease-in-out; }
+  .feature-card a:hover::after { transform: translateX(4px); }
+
+  .countries-banner {
+    position: relative; overflow: hidden; text-align: center; color: #fff; padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--map-red) 0%, var(--map-red-dark) 100%);
+  }
+  .countries-banner::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle at 15% 30%, rgba(255,255,255,.08) 0, transparent 40%),
+                       radial-gradient(circle at 85% 70%, rgba(255,255,255,.08) 0, transparent 40%);
+  }
+  .countries-banner > div { position: relative; z-index: 1; }
+  .countries-banner h2 { font-size: clamp(1.5rem, 2vw + 1rem, 2rem); font-weight: 600; color: #fff; margin: 0 0 .5rem; }
+  .countries-banner > div > p { color: rgba(255,255,255,.85); margin: 0 0 1.75rem; font-size: 1rem; }
+  .countries-banner .btn-primary, .countries-banner .btn-secondary { border-radius: 50px; padding: .75rem 1.5rem; }
+  .countries-banner .btn-primary { background: #fff; border-color: #fff; color: var(--map-red) !important; box-shadow: 0 12px 30px rgba(0,0,0,.18); }
+  .countries-banner .btn-primary:hover { color: var(--map-red-dark) !important; box-shadow: 0 15px 35px rgba(0,0,0,.22); transform: translateY(-1px); }
+  .countries-banner .btn-secondary { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.35); color: #fff !important; }
+  .countries-banner .btn-secondary:hover { background: rgba(255,255,255,.16); border-color: #fff; }
 </style>
-<section class="home-hero">
-  <h1>PharmaScope</h1>
-  <p>Tanzania pharmacy-accreditation data, rebuilt on a real backend — Django Admin, role-based access, and a live REST API behind every map tool.</p>
+{% endblock %}
+{% block content %}
+<section class="hero-section">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-wordmark">Pharma<span>Scope</span></div>
+      <span class="hero-eyebrow">CPP access intelligence &middot; Tanzania</span>
+      <h1 class="hero-title-block">
+        Every <span class="accent">accredited</span><br>
+        drug outlet in Tanzania,<br>
+        mapped and searchable.
+      </h1>
+      <p class="hero-lede">
+        PharmaScope turns Pharmacy Council and TFDA accreditation records into a working portal: search and filter every accredited outlet in the CPP Registry, find the nearest one to any address, screen a proposed site before it's accredited, and track the quality of the underlying data.
+      </p>
+      <div class="hero-ctas">
+        <a href="{% url 'outlets:registry-page' %}" class="btn-primary">Open CPP Registry</a>
+        <a href="{% url 'siting:find-pharmacy-page' %}" class="btn-secondary">Find Pharmacy</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="{% static 'common/images/pharmascope-homepage.png' %}" alt="PharmaScope: an isometric map of Tanzania with accredited outlet pins, a search bar, and an outlet detail card" class="hero-visual-img"/>
+    </div>
+  </div>
 </section>
-<div class="home-grid">
-  <a class="home-card" href="{% url 'outlets:registry-page' %}">
-    <span class="tag">Public</span>
-    <h3>CPP Registry</h3>
-    <p>Search, filter, and map every accredited outlet as points or admin-boundary choropleths.</p>
-  </a>
-  <a class="home-card" href="{% url 'siting:find-pharmacy-page' %}">
-    <span class="tag">Public</span>
-    <h3>Find Pharmacy</h3>
-    <p>Nearest accredited outlets to any point, with real road distance and travel time.</p>
-  </a>
-  {% if user.is_authenticated %}
-  <a class="home-card" href="{% url 'siting:site-check-page' %}">
-    <span class="tag">Regulator</span>
-    <h3>Site Check</h3>
-    <p>Check outlet density and get a coverage verdict before accrediting a new site.</p>
-  </a>
-  <a class="home-card" href="{% url 'dataquality:dashboard-page' %}">
-    <span class="tag">Regulator</span>
-    <h3>Data Quality</h3>
-    <p>Completeness, geocoding, and boundary-matching metrics, computed live.</p>
-  </a>
-  {% endif %}
-</div>
+
+<section class="features-section">
+  <div class="section-header"><h2>Intelligence layers</h2></div>
+  <div class="feature-cards">
+    <div class="feature-card">
+      <div class="feature-icon"><i class="bi bi-database-fill"></i></div>
+      <h3>CPP Registry Lake</h3>
+      <p>Standardised accreditation data from the Pharmacy Council of Tanzania and TFDA. ~4,900 outlets across 23 regions, harmonised from regulator source records.</p>
+      <a href="{% url 'outlets:registry-page' %}">Explore registry</a>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="bi bi-geo-alt-fill"></i></div>
+      <h3>Find the nearest pharmacy</h3>
+      <p>Enter your address, share your location, or drop a pin on the map. PharmaScope returns the closest accredited CPPs sorted by road distance, with contact numbers and one-tap directions to each.</p>
+      <a href="{% url 'siting:find-pharmacy-page' %}">Find nearest pharmacy</a>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="feature-card">
+      <div class="feature-icon"><i class="bi bi-clipboard-check-fill"></i></div>
+      <h3>Site Check: new registrations</h3>
+      <p>Before accrediting a new outlet, drop a pin at the proposed location and get an evidence-based saturation verdict: number of existing CPPs within walking distance, density per km<sup>2</sup>, and whether the applicant should be redirected to an under-served ward.</p>
+      <a href="{% url 'siting:site-check-page' %}">Open Site Check</a>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+      <h3>Data Quality intelligence</h3>
+      <p>Every field in the CPP registry inspected for completeness: how many outlets are geocoded, which fields are missing, and how accurately outlets are placed in their region, district, and ward.</p>
+      <a href="{% url 'dataquality:dashboard-page' %}">Inspect data quality</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="countries-banner">
+  <div style="max-width:1400px;margin:0 auto;">
+    <h2>Start exploring</h2>
+    <p>Jump straight into the CPP registry or find a nearby pharmacy.</p>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;">
+      <a href="{% url 'outlets:registry-page' %}" class="btn-primary">CPP Registry</a>
+      <a href="{% url 'siting:find-pharmacy-page' %}" class="btn-secondary">Find Pharmacy</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'siting:site-check-page' %}" class="btn-secondary">Site Check</a>
+      <a href="{% url 'dataquality:dashboard-page' %}" class="btn-secondary">Data Quality</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
 {% endblock %}

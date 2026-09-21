@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Data Quality &mdash; PharmaScope{% endblock %}
 {% block extra_head %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <style>
   .dq-wrap{ max-width:1200px; margin:0 auto; padding:1.5rem 1.5rem 3rem; }
   .page-banner{ background:#fff; border-bottom:1px solid var(--border); padding:2.5rem 2rem; }
@@ -21,7 +21,6 @@
   .dq-section h3{ margin:0 0 1rem; font-size:1.05rem; }
   .dq-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
   @media (max-width:768px){ .dq-grid{ grid-template-columns:1fr; } }
-  .dq-grid canvas{ max-height:320px !important; }
   table.dq-tbl{ width:100%; border-collapse:collapse; font-size:.85rem; }
   table.dq-tbl th{ background:#f1f5f9; padding:.5rem .7rem; text-align:left; font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
   table.dq-tbl td{ padding:.5rem .7rem; border-bottom:1px solid #f1f5f9; }
@@ -46,7 +45,7 @@
     <div class="dq-section">
       <h3>Field completeness</h3>
       <div class="dq-grid">
-        <canvas id="chart-completeness"></canvas>
+        <div id="chart-completeness"></div>
         <div style="max-height:320px;overflow:auto;">
           <table class="dq-tbl" id="dq-completeness-tbl">
             <thead><tr><th>Field</th><th class="num">Filled</th><th class="num">Missing</th><th class="pct">%</th></tr></thead>
@@ -58,7 +57,7 @@
     <div class="dq-section">
       <h3>GPS source</h3>
       <div style="max-width:400px;margin:0 auto;">
-        <canvas id="chart-gps-source"></canvas>
+        <div id="chart-gps-source"></div>
       </div>
     </div>
   </div>

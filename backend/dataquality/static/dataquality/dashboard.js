@@ -41,28 +41,41 @@
           <td class="pct">${f.pct.toFixed(1)}%</td>
         </tr>`).join("");
 
-      new Chart(document.getElementById("chart-completeness"), {
-        type: "bar",
-        data: {
-          labels: d.field_completeness.map(f => f.label),
-          datasets: [{ data: d.field_completeness.map(f => f.pct), backgroundColor: d.field_completeness.map(f =>
-            f.pct >= 95 ? "#0d9488" : f.pct >= 80 ? "#0891b2" : f.pct >= 50 ? "#d97706" : "#dc2626") }],
-        },
-        options: {
-          indexAxis: "y", responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { x: { beginAtZero: true, max: 100, ticks: { callback: (v) => v + "%" } } },
-        },
+      Highcharts.chart("chart-completeness", {
+        chart: { type: "bar", height: 320 },
+        title: { text: null },
+        credits: { enabled: false },
+        legend: { enabled: false },
+        xAxis: { categories: d.field_completeness.map(f => f.label), title: { text: null } },
+        yAxis: { title: { text: null }, min: 0, max: 100, labels: { format: "{value}%" } },
+        tooltip: { pointFormat: "<b>{point.y:.1f}%</b> filled" },
+        series: [{
+          name: "Filled",
+          data: d.field_completeness.map(f => ({
+            y: f.pct,
+            color: f.pct >= 95 ? "#0d9488" : f.pct >= 80 ? "#0891b2" : f.pct >= 50 ? "#d97706" : "#dc2626",
+          })),
+        }],
       });
 
       const gs = d.gps_source;
-      new Chart(document.getElementById("chart-gps-source"), {
-        type: "doughnut",
-        data: {
-          labels: ["Tablet GPS", "Hand-held GPS", "No coordinates"],
-          datasets: [{ data: [gs.tablet, gs.hand, gs.none], backgroundColor: ["#0d9488", "#0891b2", "#dc2626"] }],
+      Highcharts.chart("chart-gps-source", {
+        chart: { type: "pie", height: 320 },
+        title: { text: null },
+        credits: { enabled: false },
+        colors: ["#0d9488", "#0891b2", "#dc2626"],
+        plotOptions: {
+          pie: { innerSize: "60%", dataLabels: { enabled: true, format: "{point.name}: {point.percentage:.1f}%" } },
         },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } },
+        legend: { enabled: true, verticalAlign: "bottom" },
+        series: [{
+          name: "Outlets",
+          data: [
+            { name: "Tablet GPS", y: gs.tablet },
+            { name: "Hand-held GPS", y: gs.hand },
+            { name: "No coordinates", y: gs.none },
+          ],
+        }],
       });
     })
     .catch(err => {

@@ -295,17 +295,29 @@
   function renderCharts(rows) {
     const regions = tally(rows, "region", 15);
     const acc = tally(rows, "accreditation_source");
-    if (regionChart.instance) regionChart.instance.destroy();
-    if (accChart.instance) accChart.instance.destroy();
-    regionChart.instance = new Chart(document.getElementById("chart-region"), {
-      type: "bar",
-      data: { labels: regions.map(e => e[0]), datasets: [{ data: regions.map(e => e[1]), backgroundColor: "#0d9488" }] },
-      options: { indexAxis: "y", responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } },
+
+    regionChart.instance = Highcharts.chart("chart-region", {
+      chart: { type: "bar", height: 300 },
+      title: { text: null },
+      xAxis: { categories: regions.map(e => e[0]), title: { text: null } },
+      yAxis: { title: { text: null }, allowDecimals: false },
+      legend: { enabled: false },
+      credits: { enabled: false },
+      tooltip: { pointFormat: "<b>{point.y}</b> outlets" },
+      plotOptions: { series: { color: "#0d9488" } },
+      series: [{ name: "Outlets", data: regions.map(e => e[1]) }],
     });
-    accChart.instance = new Chart(document.getElementById("chart-acc"), {
-      type: "doughnut",
-      data: { labels: acc.map(e => e[0]), datasets: [{ data: acc.map(e => e[1]), backgroundColor: ["#0d9488", "#0f172a", "#64748b", "#f59e0b"] }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } },
+
+    accChart.instance = Highcharts.chart("chart-acc", {
+      chart: { type: "pie", height: 300 },
+      title: { text: null },
+      credits: { enabled: false },
+      colors: ["#0d9488", "#0f172a", "#64748b", "#f59e0b"],
+      plotOptions: {
+        pie: { innerSize: "60%", dataLabels: { enabled: true, format: "{point.name}: {point.percentage:.1f}%" } },
+      },
+      legend: { enabled: true, verticalAlign: "bottom" },
+      series: [{ name: "Outlets", data: acc.map(e => ({ name: e[0], y: e[1] })) }],
     });
   }
 
