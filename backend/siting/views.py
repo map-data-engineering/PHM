@@ -1,9 +1,5 @@
 import math
 
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import render
-from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
@@ -113,20 +109,6 @@ def _classify(density, count, nearest_km):
         "headline": "This locality is saturated.",
         "body": "Density exceeds 3 outlets/km². Recommend redirecting the applicant to an under-served ward. Use the Regions view on the CPP Registry to identify gaps.",
     }
-
-
-@ensure_csrf_cookie
-def find_pharmacy_page(request):
-    return render(request, "siting/find_pharmacy.html")
-
-
-@login_required
-@ensure_csrf_cookie
-def site_check_page(request):
-    user = request.user
-    if not (user.is_superuser or user.groups.filter(name__in=["Regulator", "Data Team"]).exists()):
-        raise PermissionDenied("Site Check is restricted to Regulator and Data Team accounts.")
-    return render(request, "siting/site_check.html")
 
 
 class NearestOutletsView(APIView):

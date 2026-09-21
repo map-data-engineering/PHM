@@ -1,20 +1,9 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-
-class PortalLoginView(LoginView):
-    template_name = "accounts/login.html"
-    redirect_authenticated_user = True
-
-
-class PortalLogoutView(LogoutView):
-    next_page = reverse_lazy("accounts:login")
 
 
 def _roles(user):

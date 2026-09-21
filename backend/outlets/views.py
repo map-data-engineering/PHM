@@ -1,5 +1,4 @@
 from django.db.models import Count
-from django.shortcuts import render
 from django.utils import timezone
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
@@ -97,10 +96,6 @@ class EditProposalViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, view
         proposal.review_note = request.data.get("note", "")
         proposal.save()
         return Response(EditProposalSerializer(proposal).data)
-
-
-def registry_page(request):
-    return render(request, "outlets/registry.html")
 
 
 LEVEL_MODELS = {"region": Region, "district": District, "ward": Ward}

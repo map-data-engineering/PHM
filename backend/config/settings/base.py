@@ -92,9 +92,9 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 100,
-    # SessionAuthentication still works for same-origin use (Django Admin,
-    # the server-rendered pages under templates/). TokenAuthentication is
-    # for the separately-hosted static frontend (Vercel) calling this API
+    # SessionAuthentication covers a staff member browsing the DRF browsable
+    # API while logged into Django Admin. TokenAuthentication is what the
+    # separately-hosted static frontend (Vercel) uses to call this API
     # cross-origin, where cookies/CSRF don't travel reliably.
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
@@ -113,10 +113,6 @@ CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", default="http://localhost:
 
 # OpenRouteService — read server-side only; never serialized to the client.
 ORS_API_KEY = config("ORS_API_KEY", default="")
-
-LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "accounts:login"
 
 REGULATOR_GROUP = "Regulator"
 DATA_TEAM_GROUP = "Data Team"
