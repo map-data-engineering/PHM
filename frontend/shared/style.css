@@ -1,8 +1,11 @@
 /* Load bootstrap.min.css BEFORE this file on every page — these rules
-   re-skin Bootstrap's own CSS-variable-driven components (buttons, links,
-   badges) to the PharmaScope teal/navy brand instead of Bootstrap blue. */
+   re-skin Bootstrap's own CSS-variable-driven components (buttons, cards,
+   links, badges, alerts, inputs) to the PharmaScope teal/navy brand and a
+   softer, more rounded "container" language (bigger radius, colored soft
+   shadows instead of flat grey ones) instead of fighting Bootstrap's
+   defaults component-by-component. */
 :root {
-  --teal: #0d9488; --teal-dark: #0f766e; --navy: #263248; --navy-dark: #0f172a;
+  --teal: #0d9488; --teal-dark: #0f766e; --teal-light: #14b8a6; --navy: #263248; --navy-dark: #0f172a;
   --text: #34495f; --muted: #71808f; --border: #eef0f5; --bg-section: #f2f3fa; --bg-warm: #f9fafc;
 
   --bs-primary: #0d9488;
@@ -11,15 +14,28 @@
   --bs-link-color-rgb: 13, 148, 136;
   --bs-link-hover-color: #0f766e;
   --bs-link-hover-color-rgb: 15, 118, 110;
+
+  /* Rounder, softer geometry site-wide — most Bootstrap components (cards,
+     buttons, inputs, alerts, badges) read these vars directly. */
+  --bs-border-radius: .75rem;
+  --bs-border-radius-sm: .5rem;
+  --bs-border-radius-lg: 1rem;
+  --bs-border-radius-xl: 1.25rem;
+  --bs-border-radius-2xl: 1.5rem;
+  --bs-box-shadow: 0 4px 24px rgba(13,148,136,.08);
+  --bs-box-shadow-sm: 0 2px 12px rgba(13,148,136,.06);
 }
 body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text); background: var(--bg-section); }
 
+.btn { border-radius: var(--bs-border-radius); }
 .btn-primary {
   --bs-btn-bg: #0d9488; --bs-btn-border-color: #0d9488;
   --bs-btn-hover-bg: #0f766e; --bs-btn-hover-border-color: #0f766e;
   --bs-btn-active-bg: #0f766e; --bs-btn-active-border-color: #0f766e;
   --bs-btn-focus-shadow-rgb: 13, 148, 136;
+  box-shadow: 0 6px 20px rgba(13,148,136,.25);
 }
+.btn-primary:hover { box-shadow: 0 10px 25px rgba(13,148,136,.35); transform: translateY(-1px); }
 .btn-outline-primary {
   --bs-btn-color: #0d9488; --bs-btn-border-color: #0d9488;
   --bs-btn-hover-bg: #0d9488; --bs-btn-hover-border-color: #0d9488;
@@ -28,16 +44,42 @@ body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var
 .text-primary { color: #0d9488 !important; }
 .bg-brand-navy { background-color: var(--navy-dark) !important; }
 .badge.bg-primary { background-color: #0d9488 !important; }
+.badge { border-radius: .5rem; padding: .4em .75em; }
+
+.card { border: 1px solid rgba(13,148,136,.10); box-shadow: var(--bs-box-shadow-sm); }
 
 /* Card hover-lift, matching the landing page's feature cards — reused
    across Registry/Find Pharmacy/Site Check/Data Quality for consistency. */
-.card-lift { transition: box-shadow .15s ease-in-out, transform .15s ease-in-out; border: 0; box-shadow: 0 8px 30px rgba(52,73,95,.08); }
-.card-lift:hover { box-shadow: 0 20px 45px rgba(52,73,95,.12); transform: translateY(-2px); }
+.card-lift { transition: box-shadow .2s ease-in-out, transform .2s ease-in-out, border-color .2s ease-in-out; border: 1px solid rgba(13,148,136,.10); box-shadow: 0 4px 24px rgba(13,148,136,.08); }
+.card-lift:hover { box-shadow: 0 12px 36px rgba(13,148,136,.16); transform: translateY(-3px); border-color: rgba(13,148,136,.3); }
+
+/* Small pill "tag" above a section heading — e.g. <span class="section-tag">
+   <i class="bi bi-database"></i> Public data</span> */
+.section-tag {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--teal); margin-bottom: .6rem;
+}
+
+/* Gradient-highlighted word(s) inside a heading, e.g.
+   <h1>CPP <span class="gradient-text">Registry</span></h1> */
+.gradient-text {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 60%, var(--teal-light) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+}
 
 .site-navbar .nav-link.active { color: #fff !important; font-weight: 600; }
 .site-navbar .nav-link { color: rgba(255,255,255,.75); }
 .site-navbar .nav-link:hover { color: #fff; }
 
-.page-banner { background: #fff; border-bottom: 1px solid var(--border); padding: 2.5rem 2rem; }
+.page-banner { background: #fff; border-bottom: 1px solid var(--border); padding: 2.75rem 2rem; }
 .page-banner h1 { font-size: 2rem; margin: 0 0 .4rem; color: var(--text); }
 .page-banner p { color: var(--muted); margin: 0; max-width: 700px; }
+
+/* Icon-in-tinted-rounded-box, matching the landing page's feature-icon
+   treatment — reusable anywhere a card needs a small icon badge. */
+.icon-badge {
+  width: 3rem; height: 3rem; border-radius: var(--bs-border-radius-lg);
+  background: rgba(13,148,136,.10); color: var(--teal);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 1.25rem;
+}
