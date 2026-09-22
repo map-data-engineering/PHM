@@ -35,7 +35,7 @@
   legendCtl.onAdd = function () { this._div = L.DomUtil.create("div", "info legend"); return this._div; };
   legendCtl.update = function (breaks, unit) {
     if (!breaks) { this._div.innerHTML = ""; return; }
-    let html = `<div class="lg-title">${unit} &middot; CPPs</div>`;
+    let html = `<div class="lg-title">${unit} &middot; Outlets</div>`;
     for (let i = 0; i < breaks.length - 1; i++) {
       html += `<div class="lg-row"><i style="background:${RAMP[i + 1]}"></i>${breaks[i].toLocaleString()}${i === breaks.length - 2 ? "+" : "&ndash;" + (breaks[i + 1] - 1).toLocaleString()}</div>`;
     }
@@ -53,7 +53,7 @@
     if (!props) { this._div.innerHTML = '<em style="color:#94a3b8;">Hover a polygon</em>'; return; }
     this._div.innerHTML =
       `<div class="h-name">${escapeHtml(props.name || "—")}</div>` +
-      `<div class="h-count">${(props.addo_count || 0).toLocaleString()} <span style="font-weight:400;color:#64748b;font-size:.75rem;">ADDOs</span></div>`;
+      `<div class="h-count">${(props.addo_count || 0).toLocaleString()} <span style="font-weight:400;color:#64748b;font-size:.75rem;">outlets</span></div>`;
   };
 
   let currentRows = [];
@@ -160,7 +160,7 @@
     currentRows = rows;
     els.status.innerHTML =
       `Loaded <strong>${rows.length.toLocaleString()}</strong> outlets. ` +
-      `Toggle <em>Regions</em> / <em>Districts</em> / <em>Wards</em> above to switch the map to a choropleth of CPP counts per polygon.`;
+      `Toggle <em>Regions</em> / <em>Districts</em> / <em>Wards</em> above to switch the map to a choropleth of drug outlet counts per polygon.`;
     renderSummary(rows);
     renderChoropleth(geo, currentView);
     renderPoints(rows);
@@ -232,7 +232,7 @@
             map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
             L.popup().setLatLng(e.latlng).setContent(
               `<strong>${escapeHtml(p.name)}</strong><br/>` +
-              `<strong style="color:#0d9488">${(p.addo_count || 0).toLocaleString()}</strong> CPPs`
+              `<strong style="color:#0d9488">${(p.addo_count || 0).toLocaleString()}</strong> drug outlets`
             ).openOn(map);
           },
         });

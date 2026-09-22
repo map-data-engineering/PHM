@@ -48,9 +48,13 @@ def summary():
     district_matched = Outlet.objects.filter(district__isnull=False).count()
     ward_matched = Outlet.objects.filter(ward__isnull=False).count()
     with_phone = _filled_count("phone")
+    regions_covered = (
+        Outlet.objects.exclude(region_name="").values("region_name").distinct().count()
+    )
 
     return {
         "records_total": n,
+        "regions_covered": regions_covered,
         "geocoded": {"count": geo, "pct": _pct(geo, n)},
         "region_matched": {"count": region_matched, "pct": _pct(region_matched, n)},
         "district_matched": {"count": district_matched, "pct": _pct(district_matched, n)},
