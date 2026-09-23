@@ -1,3 +1,4 @@
+import logging
 import math
 
 from rest_framework.permissions import AllowAny
@@ -11,6 +12,8 @@ from outlets.models import Outlet
 from .serializers import NearestOutletsRequestSerializer, SiteCheckRequestSerializer
 from .services import facility_rules, ors_client
 from .services.nearest import haversine_km
+
+logger = logging.getLogger(__name__)
 
 # One ORS Matrix call covers this many nearest-by-straight-line candidates,
 # regardless of how many outlets match the filter/radius, so quota use stays flat.
@@ -36,7 +39,8 @@ def _apply_routing(rows, mode, lat, lon):
         mx = ors_client.matrix(
             mode, (lat, lon), [(r["outlet"].latitude, r["outlet"].longitude) for r in rows]
         )
-    except ors_client.OrsError:
+    except ors_client.OrsError as exc:
+        logger.warning("ORS routing unavailable, falling back to straight-line: %s", exc)
         return False
 
     routed_any = False
