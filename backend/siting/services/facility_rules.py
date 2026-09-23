@@ -26,10 +26,14 @@ FACILITY_DISTANCE_M = {
     HealthFacility.Tier.DISPENSARY: 200,
 }
 
+# Section 1.5.2 — minimum distance from a standalone medical laboratory.
+LAB_DISTANCE_M = 50
+
 # Section headings, for display alongside each check's verdict.
 PHARMACY_RULE_LABEL = "1.1/1.2 — Distance from existing retail pharmacies"
 FACILITY_RULE_LABEL = "1.3 — Distance from public health facilities"
-HAZARD_RULE_LABEL = "1.5 — Hazard sites and standalone laboratories"
+LAB_RULE_LABEL = "1.5.2 — Distance from standalone medical laboratories"
+HAZARD_RULE_LABEL = "1.5.1 — Hazard sites (fuel fumes, sewage, etc.)"
 
 EXEMPTION_LABELS = {
     "wholesale": "Section 1.2.3 — wholesale/warehouse applications are exempt from the pharmacy-distance rule",
@@ -96,7 +100,9 @@ def check_health_facility_distance(lat, lon):
     """Section 1.3. Returns status "unknown" (not pass/fail) when no
     HealthFacility data has been imported yet — the caller must not treat
     "unknown" as compliant."""
-    qs = HealthFacility.objects.filter(ownership=HealthFacility.Ownership.PUBLIC)
+    qs = HealthFacility.objects.filter(
+        ownership=HealthFacility.Ownership.PUBLIC, tier__in=FACILITY_DISTANCE_M.keys()
+    )
     if not qs.exists():
         return {
             "rule": FACILITY_RULE_LABEL,
@@ -137,13 +143,46 @@ def check_health_facility_distance(lat, lon):
     }
 
 
+def check_laboratory_distance(lat, lon):
+    """Section 1.5.2 — unlike section 1.3, this isn't restricted to public
+    facilities; any standalone laboratory counts."""
+    qs = HealthFacility.objects.filter(tier=HealthFacility.Tier.LABORATORY)
+    if not qs.exists():
+        return {
+            "rule": LAB_RULE_LABEL,
+            "status": "unknown",
+            "detail": "No standalone-laboratory dataset has been imported yet — verify manually before approving.",
+        }
+
+    nearest = None
+    nearest_m = None
+    for f in qs.only("name", "latitude", "longitude"):
+        d_m = haversine_km(lat, lon, f.latitude, f.longitude) * 1000
+        if nearest_m is None or d_m < nearest_m:
+            nearest_m = d_m
+            nearest = f
+
+    passed = nearest_m >= LAB_DISTANCE_M
+    return {
+        "rule": LAB_RULE_LABEL,
+        "status": "pass" if passed else "fail",
+        "detail": (
+            f"Nearest standalone laboratory ({nearest.name}) is {nearest_m:.0f}m away; "
+            f"required minimum is {LAB_DISTANCE_M}m."
+        ),
+        "nearest_distance_m": round(nearest_m, 1),
+        "nearest_name": nearest.name,
+    }
+
+
 def hazard_check():
-    """Section 1.5. Always "unknown" — no hazard-site or standalone-lab
-    dataset exists (or is planned); this must stay a manual inspection item."""
+    """Section 1.5.1. Always "unknown" — no dataset of hazard sites (fuel
+    depots, open sewage, etc.) exists or is planned; this must stay a
+    manual inspection item."""
     return {
         "rule": HAZARD_RULE_LABEL,
         "status": "unknown",
-        "detail": "Requires on-site inspection — no dataset of hazard sites (fuel depots, open sewage, etc.) or standalone laboratories exists to check automatically.",
+        "detail": "Requires on-site inspection — no dataset of hazard sites (fuel depots, contaminants, open sewage, etc.) exists to check automatically.",
     }
 
 

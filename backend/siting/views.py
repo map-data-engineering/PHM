@@ -135,6 +135,7 @@ class SiteCheckView(APIView):
                 lat, lon, d["application_type"], exemptions, d["high_population_area"]
             ),
             facility_rules.check_health_facility_distance(lat, lon),
+            facility_rules.check_laboratory_distance(lat, lon),
             facility_rules.hazard_check(),
         ]
         overall = facility_rules.overall_status(checks)

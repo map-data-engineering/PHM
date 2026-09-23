@@ -14,6 +14,7 @@ class HealthFacility(models.Model):
         DISTRICT = "district", "District Hospital"
         HEALTH_CENTRE = "health_centre", "Health Centre"
         DISPENSARY = "dispensary", "Dispensary"
+        LABORATORY = "laboratory", "Standalone Medical Laboratory"
 
     class Ownership(models.TextChoices):
         PUBLIC = "public", "Public"
@@ -21,6 +22,7 @@ class HealthFacility(models.Model):
         UNKNOWN = "unknown", "Unknown"
 
     name = models.CharField(max_length=255)
+    facility_code = models.CharField(max_length=50, blank=True)
     tier = models.CharField(max_length=20, choices=Tier.choices)
     ownership = models.CharField(max_length=10, choices=Ownership.choices, default=Ownership.UNKNOWN)
     latitude = models.FloatField()
