@@ -63,20 +63,36 @@ const Auth = {
 const Api = {
   base: API_BASE_URL,
 
+  // A stale token (e.g. the backend's database was reseeded, invalidating
+  // every previously-issued token) must never lock a *public* endpoint —
+  // DRF rejects an unrecognized Authorization header before it even checks
+  // that the view is AllowAny. If a token is attached and the server comes
+  // back 401/403, retry once with no Authorization header; if that
+  // succeeds, the token was the problem, so drop it locally too (clears the
+  // "signed in" state the nav bar would otherwise keep showing).
   async get(path, params) {
     const url = new URL(API_BASE_URL + path);
     if (params) for (const [k, v] of Object.entries(params)) if (v) url.searchParams.set(k, v);
-    const res = await fetch(url, { headers: this._headers() });
+    let res = await fetch(url, { headers: this._headers() });
+    if (!res.ok && this._shouldRetryWithoutToken(res)) {
+      const retry = await fetch(url);
+      if (retry.ok) { this._dropStaleToken(); res = retry; }
+    }
     if (!res.ok) throw new Error(`${path} failed: ${res.status}`);
     return res.json();
   },
 
   async post(path, body) {
-    const res = await fetch(API_BASE_URL + path, {
+    const doPost = (headers) => fetch(API_BASE_URL + path, {
       method: "POST",
-      headers: { "Content-Type": "application/json", ...this._headers() },
+      headers: { "Content-Type": "application/json", ...headers },
       body: JSON.stringify(body),
     });
+    let res = await doPost(this._headers());
+    if (!res.ok && this._shouldRetryWithoutToken(res)) {
+      const retry = await doPost({});
+      if (retry.ok) { this._dropStaleToken(); res = retry; }
+    }
     if (!res.ok) {
       const detail = await res.json().catch(() => ({}));
       throw new Error(detail.detail || `${path} failed: ${res.status}`);
@@ -87,5 +103,14 @@ const Api = {
   _headers() {
     const token = Auth.getToken();
     return token ? { Authorization: `Token ${token}` } : {};
+  },
+
+  _shouldRetryWithoutToken(res) {
+    return (res.status === 401 || res.status === 403) && !!Auth.getToken();
+  },
+
+  _dropStaleToken() {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
   },
 };
