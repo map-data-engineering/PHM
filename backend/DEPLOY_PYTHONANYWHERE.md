@@ -117,6 +117,17 @@ needs either a clearer source column or a manual fix in Django Admin
 
 ## Redeploying after a code change
 
+Every new Bash console starts with **no virtualenv active** — PythonAnywhere
+doesn't persist that across sessions the way it does inside the running web
+app. If a `manage.py` command fails with `ModuleNotFoundError` for something
+in `requirements.txt` (e.g. `decouple`), or the traceback shows Python
+importing from `/usr/local/lib/python3.13/...` instead of
+`~/.virtualenvs/pharmascope-env/...`, that's the tell — activate it first:
+```
+workon pharmascope-env
+```
+Your prompt should then show `(pharmascope-env)` at the start. With that
+active:
 ```
 cd ~/pharmascope
 git pull
