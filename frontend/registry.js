@@ -29,6 +29,32 @@
   const pointsLayer = L.layerGroup().addTo(map);
   let currentView = "region"; // region | district | ward
 
+  // National parks/reserves and major lakes, drawn above the choropleth fill
+  // (pane 400) so they stay visible instead of being painted over by a
+  // region's count color — but below outlet points (650), which are the
+  // primary data and should never be obscured by a background layer.
+  map.createPane("contextPane");
+  map.getPane("contextPane").style.zIndex = 450;
+  const reservedLayer = L.geoJSON(null, {
+    pane: "contextPane",
+    style: { color: "#166534", weight: 1, fillColor: "#22c55e", fillOpacity: 0.35 },
+    onEachFeature: (f, layer) => layer.bindTooltip(f.properties.name, { sticky: true }),
+  }).addTo(map);
+  const waterLayer = L.geoJSON(null, {
+    pane: "contextPane",
+    style: { color: "#1d4ed8", weight: 1, fillColor: "#60a5fa", fillOpacity: 0.55 },
+    onEachFeature: (f, layer) => layer.bindTooltip(f.properties.name, { sticky: true }),
+  }).addTo(map);
+  L.control.layers(null, { "Reserved areas": reservedLayer, "Water bodies": waterLayer },
+    { position: "topleft", collapsed: true }).addTo(map);
+  Promise.all([
+    fetch("data/reserved_areas.geojson").then(r => r.json()),
+    fetch("data/water_bodies.geojson").then(r => r.json()),
+  ]).then(([reserved, water]) => {
+    reservedLayer.addData(reserved);
+    waterLayer.addData(water);
+  }).catch(() => { /* context layers are decorative — a load failure shouldn't block the registry */ });
+
   const RAMP = ["#f1f5f9", "#ccfbf1", "#5eead4", "#14b8a6", "#0d9488", "#0f766e", "#134e4a"];
 
   // Buckets are indexed by bucketIndex(): 0 = zero/no outlets, 1..RAMP.length-1
