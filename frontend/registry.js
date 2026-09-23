@@ -31,15 +31,41 @@
 
   const RAMP = ["#f1f5f9", "#ccfbf1", "#5eead4", "#14b8a6", "#0d9488", "#0f766e", "#134e4a"];
 
+  // Buckets are indexed by bucketIndex(): 0 = zero/no outlets, 1..RAMP.length-1
+  // = the count ranges in `breaks`, low to high.
+  // Hiding a bucket doesn't touch the underlying data — it just fills that
+  // polygon transparently and skips its hover/click handling, so switching
+  // filters or views naturally keeps whatever the user last hid.
+  const hiddenBuckets = new Set();
+  let currentBreaks = null;
+
   const legendCtl = L.control({ position: "bottomright" });
-  legendCtl.onAdd = function () { this._div = L.DomUtil.create("div", "info legend"); return this._div; };
+  legendCtl.onAdd = function () {
+    this._div = L.DomUtil.create("div", "info legend");
+    L.DomEvent.disableClickPropagation(this._div);
+    L.DomEvent.on(this._div, "change", (e) => {
+      const t = e.target;
+      if (!t.classList.contains("lg-toggle")) return;
+      const idx = Number(t.dataset.bucket);
+      if (t.checked) hiddenBuckets.delete(idx); else hiddenBuckets.add(idx);
+      t.closest(".lg-row").classList.toggle("off", !t.checked);
+      if (polyLayer) polyLayer.setStyle(polyStyle);
+    });
+    return this._div;
+  };
   legendCtl.update = function (breaks, unit) {
     if (!breaks) { this._div.innerHTML = ""; return; }
+    const row = (idx, label) => `
+      <label class="lg-row${hiddenBuckets.has(idx) ? " off" : ""}">
+        <input type="checkbox" class="lg-toggle" data-bucket="${idx}" ${hiddenBuckets.has(idx) ? "" : "checked"}>
+        <i style="background:${RAMP[idx]}"></i>${label}
+      </label>`;
     let html = `<div class="lg-title">${unit} &middot; Outlets</div>`;
     for (let i = 0; i < breaks.length - 1; i++) {
-      html += `<div class="lg-row"><i style="background:${RAMP[i + 1]}"></i>${breaks[i].toLocaleString()}${i === breaks.length - 2 ? "+" : "&ndash;" + (breaks[i + 1] - 1).toLocaleString()}</div>`;
+      const label = `${breaks[i].toLocaleString()}${i === breaks.length - 2 ? "+" : "&ndash;" + (breaks[i + 1] - 1).toLocaleString()}`;
+      html += row(i + 1, label);
     }
-    html += `<div class="lg-row"><i style="background:${RAMP[0]}"></i>0</div>`;
+    html += row(0, "0");
     this._div.innerHTML = html;
   };
 
@@ -217,18 +243,21 @@
 
     const values = gj.features.map(f => f.properties.addo_count || 0);
     const breaks = computeBreaks(values);
+    currentBreaks = breaks;
 
     polyLayer = L.geoJSON(gj, {
-      style: (f) => ({
-        fillColor: colorFor(f.properties.addo_count || 0, breaks),
-        weight: level === "ward" ? 0.3 : 0.7, opacity: 1, color: "#ffffff", fillOpacity: 0.85,
-      }),
+      style: polyStyle,
       onEachFeature: (feature, layer) => {
         const p = feature.properties;
+        const idx = bucketIndex(p.addo_count || 0, currentBreaks);
         layer.on({
-          mouseover: (e) => { e.target.setStyle({ weight: 2, color: "#0f172a" }); e.target.bringToFront(); hoverCtl.update(p); },
+          mouseover: (e) => {
+            if (hiddenBuckets.has(idx)) return;
+            e.target.setStyle({ weight: 2, color: "#0f172a" }); e.target.bringToFront(); hoverCtl.update(p);
+          },
           mouseout: (e) => { polyLayer.resetStyle(e.target); hoverCtl.update(null); },
           click: (e) => {
+            if (hiddenBuckets.has(idx)) return;
             map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
             L.popup().setLatLng(e.latlng).setContent(
               `<strong>${escapeHtml(p.name)}</strong><br/>` +
@@ -273,12 +302,23 @@
     out.push(Infinity);
     return out;
   }
-  function colorFor(count, breaks) {
-    if (count <= 0) return RAMP[0];
+  function bucketIndex(count, breaks) {
+    if (count <= 0) return 0;
     for (let i = 0; i < breaks.length - 1; i++) {
-      if (count >= breaks[i] && count < breaks[i + 1]) return RAMP[i + 1];
+      if (count >= breaks[i] && count < breaks[i + 1]) return i + 1;
     }
-    return RAMP[RAMP.length - 1];
+    return breaks.length - 1;
+  }
+  function polyStyle(f) {
+    const idx = bucketIndex(f.properties.addo_count || 0, currentBreaks);
+    const hidden = hiddenBuckets.has(idx);
+    return {
+      fillColor: RAMP[idx],
+      weight: hidden ? 0 : (currentView === "ward" ? 0.3 : 0.7),
+      opacity: hidden ? 0 : 1,
+      color: "#ffffff",
+      fillOpacity: hidden ? 0 : 0.85,
+    };
   }
 
   function tally(rows, k, top) {

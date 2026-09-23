@@ -19,10 +19,11 @@
           <div class="collapse navbar-collapse" id="navMain">
             <ul class="navbar-nav me-auto">
               <li class="nav-item"><a class="nav-link${active("index.html")}" href="index.html">Home</a></li>
-              <li class="nav-item"><a class="nav-link${active("registry.html")}" href="registry.html">Registry</a></li>
+              ${authed ? `<li class="nav-item"><a class="nav-link${active("registry.html")}" href="registry.html">Registry</a></li>` : ""}
               <li class="nav-item"><a class="nav-link${active("find-pharmacy.html")}" href="find-pharmacy.html">Find Pharmacy</a></li>
               ${authed ? `<li class="nav-item"><a class="nav-link${active("site-check.html")}" href="site-check.html">Site Check</a></li>` : ""}
               ${authed ? `<li class="nav-item"><a class="nav-link${active("data-quality.html")}" href="data-quality.html">Data Quality</a></li>` : ""}
+              <li class="nav-item"><a class="nav-link${active("about.html")}" href="about.html">About</a></li>
             </ul>
             <div class="d-flex align-items-center gap-2 small text-white-50">
               ${authed

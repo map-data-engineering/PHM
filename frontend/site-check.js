@@ -13,7 +13,7 @@
   let radiusCircle = null;
 
   let currentPin = null;
-  let currentRadius = 2.0;
+  let currentRadius = 0.5;
   let recomputeSeq = 0;
 
   const els = {
