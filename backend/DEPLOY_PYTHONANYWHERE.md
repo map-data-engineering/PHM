@@ -13,8 +13,7 @@ So the split is:
   django-cors-headers, python-decouple, whitenoise + their small transitive
   deps). This is all PythonAnywhere ever installs.
 - **`requirements-etl.txt`** — numpy/pandas/shapely/rapidfuzz/topojson/xlrd.
-  Only needed wherever you actually run `import_boundaries`/`import_outlets`
-  (do this locally, not on PythonAnywhere).
+icia  (do this locally, not on PythonAnywhere).
 - **`requirements-postgres.txt`** — dj-database-url/gunicorn/psycopg, only
   relevant to the Render/Postgres path (`config/settings/production.py`),
   not used here at all.
@@ -82,6 +81,23 @@ If you re-run the importers locally against updated source data, just
 copy the new `db.sqlite3` up (rename to `db.sqlite3.seed`, commit, `git
 pull` on PythonAnywhere, `cp db.sqlite3.seed db.sqlite3`, reload) rather
 than trying to run the importers on PythonAnywhere itself.
+
+## Loading health facility data (Site Check's rule 1.3)
+
+Site Check's public-health-facility distance rule reports "unknown" until
+a health facility dataset is imported — this is expected, not a bug, and
+is called out explicitly in the tool's own output. Once you have a CSV
+(name, type/level, ownership, lat, lon columns — names are auto-detected,
+or pass `--name-col`/`--type-col`/etc. to point at the right ones), import
+it locally (it needs no heavy dependencies, so this works fine on
+PythonAnywhere too):
+```
+python manage.py import_health_facilities path/to/facilities.csv
+```
+Review the per-tier counts and any "skipped" rows it reports — a generic
+type string like "Hospital" (no tier keyword) won't auto-classify and
+needs either a clearer source column or a manual fix in Django Admin
+(Facilities → Health facilities) afterward.
 
 ## Known free-tier limitations
 

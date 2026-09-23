@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "accounts",
     "geo",
     "outlets",
+    "facilities",
     "siting",
     "dataquality",
 ]

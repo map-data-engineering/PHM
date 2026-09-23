@@ -11,24 +11,27 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     .sc-radius input[type=range]{ accent-color:var(--teal); }
-    .sc-verdict{ padding:1.1rem; border-radius:.5rem; background:#f8fafc; border:1px solid var(--border); }
-    .sc-verdict.saturated{ background:#fef2f2; border-left:4px solid #dc2626; }
-    .sc-verdict.well-served{ background:#fffbeb; border-left:4px solid #d97706; }
-    .sc-verdict.adequate{ background:#f0fdfa; border-left:4px solid #14b8a6; }
-    .sc-verdict.underserved{ background:#f0fdf4; border-left:4px solid #16a34a; }
-    .sc-verdict.empty{ color:var(--muted); font-style:italic; text-align:center; }
-    .sc-verdict .badge.saturated{ background:#dc2626; }
-    .sc-verdict .badge.well-served{ background:#d97706; }
-    .sc-verdict .badge.adequate{ background:#14b8a6; }
-    .sc-verdict .badge.underserved{ background:#16a34a; }
-    .sc-metric{ background:#fff; border:1px solid var(--border); border-radius:.4rem; padding:.6rem .7rem; }
-    .sc-metric .lbl{ font-size:.65rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
-    .sc-metric .val{ font-size:1.25rem; font-weight:500; color:#0f172a; letter-spacing:-0.01em; }
     #sc-map{ height:600px; border:1px solid var(--border); border-radius:.5rem; z-index:1; }
     @media (max-width: 960px){ #sc-map{ height:400px; } }
     .sc-dist-time{ display:block; font-size:.72rem; font-weight:400; color:#0f172a; }
     .sc-dist-note{ display:block; font-size:.65rem; font-style:italic; color:var(--muted); }
     td.dist{ color:var(--teal); font-weight:500; text-align:right; white-space:nowrap; }
+
+    .sc-overall{ padding:1rem 1.25rem; border-radius:.75rem; display:flex; align-items:center; gap:.75rem; }
+    .sc-overall.empty{ background:#f8fafc; border:1px solid var(--border); color:var(--muted); font-style:italic; }
+    .sc-overall.approvable{ background:#f0fdf4; border:1px solid rgba(22,163,74,.25); color:#166534; }
+    .sc-overall.not_approvable{ background:#fef2f2; border:1px solid rgba(220,38,38,.25); color:#991b1b; }
+    .sc-overall.needs_manual_review{ background:#fffbeb; border:1px solid rgba(217,119,6,.25); color:#92400e; }
+    .sc-overall i{ font-size:1.5rem; }
+
+    .sc-check{ border:1px solid var(--border); border-radius:.6rem; padding:.85rem 1rem; background:#fff; }
+    .sc-check .rule{ font-weight:600; font-size:.88rem; color:#0f172a; }
+    .sc-check .detail{ font-size:.85rem; color:var(--muted); margin-top:.25rem; }
+    .status-badge{ font-size:.7rem; text-transform:uppercase; letter-spacing:.04em; padding:.3em .6em; }
+    .status-badge.pass{ background:#16a34a; }
+    .status-badge.fail{ background:#dc2626; }
+    .status-badge.exempt{ background:#0d9488; }
+    .status-badge.unknown{ background:#94a3b8; }
   </style>
 </head>
 <body>
@@ -38,13 +41,13 @@
     <div style="max-width:1400px;margin:0 auto;">
       <span class="section-tag"><i class="bi bi-clipboard-check-fill"></i> Regulator tool</span>
       <h1><span class="gradient-text">Site</span> Check</h1>
-      <p>Before accrediting a new outlet, check how many existing drug outlets already sit within walking distance of the proposed location.</p>
+      <p>Checks a proposed premises location against the Pharmacy Council's official siting criteria (distance from existing pharmacies and public health facilities).</p>
     </div>
   </section>
 
   <div class="container-fluid py-4" style="max-width:1400px;">
     <div class="alert alert-light border small mb-3" style="border-left:4px solid var(--teal) !important;">
-      <strong>How to use it.</strong> Drop a pin on the map at the proposed pharmacy location (or paste GPS coordinates / search an address). PharmaScope returns the number of accredited outlets within your chosen radius, the distance to the nearest one, the density per km&sup2;, and a suggested verdict: <em>saturated</em>, <em>well-served</em>, <em>adequate</em>, or <em>under-served</em>. Use it as evidence, not a decision.
+      <strong>How to use it.</strong> Drop a pin on the map at the proposed location (or paste GPS coordinates / search an address), set the application type and any special circumstances that apply, then review each rule's result below. This is evidence to support a decision, not a substitute for on-site inspection or the Registrar's discretion.
     </div>
 
     <div class="row g-3">
@@ -63,8 +66,55 @@
               <button id="sc-locate" class="btn btn-dark btn-sm">Use my location</button>
               <button id="sc-clear" class="btn btn-outline-secondary btn-sm">Clear</button>
             </div>
+
             <div>
-              <label for="sc-mode" class="form-label small text-uppercase text-muted">Travel mode (for road distance/time)</label>
+              <label for="sc-apptype" class="form-label small text-uppercase text-muted">Application type</label>
+              <select id="sc-apptype" class="form-select">
+                <option value="retail_pharmacy" selected>Retail Pharmacy</option>
+                <option value="wholesale">Wholesale / Warehouse</option>
+              </select>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="sc-highpop">
+              <label class="form-check-label small" for="sc-highpop">High-population area (market, bus stand) &mdash; relaxes the distance rule to 100m</label>
+            </div>
+
+            <div class="accordion accordion-flush border rounded">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed small py-2" type="button" data-bs-toggle="collapse" data-bs-target="#sc-exemptions-body">
+                    Special circumstances (exemptions)
+                  </button>
+                </h2>
+                <div id="sc-exemptions-body" class="accordion-collapse collapse">
+                  <div class="accordion-body small d-flex flex-column gap-2">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="sc-exempt-addo">
+                      <label class="form-check-label" for="sc-exempt-addo">Upgrading a registered ADDO/DLDB to a pharmacy</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="sc-exempt-prevpharmacy">
+                      <label class="form-check-label" for="sc-exempt-prevpharmacy">Premises was previously a registered pharmacy</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="sc-exempt-tarmac">
+                      <label class="form-check-label" for="sc-exempt-tarmac">Separated from the nearest pharmacy by two or more tarmac roads</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="sc-exempt-forcemajeure">
+                      <label class="form-check-label" for="sc-exempt-forcemajeure">Force majeure / natural calamity relocation, same locality</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="sc-exempt-complex">
+                      <label class="form-check-label" for="sc-exempt-complex">Inside a shopping mall / building complex</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label for="sc-mode" class="form-label small text-uppercase text-muted">Travel mode (for road distance/time, context only)</label>
               <select id="sc-mode" class="form-select">
                 <option value="driving-car" selected>Driving</option>
                 <option value="cycling-regular">Cycling</option>
@@ -72,11 +122,9 @@
               </select>
             </div>
             <div class="sc-radius">
-              <label class="form-label small">Search radius <span class="fw-semibold" id="sc-rval">2.0</span> km</label>
+              <label class="form-label small">Nearby-outlets context radius <span class="fw-semibold" id="sc-rval">2.0</span> km</label>
               <input type="range" class="form-range" id="sc-radius" min="0.5" max="10" step="0.5" value="2"/>
             </div>
-            <div class="sc-verdict empty" id="sc-verdict">Drop a pin on the map to check this location.</div>
-            <div class="small text-muted">Verdict thresholds are density-based (accredited outlets per km&sup2; inside the search radius). They are guidance only: the Pharmacy Council retains full discretion on new applications.</div>
           </div>
         </div>
       </div>
@@ -85,9 +133,14 @@
       </div>
     </div>
 
+    <div class="mt-4" id="sc-results-block">
+      <div class="sc-overall empty" id="sc-overall"><i class="bi bi-geo-alt"></i> Drop a pin on the map to check this location.</div>
+      <div class="row g-2 mt-1" id="sc-checks"></div>
+    </div>
+
     <div class="card card-lift mt-4" id="sc-nearby-block" style="display:none;">
       <div class="card-header bg-brand-navy text-white d-flex justify-content-between align-items-baseline">
-        <span class="fw-semibold">Nearby accredited outlets</span>
+        <span class="fw-semibold">Nearby existing outlets (context)</span>
         <span class="small text-white-50" id="sc-nearby-meta">&mdash;</span>
       </div>
       <div class="table-responsive" style="max-height:360px;">

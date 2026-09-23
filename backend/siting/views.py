@@ -9,7 +9,7 @@ from common.permissions import IsRegulatorOrAbove
 from outlets.models import Outlet
 
 from .serializers import NearestOutletsRequestSerializer, SiteCheckRequestSerializer
-from .services import ors_client
+from .services import facility_rules, ors_client
 from .services.nearest import haversine_km
 
 # One ORS Matrix call covers this many nearest-by-straight-line candidates,
@@ -69,46 +69,6 @@ def _serialize_row(r):
     }
 
 
-# Verdict thresholds — density (outlets/km²) inside the search radius. Ported
-# verbatim from find-facility.qmd's classify(): Kariakoo/Dar CBD scores
-# "saturated" (>3/km²); typical urban wards land in "well-served"; most rural
-# wards register as "under-served" or "adequate".
-def _classify(density, count, nearest_km):
-    if count == 0:
-        nearest_txt = "not on record" if nearest_km is None else f"{nearest_km:.2f} km"
-        return {
-            "key": "underserved",
-            "label": "Under-served",
-            "headline": "No accredited outlet in this radius.",
-            "body": f"The nearest existing CPP is {nearest_txt} away. This location is a strong candidate for a new accredited outlet.",
-        }
-    if density < 0.5:
-        return {
-            "key": "underserved",
-            "label": "Under-served",
-            "headline": "Sparse coverage nearby.",
-            "body": "Density is below 0.5 outlets/km². Approving a new outlet here would improve local access.",
-        }
-    if density < 1.5:
-        return {
-            "key": "adequate",
-            "label": "Adequate",
-            "headline": "Coverage is adequate.",
-            "body": "Density sits in the 0.5–1.5 outlets/km² band. A new outlet would neither create a gap nor a saturation; assess case-by-case.",
-        }
-    if density < 3.0:
-        return {
-            "key": "well-served",
-            "label": "Well-served",
-            "headline": "This area is already well-served.",
-            "body": "Density is 1.5–3 outlets/km². Consider whether the applicant can justify additional local demand or should be redirected to an under-served ward.",
-        }
-    return {
-        "key": "saturated",
-        "label": "Saturated",
-        "headline": "This locality is saturated.",
-        "body": "Density exceeds 3 outlets/km². Recommend redirecting the applicant to an under-served ward. Use the Regions view on the CPP Registry to identify gaps.",
-    }
 
 
 class NearestOutletsView(APIView):
@@ -148,10 +108,12 @@ class NearestOutletsView(APIView):
 
 
 class SiteCheckView(APIView):
-    """Regulator+: outlets within a radius of a proposed site, a density
-    verdict, and the nearest outlet — road distance/time when available.
-    Radius/density/verdict are always straight-line (they match the circle
-    drawn on the map); only the displayed distances get the road upgrade."""
+    """Regulator+: checks a proposed site against the Pharmacy Council's
+    actual siting rules (distance from existing pharmacies, distance from
+    public health facilities), plus a nearby-outlets list for context.
+    Every rule's pass/fail is straight-line (the source document specifies
+    a radius in meters, not a road distance); road distance/time is shown
+    only for the informational nearest-outlet/nearby list."""
 
     permission_classes = [IsRegulatorOrAbove]
 
@@ -160,6 +122,22 @@ class SiteCheckView(APIView):
         serializer.is_valid(raise_exception=True)
         d = serializer.validated_data
         lat, lon, radius_km, mode = d["lat"], d["lon"], d["radius_km"], d["mode"]
+
+        exemptions = {
+            k: d[k] for k in (
+                "is_addo_upgrade", "is_previously_registered_pharmacy",
+                "is_double_tarmac_separated", "is_force_majeure_relocation",
+                "is_building_complex",
+            )
+        }
+        checks = [
+            facility_rules.check_pharmacy_distance(
+                lat, lon, d["application_type"], exemptions, d["high_population_area"]
+            ),
+            facility_rules.check_health_facility_distance(lat, lon),
+            facility_rules.hazard_check(),
+        ]
+        overall = facility_rules.overall_status(checks)
 
         qs = Outlet.objects.filter(has_coords=True).select_related("region", "district", "ward")
         rows = []
@@ -177,15 +155,14 @@ class SiteCheckView(APIView):
         routed = _apply_routing(candidates, mode, lat, lon)
 
         area_km2 = math.pi * radius_km * radius_km
-        density = len(in_radius) / area_km2
-        verdict = _classify(density, len(in_radius), nearest["dist_km"] if nearest else None)
 
         return Response({
+            "overall": overall,
+            "checks": checks,
             "radius_km": radius_km,
             "area_km2": round(area_km2, 2),
             "count_in_radius": len(in_radius),
-            "density_per_km2": round(density, 3),
-            "verdict": verdict,
+            "density_per_km2": round(len(in_radius) / area_km2, 3),
             "nearest": _serialize_row(nearest) if nearest else None,
             "nearby": [_serialize_row(r) for r in in_radius[:50]],
             "nearby_total": len(in_radius),

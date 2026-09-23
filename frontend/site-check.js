@@ -24,10 +24,29 @@
     modeSel: document.getElementById("sc-mode"),
     radius: document.getElementById("sc-radius"),
     rval: document.getElementById("sc-rval"),
-    verdict: document.getElementById("sc-verdict"),
+    apptype: document.getElementById("sc-apptype"),
+    highpop: document.getElementById("sc-highpop"),
+    exemptAddo: document.getElementById("sc-exempt-addo"),
+    exemptPrevPharmacy: document.getElementById("sc-exempt-prevpharmacy"),
+    exemptTarmac: document.getElementById("sc-exempt-tarmac"),
+    exemptForceMajeure: document.getElementById("sc-exempt-forcemajeure"),
+    exemptComplex: document.getElementById("sc-exempt-complex"),
+    overall: document.getElementById("sc-overall"),
+    checks: document.getElementById("sc-checks"),
     nearbyBlock: document.getElementById("sc-nearby-block"),
     nearbyMeta: document.getElementById("sc-nearby-meta"),
     nearbyTbody: document.querySelector("#sc-nearby-tbl tbody"),
+  };
+
+  const OVERALL_ICON = {
+    approvable: "bi-check-circle-fill",
+    not_approvable: "bi-x-circle-fill",
+    needs_manual_review: "bi-exclamation-triangle-fill",
+  };
+  const OVERALL_LABEL = {
+    approvable: "Meets siting criteria",
+    not_approvable: "Does not meet siting criteria",
+    needs_manual_review: "Passes automated checks, but needs manual review",
   };
 
   map.on("click", (e) => setPin(e.latlng.lat, e.latlng.lng));
@@ -37,7 +56,10 @@
     els.rval.textContent = currentRadius.toFixed(1);
     if (currentPin) recompute();
   });
-  els.modeSel.addEventListener("change", () => { if (currentPin) recompute(); });
+  [els.modeSel, els.apptype, els.highpop, els.exemptAddo, els.exemptPrevPharmacy,
+   els.exemptTarmac, els.exemptForceMajeure, els.exemptComplex].forEach(el =>
+    el.addEventListener("change", () => { if (currentPin) recompute(); })
+  );
 
   els.coords.addEventListener("change", () => {
     const m = els.coords.value.match(/^\s*(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)\s*$/);
@@ -78,8 +100,9 @@
     if (radiusCircle) { map.removeLayer(radiusCircle); radiusCircle = null; }
     nearbyLayer.clearLayers();
     els.coords.value = ""; els.addr.value = "";
-    els.verdict.className = "sc-verdict empty";
-    els.verdict.textContent = "Drop a pin on the map to check this location.";
+    els.overall.className = "sc-overall empty";
+    els.overall.innerHTML = `<i class="bi bi-geo-alt"></i> Drop a pin on the map to check this location.`;
+    els.checks.innerHTML = "";
     els.nearbyBlock.style.display = "none";
     map.setView([-6.4, 35.0], 6);
   });
@@ -111,16 +134,25 @@
     }).addTo(map);
     map.fitBounds(radiusCircle.getBounds().pad(0.25));
 
-    els.verdict.className = "sc-verdict empty";
-    els.verdict.textContent = "Checking…";
+    els.overall.className = "sc-overall empty";
+    els.overall.innerHTML = `<i class="bi bi-hourglass-split"></i> Checking…`;
 
     let data;
     try {
-      data = await Api.post("/api/v1/site-check/", { lat, lon, radius_km: R, mode });
+      data = await Api.post("/api/v1/site-check/", {
+        lat, lon, radius_km: R, mode,
+        application_type: els.apptype.value,
+        high_population_area: els.highpop.checked,
+        is_addo_upgrade: els.exemptAddo.checked,
+        is_previously_registered_pharmacy: els.exemptPrevPharmacy.checked,
+        is_double_tarmac_separated: els.exemptTarmac.checked,
+        is_force_majeure_relocation: els.exemptForceMajeure.checked,
+        is_building_complex: els.exemptComplex.checked,
+      });
     } catch (err) {
       if (seq !== recomputeSeq) return;
-      els.verdict.className = "sc-verdict empty";
-      els.verdict.textContent = "Site check failed: " + err.message;
+      els.overall.className = "sc-overall not_approvable";
+      els.overall.innerHTML = `<i class="bi bi-x-circle-fill"></i> Site check failed: ${escapeHtml(err.message)}`;
       return;
     }
     if (seq !== recomputeSeq) return;
@@ -141,31 +173,24 @@
       }).bindPopup(popupHtml(n) + `<br/><em>Nearest overall: ${nearestLabel}</em>`).addTo(nearbyLayer);
     }
 
-    renderVerdict(data);
+    renderResults(data);
     renderNearby(data);
   }
 
-  function renderVerdict(data) {
-    const v = data.verdict;
-    const nearest = data.nearest;
-    let nearestVal = "&mdash;";
-    if (nearest) {
-      nearestVal = nearest.dist_km.toFixed(2) + " km";
-      nearestVal += nearest.routed
-        ? (nearest.duration_sec != null ? ` <span class="sc-dist-time" style="display:inline;">(${formatDuration(nearest.duration_sec)})</span>` : "")
-        : ` <span class="sc-dist-note" style="display:inline;">straight-line</span>`;
-    }
-    els.verdict.className = `sc-verdict ${v.key}`;
-    els.verdict.innerHTML = `
-      <span class="badge ${v.key} mb-2">${escapeHtml(v.label)}</span>
-      <h3 class="h5">${escapeHtml(v.headline)}</h3>
-      <p class="small text-muted mb-3">${v.body}</p>
-      <div class="row row-cols-2 g-2">
-        <div class="col"><div class="sc-metric"><div class="lbl">Outlets within ${data.radius_km.toFixed(1)} km</div><div class="val">${data.count_in_radius.toLocaleString()}</div></div></div>
-        <div class="col"><div class="sc-metric"><div class="lbl">Density (per km&sup2;)</div><div class="val">${data.density_per_km2.toFixed(2)}</div></div></div>
-        <div class="col"><div class="sc-metric"><div class="lbl">Nearest outlet</div><div class="val">${nearestVal}</div></div></div>
-        <div class="col"><div class="sc-metric"><div class="lbl">Circle area</div><div class="val">${data.area_km2.toFixed(1)} km&sup2;</div></div></div>
-      </div>`;
+  function renderResults(data) {
+    els.overall.className = `sc-overall ${data.overall}`;
+    els.overall.innerHTML = `<i class="bi ${OVERALL_ICON[data.overall] || "bi-question-circle-fill"}"></i> <strong>${escapeHtml(OVERALL_LABEL[data.overall] || data.overall)}</strong>`;
+
+    els.checks.innerHTML = data.checks.map(c => `
+      <div class="col-md-4">
+        <div class="sc-check h-100">
+          <div class="d-flex justify-content-between align-items-start gap-2">
+            <div class="rule">${escapeHtml(c.rule)}</div>
+            <span class="badge status-badge ${c.status}">${escapeHtml(c.status.replace("_", " "))}</span>
+          </div>
+          <div class="detail">${escapeHtml(c.detail)}</div>
+        </div>
+      </div>`).join("");
   }
 
   function renderNearby(data) {
