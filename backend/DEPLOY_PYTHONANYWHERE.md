@@ -82,6 +82,19 @@ copy the new `db.sqlite3` up (rename to `db.sqlite3.seed`, commit, `git
 pull` on PythonAnywhere, `cp db.sqlite3.seed db.sqlite3`, reload) rather
 than trying to run the importers on PythonAnywhere itself.
 
+**`db.sqlite3.seed` has zero user accounts** (only the empty
+Regulator/Data Team groups) — it's built by re-running the importers
+locally, not by dumping the live server's data. So every time you
+`cp db.sqlite3.seed db.sqlite3`, any login you'd previously created on
+the server (superuser or otherwise) is gone, and the next login attempt
+fails with "invalid credentials" — that's not a bug, just re-run:
+```
+python manage.py createsuperuser
+```
+A superuser bypasses the Regulator/Data Team group checks entirely
+(see `common/permissions.py`), so one such account is enough to use
+every page, including Site Check.
+
 ## Loading health facility data (Site Check's rule 1.3)
 
 Site Check's public-health-facility distance rule reports "unknown" until
