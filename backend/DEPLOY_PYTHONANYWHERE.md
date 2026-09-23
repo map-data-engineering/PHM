@@ -72,7 +72,8 @@ icia  (do this locally, not on PythonAnywhere).
    - `DJANGO_ALLOWED_HOSTS` — `<username>.pythonanywhere.com`
    - `DJANGO_CSRF_TRUSTED_ORIGINS` — `https://<username>.pythonanywhere.com`
    - `CORS_ALLOWED_ORIGINS` — your Vercel URL(s), e.g. `https://pharmascope.vercel.app`
-   - `ORS_API_KEY` — only useful if you're on a paid plan (see note below).
+   - `ORS_API_KEY` — a free key from openrouteservice.org; enables real
+     road distance/time in Find Pharmacy and Site Check (see note below).
 7. Reload the web app from the Web tab.
 
 ## Refreshing the data later
@@ -115,12 +116,14 @@ needs either a clearer source column or a manual fix in Django Admin
 ## Known free-tier limitations
 
 - **Outbound internet is whitelisted.** Free accounts can only reach a
-  fixed list of external domains. `openrouteservice.org` is very unlikely
-  to be on it, so the road-routing calls in `siting/services/ors_client.py`
-  will fail and the app will silently fall back to straight-line distance
-  (this fallback is already built in — Find Pharmacy/Site Check keep
-  working, just without real road distance/time). Upgrading to a paid
-  plan lifts this restriction.
+  fixed list of external domains — but `openrouteservice.org` (and
+  `api.openrouteservice.org`) is confirmed on that list
+  (pythonanywhere.com/whitelist/), so road-routing works fine on the
+  free tier once `ORS_API_KEY` is set. If it's still falling back to
+  straight-line after setting the key and reloading, check the Web
+  tab's error log for the `ORS routing unavailable` warning — that
+  line names the actual failure (bad key, timeout, etc.), rather than
+  guessing.
 - **512MB disk quota total** — see above; this is why the dependency list
   is split and why the database is shipped pre-built rather than imported
   in place.
